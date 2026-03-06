@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { Menu, X, Globe } from 'lucide-react';
-import logoSvg from '../../imports/OP_2.svg';
+import navigationLogoSvg from '../../imports/new-logo-white.svg';
 import { useLanguage } from '../context/LanguageContext';
 
 export function Navigation() {
@@ -12,7 +12,6 @@ export function Navigation() {
   const navItems = [
     { path: '/', labelKey: 'nav.home' },
     { path: '/services', labelKey: 'nav.services' },
-    { path: '/pricing', labelKey: 'nav.pricing' },
     { path: '/about', labelKey: 'nav.about' },
     { path: '/testimonials', labelKey: 'nav.testimonials' },
     { path: '/contact', labelKey: 'nav.contact' },
@@ -20,17 +19,13 @@ export function Navigation() {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'es' : 'en');
-  };
-
   return (
     <nav className="bg-white text-black sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src={logoSvg} alt="Maytag Laundry" className="h-12 w-auto" />
+            <img src={navigationLogoSvg} alt="Maytag Laundry" className="h-12 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -45,14 +40,36 @@ export function Navigation() {
                 {t(item.labelKey)}
               </Link>
             ))}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded hover:border-[#00bfb3] hover:text-[#00bfb3] transition-colors"
-              aria-label={language === 'en' ? 'Switch to Spanish' : 'Cambiar a Ingles'}
-            >
-              <Globe size={16} />
-              <span className="text-sm font-medium">{language === 'en' ? 'ES' : 'EN'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center rounded-full border border-gray-300 bg-gray-50 p-0.5 cursor-pointer hover:border-[#00bfb3] hover:bg-white transition-colors"
+                role="group"
+                aria-label="Language selection"
+              >
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${language === 'en'
+                    ? 'bg-[#00bfb3] text-white'
+                    : 'text-gray-700 hover:text-[#00bfb3]'
+                  }`}
+                  aria-pressed={language === 'en'}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('es')}
+                  className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${language === 'es'
+                    ? 'bg-[#00bfb3] text-white'
+                    : 'text-gray-700 hover:text-[#00bfb3]'
+                  }`}
+                  aria-pressed={language === 'es'}
+                >
+                  ES
+                </button>
+              </div>
+            </div>
             <Link
               to="/contact"
               className="bg-[#00bfb3] text-white px-6 py-2 rounded hover:bg-[#00a89d] transition-colors"
@@ -63,7 +80,7 @@ export function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-black"
+            className="md:hidden text-black cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -84,14 +101,37 @@ export function Navigation() {
                 {t(item.labelKey)}
               </Link>
             ))}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 py-3 text-black hover:text-[#00bfb3] transition-colors"
-              aria-label={language === 'en' ? 'Switch to Spanish' : 'Cambiar a Ingles'}
-            >
-              <Globe size={18} />
-              <span>{language === 'en' ? 'Espanol' : 'English'}</span>
-            </button>
+            <div className="flex items-center gap-3 py-3">
+              <Globe size={18} className="text-gray-700" aria-hidden="true" />
+              <div
+                className="inline-flex items-center rounded-full border border-gray-300 bg-gray-50 p-0.5 cursor-pointer hover:border-[#00bfb3] hover:bg-white transition-colors"
+                role="group"
+                aria-label="Language selection"
+              >
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${language === 'en'
+                    ? 'bg-[#00bfb3] text-white'
+                    : 'text-gray-800'
+                  }`}
+                  aria-pressed={language === 'en'}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('es')}
+                  className={`px-3 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer ${language === 'es'
+                    ? 'bg-[#00bfb3] text-white'
+                    : 'text-gray-800'
+                  }`}
+                  aria-pressed={language === 'es'}
+                >
+                  Español
+                </button>
+              </div>
+            </div>
             <Link
               to="/contact"
               onClick={() => setIsMenuOpen(false)}

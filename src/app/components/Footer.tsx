@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import footerLogo from '../../imports/footer-logo.svg';
+import footerLogoSvg from '../../imports/new-logo-black.svg';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -13,7 +13,7 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <Link to="/" className="inline-block mb-4">
-              <img src={footerLogo} alt="Maytag Laundry" className="h-16 w-auto" />
+              <img src={footerLogoSvg} alt="Maytag Laundry" className="h-16 w-auto" />
             </Link>
             <p className="text-gray-400 text-sm">
               {t('footer.tagline')}
@@ -32,11 +32,6 @@ export function Footer() {
               <li>
                 <Link to="/services" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
                   {t('nav.services')}
-                </Link>
-              </li>
-              <li>
-                <Link to="/pricing" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
-                  {t('nav.pricing')}
                 </Link>
               </li>
               <li>
