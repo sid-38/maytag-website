@@ -44,6 +44,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.selfService.feature2': 'Multiple load sizes',
     'home.services.selfService.feature3': 'Free WiFi',
     'home.services.selfService.feature4': 'Climate-controlled facility',
+    
     'home.services.washFold.title': 'Wash & Fold Service',
     'home.services.washFold.description': 'Short on time? Let us handle the work for you. Drop off your laundry and pick it up fresh, clean, and neatly folded. Our professional staff treats every item with care using premium detergents and fabric softeners.',
     'home.services.washFold.feature1': 'Same-day service available',
