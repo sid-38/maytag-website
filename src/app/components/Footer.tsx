@@ -1,0 +1,94 @@
+import { Link } from 'react-router';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import footerLogo from '../../imports/footer-logo.svg';
+
+export function Footer() {
+  const { t } = useLanguage();
+
+  return (
+    <footer className="bg-black text-white border-t border-gray-800">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div>
+            <Link to="/" className="inline-block mb-4">
+              <img src={footerLogo} alt="Maytag Laundry" className="h-16 w-auto" />
+            </Link>
+            <p className="text-gray-400 text-sm">
+              {t('footer.tagline')}
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-semibold mb-4">{t('footer.quickLinks')}</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
+                  {t('nav.home')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
+                  {t('nav.services')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/pricing" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
+                  {t('nav.pricing')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
+                  {t('footer.aboutUs')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm">
+                  {t('nav.contact')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Hours */}
+          <div>
+            <h3 className="font-semibold mb-4">{t('footer.businessHours')}</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li className="flex items-center gap-2">
+                <Clock size={16} className="text-[#00bfb3]" />
+                <span>{t('footer.monFri')}</span>
+              </li>
+              <li className="pl-6">{t('footer.sat')}</li>
+              <li className="pl-6">{t('footer.sun')}</li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="font-semibold mb-4">{t('footer.contactUs')}</h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li className="flex items-start gap-2">
+                <MapPin size={16} className="text-[#00bfb3] mt-1 flex-shrink-0" />
+                <span>123 Main Street, Raleigh, NC 27601</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone size={16} className="text-[#00bfb3] flex-shrink-0" />
+                <span>(919) 555-0123</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail size={16} className="text-[#00bfb3] flex-shrink-0" />
+                <span>info@maytaglaundry.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+          <p>&copy; {new Date().getFullYear()} {t('footer.copyright')}</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
