@@ -76,15 +76,15 @@ export function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Self-Service Card */}
-            <div className="group flex h-auto bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="w-3/5 flex-shrink-0">
+            <div className="flex flex-row items-stretch rounded-2xl overflow-hidden border border-gray-200 hover:border-[#00bfb3] hover:shadow-lg transition-all bg-gray-50">
+              <div className="w-1/2 flex-shrink-0 relative overflow-hidden">
                 <img
                   src="/images/self-service-laundry.jpg"
                   alt="Self-Service Laundry"
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="w-2/5 p-6 bg-gray-50 flex flex-col justify-between">
+              <div className="w-1/2 p-6 bg-gray-50 flex flex-col justify-between flex-shrink-0">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.selfService.title')}</h3>
                   <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.selfService.description')}</p>
