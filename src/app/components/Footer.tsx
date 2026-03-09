@@ -53,10 +53,8 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Clock size={16} className="text-[#00bfb3]" />
-                <span>{t('footer.monFri')}</span>
+                <span>{t('footer.hours')}</span>
               </li>
-              <li className="pl-6">{t('footer.sat')}</li>
-              <li className="pl-6">{t('footer.sun')}</li>
             </ul>
           </div>
 
@@ -66,11 +64,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="text-[#00bfb3] mt-1 flex-shrink-0" />
-                <span>123 Main Street, Raleigh, NC 27601</span>
+                <span>15 Jones Franklin Rd, Raleigh, NC 27606</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} className="text-[#00bfb3] flex-shrink-0" />
-                <span>(919) 555-0123</span>
+                <span>(919) 851-6670</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-[#00bfb3] flex-shrink-0" />
