@@ -77,13 +77,13 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Home Page - Questions Section
     'home.questions.title': 'Have more questions?',
-    'home.questions.subtitle': "Visit our store, give us a call, or send us an email - we're easy to reach.",
+    'home.questions.subtitle': "Visit our store or give us a call - we're easy to reach.",
     'home.questions.findUs': 'Find us',
-    'home.questions.address': '2428 Hillsborough St, Raleigh, NC 27607',
+    'home.questions.address': '15 Jones Franklin Rd, Raleigh, NC 27606',
     'home.questions.whenOpen': "When we're open",
-    'home.questions.hours': '6 AM - 10 PM, Open 7 Days Including Public Holidays',
+    'home.questions.hours': '5 AM - 11 PM, Open 7 Days Including Public Holidays',
     'home.questions.getInTouch': 'Get in touch',
-    'home.questions.email': 'info@maytaglaundry.com',
+    'home.questions.email': '(919) 851-6670',
 
     // Home Page - Testimonials
     'home.testimonials.title': 'What Our Customers Say',
