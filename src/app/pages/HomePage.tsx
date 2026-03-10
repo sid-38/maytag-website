@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 import { Star, MapPin, Clock, Phone, CircleCheck } from 'lucide-react';
 import { Card, CardContent } from '../components/Card';
@@ -14,6 +15,90 @@ const areas = [
 
 export function HomePage() {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    // Canonical link
+    const canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    canonical.href = 'https://maytaglaundromat.com/';
+    document.head.appendChild(canonical);
+
+    // Homepage-specific JSON-LD schema
+    const schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.id = 'homepage-schema';
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': ['WebPage', 'DryCleaningOrLaundry'],
+      '@id': 'https://maytaglaundromat.com/#laundromat',
+      url: 'https://maytaglaundromat.com/',
+      name: 'Maytag Coin Laundry of Raleigh',
+      mainEntityOfPage: 'https://maytaglaundromat.com/',
+      description:
+        'Modern Raleigh laundromat offering self-service laundry, wash dry fold, and convenient cashless and coin laundry options. Clean, affordable, and convenient laundry service in Raleigh, NC.',
+      telephone: '+1-919-851-6770',
+      priceRange: '$',
+      paymentAccepted: 'Coins, Credit Card, Debit Card',
+      currenciesAccepted: 'USD',
+      foundingDate: '1995',
+      knowsLanguage: ['English', 'Spanish'],
+      image: ['https://maytaglaundromat.com/images/01-hero-image.png'],
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '15 Jones Franklin Rd',
+        addressLocality: 'Raleigh',
+        addressRegion: 'NC',
+        postalCode: '27606',
+        addressCountry: 'US',
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Raleigh',
+      },
+      amenityFeature: [
+        { '@type': 'LocationFeatureSpecification', name: 'Cashless payment', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Coin-operated machines', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Wash and fold service', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Air conditioning', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Free Wi-Fi', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Restrooms', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Parking', value: true },
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Laundry Services',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Self-Service Laundromat',
+              serviceType: 'Self-service laundry',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Wash Dry Fold Service',
+              serviceType: 'Wash dry fold',
+            },
+          },
+        ],
+      },
+      sameAs: [
+        'PASTE-YOUR-GOOGLE-BUSINESS-PROFILE-URL-HERE',
+        'PASTE-YOUR-FACEBOOK-URL-HERE',
+        'PASTE-YOUR-INSTAGRAM-URL-HERE',
+      ],
+    });
+    document.head.appendChild(schema);
+
+    return () => {
+      canonical.remove();
+      schema.remove();
+    };
+  }, []);
 
   const testimonials = [
     { rating: 5, nameKey: 'home.testimonials.1.name', textKey: 'home.testimonials.1.text', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop&crop=faces&q=80' },
@@ -162,34 +247,28 @@ export function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch min-h-0">
-            {/* Left: Areas served list + Visit location */}
-            <div className="flex flex-col gap-6">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8 w-fit mx-auto">
+            {/* Left: Areas served list */}
+            <div className="flex flex-col gap-4">
               <h3 className="text-2xl font-semibold text-black">{t('home.areas.serviceAreas')}</h3>
               <ul className="space-y-2">
                 {areas.map((area) => (
-                  <li key={area.nameKey} className="flex items-center gap-2 text-gray-700">
+                  <li key={area.nameKey} className="flex items-center gap-2 text-gray-700 text-sm md:text-base">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#00bfb3] flex-shrink-0" />
-                    <span className="font-medium text-black">{t(area.nameKey)}</span>
-                    <span className="text-gray-500">—</span>
-                    <span className="text-gray-600">{t(area.descKey)}</span>
+                    <span className="font-medium text-black whitespace-nowrap">{t(area.nameKey)}</span>
+                    <span className="text-gray-500 flex-shrink-0">—</span>
+                    <span className="text-gray-600 whitespace-nowrap">{t(area.descKey)}</span>
                   </li>
                 ))}
               </ul>
-              <div className="bg-[#00bfb3]/10 border border-[#00bfb3]/20 rounded-xl p-6 mt-auto">
-                <h4 className="font-semibold text-black mb-2">{t('home.areas.visitLocation')}</h4>
-                <p className="text-gray-700 mb-1">{t('home.areas.businessName')}</p>
-                <p className="text-gray-600 text-sm">{t('home.areas.servingSince')}</p>
-                <p className="text-gray-600 text-sm mt-2">{t('home.areas.phone')}: (252) 308-3052</p>
-              </div>
             </div>
 
             {/* Right: Laundromat image */}
-            <div className="w-full min-w-0 rounded-2xl overflow-hidden shadow-lg border border-gray-200 aspect-[4/3] min-h-[280px] lg:min-h-[360px]">
+            <div className="relative self-stretch min-w-[280px] min-h-[280px] w-[360px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
               <img
                 src="/images/01-hero-image.png"
                 alt={t('common.heroAlt')}
-                className="w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
           </div>
