@@ -297,10 +297,15 @@ export function HomePage() {
             }
           }
           .animate-ticker {
-            animation: ticker 30s linear infinite;
+            animation: ticker 15s linear infinite;
           }
           .animate-ticker:hover {
             animation-play-state: paused;
+          }
+          @media (max-width: 767px) {
+            .animate-ticker {
+              animation: ticker 5s linear infinite;
+            }
           }
         `}</style>
       </section>
