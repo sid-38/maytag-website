@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import { Link } from 'react-router';
+import { Card, CardContent } from '../components/Card';
 
 export function PricingPage() {
   const washerPricing = [
@@ -97,9 +98,9 @@ export function PricingPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            {/* Washers */}
-            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
-              <h3 className="text-2xl font-bold text-black mb-6">Washers</h3>
+            <Card className="bg-gray-50">
+              <CardContent padding="lg">
+                <h3 className="text-2xl font-bold text-black mb-6">Washers</h3>
               <div className="space-y-4">
                 {washerPricing.map((item, index) => (
                   <div
@@ -114,11 +115,12 @@ export function PricingPage() {
                   </div>
                 ))}
               </div>
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* Dryers */}
-            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
-              <h3 className="text-2xl font-bold text-black mb-6">Dryers</h3>
+            <Card className="bg-gray-50">
+              <CardContent padding="lg">
+                <h3 className="text-2xl font-bold text-black mb-6">Dryers</h3>
               <div className="space-y-4">
                 {dryerPricing.map((item, index) => (
                   <div
@@ -135,7 +137,8 @@ export function PricingPage() {
                   <strong>Pro Tip:</strong> High-efficiency dryers typically need 30-40 minutes for a full load, costing around $1.00-$2.00 total.
                 </p>
               </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -203,26 +206,34 @@ export function PricingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#00bfb3] transition-colors">
-              <h4 className="font-semibold text-black mb-2">Detergent</h4>
-              <p className="text-2xl font-bold text-[#00bfb3] mb-2">$1.50</p>
-              <p className="text-sm text-gray-600">Single-use pods available</p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#00bfb3] transition-colors">
-              <h4 className="font-semibold text-black mb-2">Fabric Softener</h4>
-              <p className="text-2xl font-bold text-[#00bfb3] mb-2">$1.00</p>
-              <p className="text-sm text-gray-600">Dryer sheets also available</p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#00bfb3] transition-colors">
-              <h4 className="font-semibold text-black mb-2">Stain Remover</h4>
-              <p className="text-2xl font-bold text-[#00bfb3] mb-2">$2.00</p>
-              <p className="text-sm text-gray-600">Professional grade treatment</p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#00bfb3] transition-colors">
-              <h4 className="font-semibold text-black mb-2">Garment Bags</h4>
-              <p className="text-2xl font-bold text-[#00bfb3] mb-2">$3.00</p>
-              <p className="text-sm text-gray-600">Reusable mesh bags</p>
-            </div>
+            <Card hover className="bg-gray-50">
+              <CardContent>
+                <h4 className="font-semibold text-black mb-2">Detergent</h4>
+                <p className="text-2xl font-bold text-[#00bfb3] mb-2">$1.50</p>
+                <p className="text-sm text-gray-600">Single-use pods available</p>
+              </CardContent>
+            </Card>
+            <Card hover className="bg-gray-50">
+              <CardContent>
+                <h4 className="font-semibold text-black mb-2">Fabric Softener</h4>
+                <p className="text-2xl font-bold text-[#00bfb3] mb-2">$1.00</p>
+                <p className="text-sm text-gray-600">Dryer sheets also available</p>
+              </CardContent>
+            </Card>
+            <Card hover className="bg-gray-50">
+              <CardContent>
+                <h4 className="font-semibold text-black mb-2">Stain Remover</h4>
+                <p className="text-2xl font-bold text-[#00bfb3] mb-2">$2.00</p>
+                <p className="text-sm text-gray-600">Professional grade treatment</p>
+              </CardContent>
+            </Card>
+            <Card hover className="bg-gray-50">
+              <CardContent>
+                <h4 className="font-semibold text-black mb-2">Garment Bags</h4>
+                <p className="text-2xl font-bold text-[#00bfb3] mb-2">$3.00</p>
+                <p className="text-sm text-gray-600">Reusable mesh bags</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

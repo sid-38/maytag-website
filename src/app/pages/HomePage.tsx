@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { Star, MapPin, Clock, Phone, CircleCheck } from 'lucide-react';
+import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
 
 const areas = [
@@ -70,16 +71,8 @@ export function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Self-Service Card */}
-            <div className="flex flex-col bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="relative overflow-hidden aspect-[4/3]">
-                <img
-                  src="/images/self-service-laundry.jpg"
-                  alt="Self-Service Laundry"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 flex flex-col justify-between flex-1">
+            <Card image={{ src: '/images/self-service-laundry.jpg', alt: 'Self-Service Laundry', aspect: '4/3' }} hover className="flex flex-col">
+              <CardContent className="flex flex-col justify-between flex-1">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.selfService.title')}</h3>
                   <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.selfService.description')}</p>
@@ -97,19 +90,11 @@ export function HomePage() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* Wash & Fold Card */}
-            <div className="flex flex-col bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="relative overflow-hidden aspect-[4/3]">
-                <img
-                  src="/images/01-wash-fold-service.png"
-                  alt="Wash and Fold Service"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 flex flex-col justify-between flex-1">
+            <Card image={{ src: '/images/01-wash-fold-service.png', alt: 'Wash and Fold Service', aspect: '4/3' }} hover className="flex flex-col">
+              <CardContent className="flex flex-col justify-between flex-1">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.washFold.title')}</h3>
                   <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.washFold.description')}</p>
@@ -127,19 +112,11 @@ export function HomePage() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* Free Pickup & Delivery Card */}
-            <div className="flex flex-col bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="relative overflow-hidden aspect-[4/3]">
-                <img
-                  src="/images/01-free-pickup-delivery.png"
-                  alt="Free Pickup and Delivery"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              <div className="p-6 flex flex-col justify-between flex-1">
+            <Card image={{ src: '/images/01-free-pickup-delivery.png', alt: 'Free Pickup and Delivery', aspect: '4/3', objectPosition: 'top' }} hover className="flex flex-col">
+              <CardContent className="flex flex-col justify-between flex-1">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.pickupDelivery.title')}</h3>
                   <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.pickupDelivery.description')}</p>
@@ -157,8 +134,8 @@ export function HomePage() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

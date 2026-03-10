@@ -1,4 +1,5 @@
 import { Shirt, Wind, Droplet, Package } from 'lucide-react';
+import { Card, CardContent } from '../components/Card';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 export function ServicesPage() {
@@ -72,28 +73,27 @@ export function ServicesPage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="group p-8 border border-gray-200 rounded-lg hover:border-[#00bfb3] hover:shadow-xl transition-all"
-              >
-                <div className="text-[#00bfb3] mb-4 group-hover:scale-110 transition-transform">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-black mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-6">{service.description}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-[#00bfb3] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Card key={index} hover>
+                <CardContent padding="lg">
+                  <div className="text-[#00bfb3] mb-4">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-black mb-3">{service.title}</h3>
+                  <p className="text-gray-600 mb-6">{service.description}</p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-[#00bfb3] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

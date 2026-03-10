@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { Card, CardContent } from '../components/Card';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -57,31 +58,37 @@ export function ContactPage() {
       <section className="py-16 sm:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
-                <MapPin className="w-6 h-6 text-[#00bfb3]" />
-              </div>
-              <h3 className="font-semibold text-black mb-2">Address</h3>
-              <p className="text-gray-600 text-sm">15 Jones Franklin Rd<br />Raleigh, NC 27606</p>
-            </div>
+            <Card hover>
+              <CardContent className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
+                  <MapPin className="w-6 h-6 text-[#00bfb3]" />
+                </div>
+                <h3 className="font-semibold text-black mb-2">Address</h3>
+                <p className="text-gray-600 text-sm">15 Jones Franklin Rd<br />Raleigh, NC 27606</p>
+              </CardContent>
+            </Card>
 
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
-                <Phone className="w-6 h-6 text-[#00bfb3]" />
-              </div>
-              <h3 className="font-semibold text-black mb-2">Phone</h3>
-              <a href="tel:2523083052" className="text-gray-600 text-sm hover:text-[#00bfb3] transition-colors">
-                (252) 308-3052
-              </a>
-            </div>
+            <Card hover>
+              <CardContent className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
+                  <Phone className="w-6 h-6 text-[#00bfb3]" />
+                </div>
+                <h3 className="font-semibold text-black mb-2">Phone</h3>
+                <a href="tel:2523083052" className="text-gray-600 text-sm hover:text-[#00bfb3] transition-colors">
+                  (252) 308-3052
+                </a>
+              </CardContent>
+            </Card>
 
-            <div className="text-center p-6 border border-gray-200 rounded-lg hover:border-[#00bfb3] hover:shadow-lg transition-all">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
-                <Clock className="w-6 h-6 text-[#00bfb3]" />
-              </div>
-              <h3 className="font-semibold text-black mb-2">Hours</h3>
-              <p className="text-gray-600 text-sm">Mon-Sun: 5AM-11PM</p>
-            </div>
+            <Card hover>
+              <CardContent className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3] bg-opacity-10 rounded-full mb-4">
+                  <Clock className="w-6 h-6 text-[#00bfb3]" />
+                </div>
+                <h3 className="font-semibold text-black mb-2">Hours</h3>
+                <p className="text-gray-600 text-sm">Mon-Sun: 5AM-11PM</p>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -255,33 +262,41 @@ export function ContactPage() {
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <h3 className="font-semibold text-black mb-2">Do I need to bring my own detergent?</h3>
-              <p className="text-gray-600">
-                While you're welcome to bring your own, we offer high-quality detergent, fabric softener, and other supplies for purchase on-site.
-              </p>
-            </div>
+            <Card>
+              <CardContent>
+                <h3 className="font-semibold text-black mb-2">Do I need to bring my own detergent?</h3>
+                <p className="text-gray-600">
+                  While you're welcome to bring your own, we offer high-quality detergent, fabric softener, and other supplies for purchase on-site.
+                </p>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <h3 className="font-semibold text-black mb-2">What payment methods do you accept?</h3>
-              <p className="text-gray-600">
-                We accept coins, bills, credit/debit cards, and mobile payment options. An ATM is also available on-site for your convenience.
-              </p>
-            </div>
+            <Card>
+              <CardContent>
+                <h3 className="font-semibold text-black mb-2">What payment methods do you accept?</h3>
+                <p className="text-gray-600">
+                  We accept coins, bills, credit/debit cards, and mobile payment options. An ATM is also available on-site for your convenience.
+                </p>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <h3 className="font-semibold text-black mb-2">Is an attendant available to help?</h3>
-              <p className="text-gray-600">
-                Yes! We have attendants on duty during business hours who are happy to assist you with any questions or concerns.
-              </p>
-            </div>
+            <Card>
+              <CardContent>
+                <h3 className="font-semibold text-black mb-2">Is an attendant available to help?</h3>
+                <p className="text-gray-600">
+                  Yes! We have attendants on duty during business hours who are happy to assist you with any questions or concerns.
+                </p>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
-              <h3 className="font-semibold text-black mb-2">How long does a typical wash and dry take?</h3>
-              <p className="text-gray-600">
-                Wash cycles typically take 30-45 minutes depending on the machine size. Drying usually takes 30-40 minutes. Plan for about 60-90 minutes total.
-              </p>
-            </div>
+            <Card>
+              <CardContent>
+                <h3 className="font-semibold text-black mb-2">How long does a typical wash and dry take?</h3>
+                <p className="text-gray-600">
+                  Wash cycles typically take 30-45 minutes depending on the machine size. Drying usually takes 30-40 minutes. Plan for about 60-90 minutes total.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
