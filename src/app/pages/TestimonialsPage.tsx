@@ -21,7 +21,6 @@ export function TestimonialsPage() {
     { value: '30+', labelKey: 'testimonials.stats.years' },
     { value: '4.8', labelKey: 'testimonials.stats.rating' },
     { value: '1000+', labelKey: 'testimonials.stats.customers' },
-    { value: '100%', labelKey: 'testimonials.stats.machines' },
   ];
 
   return (
@@ -69,7 +68,7 @@ export function TestimonialsPage() {
       {/* Stats Section */}
       <section className="py-12 bg-gray-50 border-b border-gray-200">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-48">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl sm:text-4xl font-bold text-[#00bfb3] mb-2">{stat.value}</div>
