@@ -1,3 +1,36 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+@keyframes amenities-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.amenities-ticker {
+  overflow: hidden;
+}
+
+.amenities-ticker__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: amenities-ticker-scroll 55s linear infinite;
+}
+
+.amenities-ticker__group {
+  display: flex;
+  gap: 16px; /* requested 16px spacing */
+  padding-right: 16px; /* keep spacing at the loop seam */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amenities-ticker__track {
+    animation: none;
+    transform: translateX(0);
+  }
+}
