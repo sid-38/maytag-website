@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shirt, Wind, Droplet, Package } from 'lucide-react';
+import { DropIcon, ShieldIcon, SunHorizonIcon, TrophyIcon, UsersThreeIcon, WrenchIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 export function ServicesPage() {
   const services = [
@@ -29,17 +29,27 @@ export function ServicesPage() {
       description: 'We offer bulk laundry services for businesses, hotels, and restaurants. Competitive pricing and reliable turnaround times for all your commercial needs.',
       features: ['Bulk pricing discounts', 'Regular pickup and delivery', 'Customized service plans', 'Quality guaranteed'],
     },
-  ];
+  ]; 
 
   const amenities = [
-    'Free WiFi throughout facility',
-    'Comfortable seating areas',
-    'Vending machines for snacks and drinks',
-    'Folding tables and carts available',
-    'ATM on-site',
-    'Security cameras for your safety',
-    'Well-lit parking area',
-    'Attendant on duty during business hours',
+    { Icon: DropIcon, label: 'Free WiFi throughout facility' },
+    { Icon: SunHorizonIcon, label: 'Comfortable seating areas' },
+    { Icon: TrophyIcon, label: 'Vending machines for snacks and drinks' },
+    { Icon: UsersThreeIcon, label: 'Folding tables and carts available' },
+    { Icon: ShieldIcon, label: 'ATM on-site' },
+    { Icon: WrenchIcon, label: 'Security cameras for your safety' },
+    { Icon: TrophyIcon, label: 'Well-lit parking area' },
+    { Icon: UsersThreeIcon, label: 'Attendant on duty during business hours' },
+  ];
+
+  const amenitiesImages = [
+    { src: '/images/amenities-1.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-2.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-3.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-4.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-5.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-6.png', alt: 'Store feature photo' },
+    { src: '/images/amenities-7.png', alt: 'Store feature photo' },
   ];
 
   return (
@@ -125,7 +135,101 @@ export function ServicesPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Wash & Fold — swapped layout like reference (images left, text right) */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          {/* Single row from md: images | text. Below md stacks with images first. */}
+          <div className="flex flex-col md:flex-row md:items-stretch gap-10 md:gap-8 lg:gap-12">
+            {/* Left: image section — column 1 = hero image, column 2 = towels + bag stacked */}
+            <div className="order-1 w-full md:flex-1 md:min-w-0">
+              <div className="flex flex-row gap-3 sm:gap-4 items-stretch h-full min-h-[260px] sm:min-h-[320px]">
+                {/* Column 1: hero image — spans full height of the pair beside it */}
+                <div className="flex-1 min-w-0 rounded-lg overflow-hidden shadow-lg bg-gray-100">
+                  <img
+                    src="/images/wash-fold-hero.png"
+                    alt="Wash and fold laundry service"
+                    className="w-full h-full object-cover object-center min-h-[240px] md:min-h-0"
+                  />
+                </div>
+                {/* Column 2: two images stacked vertically */}
+                <div className="flex flex-col gap-3 sm:gap-4 flex-1 min-w-0">
+                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <img
+                      src="/images/wash-fold-towels.png"
+                      alt="Freshly folded towels ready for pickup"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
+                    <img
+                      src="/images/wash-fold-bag.png"
+                      alt="Bagged wash and fold laundry ready for pickup"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: copy */}
+            <div className="order-2 w-full md:flex-1 md:min-w-0 flex flex-col justify-center">
+              <div className="mb-6">
+                <div className="text-[#00bfb3] uppercase tracking-wide font-bold text-sm sm:text-base">
+                  Fast, Professional and Easy
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
+                  Wash &amp; Fold Laundry Service in Raleigh
+                </h2>
+              </div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Save time with our professional wash and fold laundry service in Raleigh, NC. Simply drop off your laundry and our team will wash, dry, and neatly fold your clothes so they are ready to wear when you pick them up.
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                Our Raleigh laundromat uses high-quality detergents, modern machines, and careful handling to ensure your laundry is cleaned and folded to the highest standards. Customers choose us for our fast turnaround times, clean facility, and reliable laundry service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Full-width video CTA — Pickup & Delivery */}
+      <section className="relative w-full overflow-hidden">
+        {/* Background video */}
+        <div className="absolute inset-0">
+          <video
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/storefront-areas.png"
+          >
+            <source src="/videos/pickup-delivery.mp4" type="video/mp4" />
+          </video>
+          {/* 60% black overlay */}
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+
+        {/* Content */}
+        <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 h-[500px] py-16 sm:py-20 text-center text-white flex flex-col items-center justify-center">
+          <p className="text-base sm:text-lg text-gray-100 mb-2">It doesn’t end there.</p>
+          <h2 className="text-2xl sm:text-4xl font-bold text-balance mb-8">
+            Fastest Laundry Pickup &amp; Delivery
+            <br className="hidden sm:block" /> in Raleigh
+          </h2>
+          <a
+            href="tel:2523083052"
+            className="inline-flex items-center justify-center bg-[#00bfb3] text-white px-8 py-4 rounded font-semibold hover:bg-[#00a89d] transition-colors"
+          >
+            Schedule Delivery
+          </a>
+        </div>
+      </section>
+
+      {/*
+      Services Grid (hidden for now)
+
       <section className="py-16 sm:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -155,61 +259,74 @@ export function ServicesPage() {
           </div>
         </div>
       </section>
+      */}
 
-      {/* Image Section */}
+      {/* Amenities + full-bleed image strip */}
       <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1766698664091-69e5d1c8fd42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXVuZHJ5JTIwc2VydmljZSUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzI2NDQwMjd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Professional Laundry Service"
-                className="w-full h-[400px] sm:h-[500px] object-cover rounded-lg shadow-xl"
-              />
-            </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl sm:text-4xl font-bold text-black mb-6">
-                Premium Amenities for Your Comfort
-              </h2>
-              <p className="text-gray-600 mb-6">
-                We believe doing laundry should be as comfortable and convenient as possible. That's why we've equipped our facility with modern amenities to make your visit pleasant.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {amenities.map((amenity, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-5 h-5 bg-[#00bfb3] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-gray-700 text-sm">{amenity}</span>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
+              #1 Most Comfortable Laundromat Experience in Raleigh
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
+            {amenities.map((amenity, index) => {
+              const IconComponent = amenity.Icon;
+              return (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="mt-0.5 flex size-8 items-center justify-center text-[#00bfb3]">
+                    <IconComponent size={28} weight="duotone" />
                   </div>
-                ))}
-              </div>
+                  <div className="text-sm sm:text-base font-medium text-[#363d4f] leading-snug">
+                    {amenity.label}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* End-to-end image row */}
+        <div className="mt-12 w-full">
+          <div className="amenities-ticker">
+            <div className="amenities-ticker__track">
+              {[0, 1].map((groupIndex) => (
+                <div className="amenities-ticker__group" key={groupIndex} aria-hidden={groupIndex === 1}>
+                  {amenitiesImages.map((img, idx) => (
+                    <div
+                      key={`${groupIndex}-${idx}`}
+                      className="flex-none overflow-hidden h-40 sm:h-48 md:h-56 lg:h-64 min-w-[220px] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px]"
+                    >
+                      <img src={img.src} alt={img.alt} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-black text-white">
+      <section className="py-16 sm:py-20 bg-[#00bfb3]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
             Have Questions About Our Services?
           </h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
             Our friendly staff is here to help. Visit us or give us a call to learn more about how we can make your laundry day easier.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:2523083052"
-              className="bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors"
+              className="bg-white text-black px-8 py-4 rounded hover:bg-gray-200 transition-colors font-medium"
             >
               Call Us Now
             </a>
             <a
               href="/contact"
-              className="bg-white text-black px-8 py-4 rounded hover:bg-gray-200 transition-colors"
+              className="bg-transparent text-white px-8 py-4 rounded border border-white/80 hover:bg-white hover:text-black transition-colors font-medium"
             >
               Visit Our Location
             </a>
