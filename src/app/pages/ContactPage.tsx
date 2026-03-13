@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
@@ -11,18 +11,58 @@ export function ContactPage() {
     phone: '',
     subject: '',
     message: '',
+    website: '', // honeypot – leave empty; bots often fill it
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const formMountedAt = useRef<number>(Date.now());
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const MIN_SUBMIT_SECONDS = 3;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock form submission
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 3000);
+    setError(null);
+    setLoading(true);
+
+    // Honeypot: if filled, treat as bot – show success but don't send
+    if (formData.website.trim() !== '') {
+      setLoading(false);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
+      setTimeout(() => setSubmitted(false), 3000);
+      return;
+    }
+
+    // Time check: reject if submitted too quickly (likely bot)
+    const elapsed = (Date.now() - formMountedAt.current) / 1000;
+    if (elapsed < MIN_SUBMIT_SECONDS) {
+      setError('Please take a moment to fill out the form before submitting.');
+      setLoading(false);
+      return;
+    }
+
+    const { website: _w, ...payload } = formData;
+
+    try {
+      const res = await fetch('https://hooks.zapier.com/hooks/catch/615440/uxp3pia/', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed: ${res.status}`);
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -106,6 +146,23 @@ export function ContactPage() {
             <div>
               <h2 className="text-3xl font-bold text-black mb-6">{t('contact.sendMessage')}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot – hidden from users, bots often fill it */}
+                <div
+                  className="absolute -left-[9999px] w-px h-px overflow-hidden opacity-0 pointer-events-none"
+                  aria-hidden
+                >
+                  <label htmlFor="website">Leave this blank</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-black mb-2">
                     {t('contact.form.name')} *
@@ -190,15 +247,21 @@ export function ContactPage() {
                   />
                 </div>
 
+                {error && (
+                  <div className="p-4 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  disabled={submitted}
+                  disabled={submitted || loading}
                   className="w-full bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitted ? (
-                    <>
-                      <span>{t('contact.form.submitted')}</span>
-                    </>
+                    <span>{t('contact.form.submitted')}</span>
+                  ) : loading ? (
+                    <span>Sending…</span>
                   ) : (
                     <>
                       <span>{t('contact.form.submit')}</span>
