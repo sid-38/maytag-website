@@ -36,7 +36,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.copyright': 'Maytag Coin Laundry Raleigh. All rights reserved.',
 
     // Home Page - Hero
-    'home.hero.title': "Raleigh's Premier Laundry Service",
+    'home.hero.title': 'Raleigh\'s Premier Laundry Service',
     'home.hero.subtitle': 'Experience the perfect combination of modern equipment, cleanliness, and convenience. Your laundry day just got easier.',
     'home.hero.contactUs': 'Contact Us',
 
@@ -400,7 +400,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.copyright': 'Maytag Coin Laundry Raleigh. Todos los derechos reservados.',
 
     // Home Page - Hero
-    'home.hero.title': 'El Servicio de Lavandería Premier de Raleigh',
+    'home.hero.title': 'El Mejor Servicio de Lavandería de Raleigh',
     'home.hero.subtitle': 'Experimente la combinación perfecta de equipo moderno, limpieza y conveniencia. Su día de lavandería ahora es más fácil.',
     'home.hero.contactUs': 'Contáctenos',
 

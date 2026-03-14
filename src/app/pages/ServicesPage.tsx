@@ -3,6 +3,7 @@ import { Shirt, Wind, Droplet, Package } from 'lucide-react';
 import { DropIcon, ShieldIcon, SunHorizonIcon, TrophyIcon, UsersThreeIcon, WrenchIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
+import { CharacterMorph } from '../../components/ui/character-morph';
 
 export function ServicesPage() {
   const { t } = useLanguage();
@@ -87,7 +88,9 @@ export function ServicesPage() {
         </div>
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-20 sm:py-32 w-full">
           <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">{t('services.hero.title')}</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
+              <CharacterMorph texts={[t('services.hero.title')]} />
+            </h1>
             <p className="text-lg sm:text-xl text-gray-200 max-w-[450px]">
               {t('services.hero.subtitle')}
             </p>

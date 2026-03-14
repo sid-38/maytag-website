@@ -3,6 +3,7 @@ import { DropIcon, HeartStraightIcon, ShieldIcon, SunHorizonIcon, TrophyIcon, Us
 import { Card, CardContent } from '../components/Card';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
+import { CharacterMorph } from '../../components/ui/character-morph';
 
 export function AboutPage() {
   const { t } = useLanguage();
@@ -46,7 +47,9 @@ export function AboutPage() {
         </div>
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-20 sm:py-32 w-full">
           <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">{t('about.hero.title')}</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
+              <CharacterMorph texts={[t('about.hero.title')]} />
+            </h1>
             <p className="text-lg sm:text-xl text-gray-200 max-w-[450px] mb-8">
               {t('about.hero.subtitle')}
             </p>
