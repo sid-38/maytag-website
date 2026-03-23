@@ -76,10 +76,10 @@ function TypingIndicator() {
   );
 }
 
-/** Typing duration in ms based on response length. ~35 chars/sec to emulate agent typing. */
+/** Typing duration in ms based on response length. Faster typing for snappier feel. */
 function getTypingDurationMs(text: string): number {
-  const ms = Math.round((text.length / 20) * 1000);
-  return Math.max(ms, 800); // min 800ms so very short replies still feel natural
+  const ms = Math.round((text.length / 28) * 1000);
+  return Math.max(ms, 600); // min 600ms so very short replies still feel natural
 }
 
 export function Chatbot() {
@@ -192,7 +192,7 @@ export function Chatbot() {
     setIsTyping(true);
     setShowTypingAnimation(false);
     const startTime = Date.now();
-    const thinkingDelayMs = 3000 + Math.random() * 2000; // 3–5 seconds before typing starts
+    const thinkingDelayMs = 2000 + Math.random() * 1500; // 2–3.5 seconds before typing starts
     const thinkingTimer = setTimeout(() => setShowTypingAnimation(true), thinkingDelayMs);
     try {
       const response = await fetchChatResponse(trimmed);
