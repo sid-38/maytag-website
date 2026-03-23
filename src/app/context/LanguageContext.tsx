@@ -133,6 +133,7 @@ const translations: Record<Language, Record<string, string>> = {
     'terms.s16.company': 'Maytag Laundromat',
     'terms.s16.location': 'Raleigh, North Carolina',
     'terms.s16.website': 'Website:',
+    'terms.s16.email': 'Email:',
     'terms.s16.phone': 'Phone:',
     'terms.acknowledge': 'By using our services, you acknowledge that you have read, understood, and agree to these Terms and Conditions.',
 
@@ -205,6 +206,7 @@ const translations: Record<Language, Record<string, string>> = {
     'privacy.s11.company': 'Maytag Laundromat',
     'privacy.s11.location': 'Raleigh, North Carolina',
     'privacy.s11.website': 'Website:',
+    'privacy.s11.email': 'Email:',
     'privacy.s11.phone': 'Phone:',
     'privacy.acknowledge': 'By using our services, you acknowledge that you have read and understood this Privacy Policy.',
 
@@ -267,7 +269,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.questions.whenOpen': "When we're open",
     'home.questions.hours': '5 AM - 11 PM, Open 7 Days Including Public Holidays',
     'home.questions.getInTouch': 'Get in touch',
-    'home.questions.email': '(984) 205-9506',
+    'home.questions.phone': '(984) 205-9506',
+    'home.questions.email': 'help@maytaglaundromat.com',
 
     // Home Page - Testimonials
     'home.testimonials.title': 'What Our Customers Say',
@@ -519,7 +522,7 @@ const translations: Record<Language, Record<string, string>> = {
     'contact.address': 'Address',
     'contact.addressLine1': '15 Jones Franklin Rd',
     'contact.addressLine2': 'Raleigh, NC 27606',
-    'contact.phone': 'Phone',
+    'contact.phone&email': 'Phone & Email',
     'contact.email': 'Email',
     'contact.hours': 'Hours',
     'contact.everyDay': 'Monday - Sunday',
@@ -717,6 +720,7 @@ const translations: Record<Language, Record<string, string>> = {
     'terms.s16.location': 'Raleigh, Carolina del Norte',
     'terms.s16.website': 'Sitio web:',
     'terms.s16.phone': 'Teléfono:',
+    'terms.s16.email': 'Correo electrónico:',
     'terms.acknowledge': 'Al utilizar nuestros servicios, usted reconoce que ha leído, entendido y aceptado estos Términos y Condiciones.',
 
     'privacy.title': 'Política de Privacidad',
@@ -789,6 +793,7 @@ const translations: Record<Language, Record<string, string>> = {
     'privacy.s11.location': 'Raleigh, Carolina del Norte',
     'privacy.s11.website': 'Sitio web:',
     'privacy.s11.phone': 'Teléfono:',
+    'privacy.s11.email': 'Correo electrónico:',
     'privacy.acknowledge': 'Al utilizar nuestros servicios, usted reconoce que ha leído y comprendido esta Política de Privacidad.',
 
     // Home Page - Hero
@@ -849,7 +854,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.questions.whenOpen': 'Cuándo estamos abiertos',
     'home.questions.hours': '5 AM - 11 PM, Abierto 7 días incluyendo días festivos',
     'home.questions.getInTouch': 'Contáctenos',
-    'home.questions.email': '(984) 205-9506',
+    'home.questions.phone': '(984) 205-9506',
+    'home.questions.email': 'help@maytaglaundromat.com',
 
     // Home Page - Testimonials
     'home.testimonials.title': 'Lo Que Dicen Nuestros Clientes',
@@ -1100,7 +1106,7 @@ const translations: Record<Language, Record<string, string>> = {
     'contact.address': 'Dirección',
     'contact.addressLine1': '15 Jones Franklin Rd',
     'contact.addressLine2': 'Raleigh, NC 27606',
-    'contact.phone': 'Teléfono',
+    'contact.phone&email': 'Teléfono y Correo electrónico',
     'contact.email': 'Correo',
     'contact.hours': 'Horario',
     'contact.everyDay': 'Lunes - Domingo',

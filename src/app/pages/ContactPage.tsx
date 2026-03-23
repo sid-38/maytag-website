@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MapPinIcon, PhoneIcon, ClockIcon, CaretDownIcon, PaperPlaneTiltIcon } from '@phosphor-icons/react';
+import { MapPinIcon, PhoneIcon, HeadsetIcon, ClockIcon, CaretDownIcon, PaperPlaneTiltIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/ui/accordion';
 import { CharacterMorph } from '../../components/ui/character-morph';
@@ -289,15 +289,16 @@ export function ContactPage() {
               </Card>
             </a>
 
-            <a href="tel:9842059506" className="block h-full">
+            <a className="block h-full">
               <Card hover className="h-full">
                 <CardContent className="flex flex-row items-center gap-4 md:flex-col md:items-center md:text-center min-h-[5rem] md:min-h-0">
                   <div className="inline-flex flex-shrink-0 items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-[#00bfb3]/10 rounded-full md:mb-4">
-                    <PhoneIcon className="w-8 h-8 md:w-10 md:h-10 text-[#00bfb3]" weight="regular" />
+                    <HeadsetIcon className="w-8 h-8 md:w-10 md:h-10 text-[#00bfb3]" weight="regular" />
                   </div>
                   <div className="text-left md:text-center">
-                    <h3 className="font-semibold text-black mb-1 md:mb-2">{t('contact.phone')}</h3>
+                    <h3 className="font-semibold text-black mb-1 md:mb-2">{t('contact.phone&email')}</h3>
                     <p className="text-gray-600 text-sm">(984) 205-9506</p>
+                    <p className="text-gray-600 text-sm mt-2">help@maytaglaundromat.com</p>
                   </div>
                 </CardContent>
               </Card>

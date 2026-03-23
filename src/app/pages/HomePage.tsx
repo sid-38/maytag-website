@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 import { scrollToTop } from '../../lib/utils';
 import { AreasMap } from '../components/AreasMap';
-import { Star, MapPin, Clock, Phone, CircleCheck } from 'lucide-react';
+import { Star, MapPin, Clock, Phone, Hand, CircleCheck } from 'lucide-react';
 import { GiftIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
@@ -325,16 +325,17 @@ export function HomePage() {
               </a>
 
               {/* Get in Touch → Call */}
-              <a href="tel:9842059506" className="block h-full">
+              <a className="block h-full">
                 <Card hover className="h-full">
                   <CardContent>
                     <div className="flex items-center gap-3 mb-4">
                       <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3]/10 rounded-full">
-                        <Phone className="w-6 h-6 text-[#00bfb3]" />
+                        <Hand className="w-6 h-6 text-[#00bfb3]" />
                       </div>
                       <h4 className="font-bold text-black text-lg">{t('home.questions.getInTouch')}</h4>
                     </div>
-                    <p className="text-gray-600">{t('home.questions.email')}</p>
+                    <p className="text-gray-600">{t('home.questions.phone')}</p>
+                    <p className="text-gray-600 mt-2">{t('home.questions.email')}</p> 
                   </CardContent>
                 </Card>
               </a>

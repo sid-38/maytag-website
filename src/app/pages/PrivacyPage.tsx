@@ -11,7 +11,7 @@ export function PrivacyPage() {
         </h1>
         <div className="prose prose-gray max-w-none">
           <p><strong>{t('privacy.effectiveDate')}</strong> {t('privacy.effectiveDateValue')}</p>
-
+          <br />
           <p>
             {t('privacy.introPrefix')}
             <a href="https://maytaglaundromat.com/" target="_blank" rel="noopener noreferrer" className="text-[#00bfb3] hover:underline">https://maytaglaundromat.com/</a>
@@ -113,8 +113,9 @@ export function PrivacyPage() {
             <strong>{t('privacy.s11.company')}</strong><br />
             {t('privacy.s11.location')}<br />
             {t('privacy.s11.website')} <a href="https://maytaglaundromat.com/" target="_blank" rel="noopener noreferrer" className="text-[#00bfb3] hover:underline">https://maytaglaundromat.com/</a><br />
+            {t('privacy.s11.email')} <a href="mailto:help@maytaglaundromat.com" className="text-[#00bfb3] hover:underline">help@maytaglaundromat.com</a><br />
             {t('privacy.s11.phone')} <a href="tel:9842059506" className="text-[#00bfb3] hover:underline">(984) 205-9506</a>
-          </p>
+          </p>  
 
           <p className="mt-8 pt-6 border-t border-gray-200">
             {t('privacy.acknowledge')}

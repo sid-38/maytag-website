@@ -12,7 +12,7 @@ export function TermsPage() {
         </h1>
         <div className="prose prose-gray max-w-none">
           <p><strong>{t('terms.effectiveDate')}</strong> {t('terms.effectiveDateValue')}</p>
-
+          <br />
           <p>
             {t('terms.welcomePrefix')}
             <a href="https://maytaglaundromat.com/" target="_blank" rel="noopener noreferrer" className="text-[#00bfb3] hover:underline">https://maytaglaundromat.com/</a>
@@ -151,6 +151,7 @@ export function TermsPage() {
             <strong>{t('terms.s16.company')}</strong><br />
             {t('terms.s16.location')}<br />
             {t('terms.s16.website')} <a href="https://maytaglaundromat.com/" target="_blank" rel="noopener noreferrer" className="text-[#00bfb3] hover:underline">https://maytaglaundromat.com/</a><br />
+            {t('terms.s16.email')} <a href="mailto:help@maytaglaundromat.com" className="text-[#00bfb3] hover:underline">help@maytaglaundromat.com</a><br />
             {t('terms.s16.phone')} <a href="tel:9842059506" className="text-[#00bfb3] hover:underline">(984) 205-9506</a>
           </p>
 
