@@ -240,8 +240,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.pickupDelivery.feature4': 'Serving the Triangle area',
 
     // Home Page - Areas Section
-    'home.areas.title': 'Areas We Serve',
-    'home.areas.subtitle': "Conveniently located in Raleigh, we proudly serve customers from across the Triangle area. Whether you're from downtown or the surrounding communities, we're here to help with all your laundry needs.",
+    'home.areas.title': 'Pickup & Delivery Near You',
+    'home.areas.subtitle': "We offer convenient pickup and delivery service throughout Raleigh and the surrounding Triangle area. Schedule a pickup and let us handle the rest.",
     'home.areas.serviceAreas': 'Service Areas',
     'home.areas.raleigh': 'Raleigh',
     'home.areas.raleighDesc': 'Our home base',
@@ -825,8 +825,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.pickupDelivery.feature4': 'Sirviendo el area del Triangulo',
 
     // Home Page - Areas Section
-    'home.areas.title': 'Areas que Servimos',
-    'home.areas.subtitle': 'Convenientemente ubicados en Raleigh, orgullosamente servimos a clientes de toda el área del Triángulo. Ya sea que venga del centro o de las comunidades cercanas, estamos aquí para ayudar con todas sus necesidades de lavandería.',
+    'home.areas.title': 'Recogida y entrega cerca de usted',
+    'home.areas.subtitle': 'Ofrecemos un servicio conveniente de recogida y entrega en Raleigh y en el área del Triángulo. Programe una recogida y nosotros nos encargamos del resto.',
     'home.areas.serviceAreas': 'Areas de Servicio',
     'home.areas.raleigh': 'Raleigh',
     'home.areas.raleighDesc': 'Nuestra base',
