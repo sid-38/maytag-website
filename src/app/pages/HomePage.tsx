@@ -249,8 +249,8 @@ export function HomePage() {
       <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">{t('home.areas.title')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4 text-balance">{t('home.areas.title')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-balance">
               {t('home.areas.subtitle')}
             </p>
           </div>
@@ -278,7 +278,7 @@ export function HomePage() {
           <div className="mt-16 pt-16 border-t border-gray-200">
             <div className="text-center mb-10">
               <h3 className="text-2xl sm:text-3xl font-bold text-black mb-3">{t('home.questions.title')}</h3>
-              <p className="text-gray-600 max-w-xl mx-auto">
+              <p className="text-gray-600 max-w-xl mx-auto text-balance">
                 {t('home.questions.subtitle')}
               </p>
             </div>
@@ -349,7 +349,7 @@ export function HomePage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">{t('home.testimonials.title')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto text-balance">
               {t('home.testimonials.subtitle')}
             </p>
           </div>
