@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useLocation } from 'react-router';
 import { MapPinIcon, PhoneIcon, HeadsetIcon, ClockIcon, CaretDownIcon, PaperPlaneTiltIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/ui/accordion';
@@ -22,9 +23,21 @@ function isValidUSPhone(value: string): boolean {
 
 export function ContactPage() {
   const { t } = useLanguage();
+  const location = useLocation();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    if (location.hash !== '#contact-form') return;
+    const el = document.getElementById('contact-form');
+    if (!el) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -335,7 +348,7 @@ export function ContactPage() {
             </div>
 
             {/* Right: Contact Form */}
-            <div>
+            <div id="contact-form" className="scroll-mt-24">
               <h2 className="text-3xl font-bold text-black mb-6">{t('contact.sendMessage')}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Honeypot – hidden from users, bots often fill it */}

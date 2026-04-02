@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { ChangeEvent, FocusEvent, FormEvent } from 'react';
+import type { ChangeEvent, FocusEvent, FormEvent, MouseEvent } from 'react';
 import { Link } from 'react-router';
-import { Check, ChevronsUpDownIcon } from 'lucide-react';
+import { Check, ChevronsUpDownIcon, PartyPopper } from 'lucide-react';
+import { ConfettiIcon } from '@phosphor-icons/react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
 import { cn } from '@/lib/utils';
@@ -18,13 +19,27 @@ function isValidUSPhone(value: string): boolean {
 const BAG_REFERENCE_URL =
   'https://www.cleanersupply.com/bags/wash-and-fold-laundry-bags/eco2go-large-30-gal-wash-and-fold-laundry-bags-20-x-14-x-15/#sku=wb1te';
 
-const BAG_IMAGE_SRC = '/subscriptions-wash-fold-bag.jpg';
+const BAG_IMAGE_SRC = '/images/01-laundry-bag.jpg';
+
+const BAG_SECTION_ID = 'subscriptions-bag';
+
+function scrollToBagSection(e: MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault();
+  const el = document.getElementById(BAG_SECTION_ID);
+  if (!el) return;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.scrollIntoView({
+    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    block: 'start',
+  });
+}
 
 type PlanId = 'singles' | 'couples' | 'family';
 
 const PLANS: {
   id: PlanId;
   nameKey: string;
+  cardTitleKey: string;
   blurbKey: string;
   feature1Key: string;
   feature2Key: string;
@@ -34,6 +49,7 @@ const PLANS: {
   {
     id: 'singles',
     nameKey: 'subscriptions.plan.singles.name',
+    cardTitleKey: 'subscriptions.plan.singles.cardTitle',
     blurbKey: 'subscriptions.plan.singles.blurb',
     feature1Key: 'subscriptions.plan.singles.feature1',
     feature2Key: 'subscriptions.plan.singles.feature2',
@@ -42,6 +58,7 @@ const PLANS: {
   {
     id: 'couples',
     nameKey: 'subscriptions.plan.couples.name',
+    cardTitleKey: 'subscriptions.plan.couples.cardTitle',
     blurbKey: 'subscriptions.plan.couples.blurb',
     feature1Key: 'subscriptions.plan.couples.feature1',
     feature2Key: 'subscriptions.plan.couples.feature2',
@@ -51,6 +68,7 @@ const PLANS: {
   {
     id: 'family',
     nameKey: 'subscriptions.plan.family.name',
+    cardTitleKey: 'subscriptions.plan.family.cardTitle',
     blurbKey: 'subscriptions.plan.family.blurb',
     feature1Key: 'subscriptions.plan.family.feature1',
     feature2Key: 'subscriptions.plan.family.feature2',
@@ -92,10 +110,6 @@ export function SubscriptionsPage() {
   const [holdProgress, setHoldProgress] = useState(0);
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const alaCarteCardRef = useRef<HTMLDivElement>(null);
-  const [isLgViewport, setIsLgViewport] = useState(false);
-  const [pairedSectionHeightPx, setPairedSectionHeightPx] = useState<number | undefined>(undefined);
-
   const phoneValid = isValidUSPhone(formData.phone);
   const phoneValidRef = useRef(phoneValid);
   phoneValidRef.current = phoneValid;
@@ -223,31 +237,8 @@ export function SubscriptionsPage() {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
-    const sync = () => setIsLgViewport(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-
-  useLayoutEffect(() => {
-    const el = alaCarteCardRef.current;
-    if (!el || !isLgViewport) {
-      setPairedSectionHeightPx(undefined);
-      return;
-    }
-    const measure = () => {
-      setPairedSectionHeightPx(el.getBoundingClientRect().height);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [isLgViewport, language]);
-
   return (
-    <div className="min-h-screen overflow-y-auto flex flex-col bg-[#00bfb3]">
+    <div className="flex min-h-screen flex-col overflow-x-hidden overflow-y-auto bg-[#00bfb3]">
       <div className="flex justify-center px-4 py-4 shrink-0">
         <div
           className="flex items-center rounded-full border border-white/50 bg-white/10 p-0.5 cursor-pointer hover:bg-white/20 transition-colors"
@@ -277,37 +268,48 @@ export function SubscriptionsPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex justify-center px-4 py-6 sm:py-8 min-h-0">
-        <div className="w-full max-w-6xl pb-8 space-y-6">
+      <div className="flex min-h-0 flex-1 flex-col items-stretch gap-0">
+        <div className="mx-auto w-full max-w-6xl shrink-0 px-4 pb-20 pt-10">
           <h1
             id="subscriptions-page-title"
             className="text-2xl sm:text-3xl font-bold text-white text-center mb-2 text-balance"
           >
             {t('subscriptions.title')}
           </h1>
-          <p className="text-white/90 text-center text-sm sm:text-base mb-6 text-balance">
+          <p className="text-white/90 text-center text-sm sm:text-base mb-4 text-balance">
             {t('subscriptions.subtitle')}
           </p>
+          <div className="mx-auto mb-4 flex w-full max-w-4xl justify-center">
+            <div
+              className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-white/35 bg-white px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
+              role="status"
+            >
+              <ConfettiIcon className="h-3.5 w-3.5 shrink-0 text-[#00bfb3] sm:h-4 sm:w-4" aria-hidden />
+              <p className="text-[11px] font-medium leading-snug text-[#00bfb3] text-balance sm:text-xs">
+                {t('subscriptions.promo')}
+              </p>
+            </div>
+          </div>
 
-          <div
-            className={cn(
-              'grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start lg:gap-8',
-              "[grid-template-areas:'signupPlans'_'bagBar'_'pricingPair']",
-              "lg:[grid-template-areas:'signupPlans_signupPlans'_'pricingPair_pricingPair']",
-            )}
-          >
-            {/* Sign up + plans (single card) */}
-            <section className="[grid-area:signupPlans] min-w-0">
-              <div className="flex min-h-0 w-full flex-col rounded-xl bg-white shadow-lg lg:flex-row lg:items-stretch">
-                {/* Mobile: plans first; desktop: plans on the right — stretches to match sign-up column height */}
-                <div className="order-1 flex min-h-0 min-w-0 flex-1 flex-col justify-center p-4 sm:p-6 lg:order-3 lg:p-8 lg:pl-6">
-                  <div
-                    id="subscription-plans-group"
-                    className="flex w-full flex-col items-center"
-                    role="radiogroup"
-                    aria-labelledby="subscriptions-page-title"
-                  >
-                    <div className="grid w-full grid-cols-3 items-start gap-2 sm:gap-3 lg:items-center lg:gap-4">
+          {/* Section 1: subscription plans & sign-up */}
+          <section className="min-w-0">
+              <div className="flex min-h-0 w-full flex-col overflow-hidden rounded-xl bg-white shadow-lg">
+                {/* Plans + signup row — lg: grid so all columns share one row height (plans column fills full height) */}
+                <div
+                  className={cn(
+                    'grid min-h-0 w-full flex-1 grid-cols-1 gap-0',
+                    'lg:grid-cols-[minmax(0,22rem)_1px_1fr] lg:grid-rows-1 lg:items-stretch',
+                  )}
+                >
+                <div className="order-1 flex min-h-0 min-w-0 flex-col p-4 sm:p-8 lg:order-none lg:col-start-3 lg:row-start-1 lg:h-full lg:min-h-0 lg:p-8">
+                  <div className="flex min-h-0 w-full flex-1 flex-col lg:h-full lg:min-h-0">
+                    <div
+                      id="subscription-plans-group"
+                      className="flex min-h-0 w-full flex-1 flex-col items-center justify-start lg:justify-center"
+                      role="radiogroup"
+                      aria-labelledby="subscriptions-page-title"
+                    >
+                      <div className="grid w-full grid-cols-1 items-start gap-2 sm:gap-3 lg:grid-cols-3 lg:items-center lg:gap-4">
                       {PLANS.map((plan) => {
                         const selected = selectedPlan === plan.id;
                         const featureKeys = [plan.feature1Key, plan.feature2Key] as const;
@@ -326,9 +328,9 @@ export function SubscriptionsPage() {
                                 : 'border-gray-200 bg-white hover:border-gray-400 lg:min-h-[20rem]',
                             )}
                           >
-                            <div className="flex flex-col">
+                            <div className="flex min-h-0 w-full flex-1 flex-col">
                               <h3 className="line-clamp-2 text-left text-sm font-semibold leading-snug text-black">
-                                {t(plan.nameKey)}
+                                {t(plan.cardTitleKey)}
                               </h3>
                               <p className="mt-1 line-clamp-3 text-left text-[9px] leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
                                 {t(plan.blurbKey)}
@@ -361,7 +363,7 @@ export function SubscriptionsPage() {
                                 </ul>
                               </div>
                               {plan.featured && (
-                                <span className="mt-3 shrink-0 self-center rounded-full bg-[#00bfb3] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide text-white sm:mt-4 sm:text-[10px]">
+                                <span className="mt-auto shrink-0 self-center rounded-full bg-[#00bfb3] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide text-white sm:text-[10px]">
                                   {t('subscriptions.plan.mostPopular')}
                                 </span>
                               )}
@@ -369,31 +371,33 @@ export function SubscriptionsPage() {
                           </button>
                         );
                       })}
+                      </div>
+                    </div>
+                    <div className="flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4">
+                      <a
+                        href={`#${BAG_SECTION_ID}`}
+                        onClick={scrollToBagSection}
+                        className="text-base font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
+                      >
+                        {t('subscriptions.checkLaundryBag')}
+                      </a>
                     </div>
                   </div>
                 </div>
 
                 <div
-                  className="order-2 my-4 h-px w-full shrink-0 bg-gray-200 lg:hidden"
+                  className="order-2 my-4 h-px w-full shrink-0 bg-gray-200 mx-4 sm:mx-6 lg:hidden"
                   role="separator"
                   aria-orientation="horizontal"
                 />
                 <div
-                  className="order-2 my-4 hidden w-px shrink-0 self-stretch bg-gray-200 lg:block"
+                  className="order-2 my-4 hidden w-px shrink-0 self-stretch bg-gray-200 lg:col-start-2 lg:row-start-1 lg:my-0 lg:block"
                   role="separator"
                   aria-orientation="vertical"
                 />
 
                 {/* Mobile: signup after divider; desktop: signup on the left (narrower column) */}
-                <div className="order-3 min-w-0 px-4 pb-6 pt-2 sm:px-6 sm:pb-8 lg:order-1 lg:shrink-0 lg:basis-[min(100%,22rem)] lg:p-8 lg:pr-6">
-                  <div
-                    className="mb-4 flex items-center justify-center rounded-lg bg-[#00bfb3]/10 px-4 py-2 text-center sm:mb-5"
-                    role="status"
-                  >
-                    <p className="text-sm font-semibold leading-snug text-[#00bfb3] text-balance sm:text-base">
-                      {t('subscriptions.promo')}
-                    </p>
-                  </div>
+                <div className="order-3 min-w-0 px-4 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-8 lg:order-none lg:col-start-1 lg:row-start-1 lg:min-h-0 lg:w-full lg:min-w-0 lg:p-8">
                   {formSubmitted ? (
                     <div className="space-y-4 text-center">
                       <p className="text-lg font-bold text-black">{t('subscriptions.form.successTitle')}</p>
@@ -583,88 +587,86 @@ export function SubscriptionsPage() {
                     </form>
                   )}
                 </div>
+                </div>
               </div>
-            </section>
+          </section>
 
-            {/* Mobile: bag teaser → full bag anchor */}
-            <a
-              href="#subscriptions-bag"
-              className="max-lg:[grid-area:bagBar] lg:hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 rounded-lg border border-white/35 bg-white/10 px-3 py-2.5 text-left text-sm text-white/95 hover:bg-white/15 transition-colors"
+          <div className="mt-8 flex flex-col items-center text-center sm:mt-10">
+            <h2 className="mb-4 max-w-xl text-base font-semibold text-white text-balance sm:text-lg">
+              {t('subscriptions.notReadyTitle')}
+            </h2>
+            <Link
+              to="/contact#contact-form"
+              className="inline-block rounded bg-white px-5 py-2.5 text-sm font-semibold text-[#00bfb3] transition-colors hover:bg-gray-100 hover:text-[#009a91]"
             >
-              <span className="font-medium text-balance">{t('subscriptions.bagDetailsBar')}</span>
-              <span className="shrink-0 font-semibold underline underline-offset-2">
-                {t('subscriptions.linkToFullBag')}
-              </span>
-            </a>
+              {t('subscriptions.contactUsButton')}
+            </Link>
+          </div>
+        </div>
 
-            {/* À la carte + bag: shared horizontal inset on desktop */}
+        {/* Section 2: full-bleed white — grows to bottom of viewport; back link pinned inside */}
+        <section
+          id="subscriptions-add-ons"
+          className="flex min-h-0 min-w-0 w-full flex-1 flex-col bg-white py-20"
+          aria-labelledby="subscriptions-add-ons-title"
+        >
+          <h2 id="subscriptions-add-ons-title" className="sr-only">
+            {t('subscriptions.addOnsSectionTitle')}
+          </h2>
+          <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-4 sm:px-6 lg:px-8">
             <div
               className={cn(
-                '[grid-area:pricingPair] flex min-w-0 flex-col-reverse gap-6',
-                'lg:mx-6 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 xl:mx-10',
+                'flex min-h-0 w-full min-w-0 flex-1 flex-col gap-0',
+                'lg:grid lg:grid-cols-2 lg:items-start lg:gap-0',
               )}
             >
-              {/* Bag first in DOM — left column on lg; flex-col-reverse keeps à la carte above bag on mobile */}
+              {/* Bag first in DOM — stack order on mobile; left column on lg */}
               <section
-                id="subscriptions-bag"
-                className="flex min-h-0 min-w-0 scroll-mt-6 flex-col"
-                style={
-                  isLgViewport && pairedSectionHeightPx != null
-                    ? { height: pairedSectionHeightPx }
-                    : undefined
-                }
+                id={BAG_SECTION_ID}
+                className="flex min-w-0 scroll-mt-6 flex-col border-t border-gray-200 pt-6 lg:border-t-0 lg:pt-0 lg:pr-8"
               >
-                <div className="flex h-full min-h-0 flex-col gap-5 rounded-xl border border-white/50 p-5 sm:gap-6 sm:p-6">
-                  <h2 className="shrink-0 text-center text-base font-semibold text-white sm:text-lg">
+                <div className="flex flex-col gap-5 p-5 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-0">
+                  <h2 className="shrink-0 text-center text-base font-semibold text-gray-900 sm:text-lg">
                     {t('subscriptions.bagSectionTitle')}
                   </h2>
 
-                  <div className="flex min-h-0 flex-1 flex-col gap-2">
-                    <div
-                      className={cn(
-                        'w-full overflow-hidden rounded-lg border border-white/40 bg-black/10',
-                        isLgViewport && pairedSectionHeightPx != null
-                          ? 'min-h-0 flex-1'
-                          : 'min-h-48 sm:min-h-56',
-                      )}
-                    >
+                  <div className="mx-auto w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[280px]">
+                    <div className="w-full overflow-hidden rounded-lg">
                       <img
                         src={BAG_IMAGE_SRC}
                         alt={t('subscriptions.bagAlt')}
-                        className="h-full w-full object-cover object-center"
+                        className="h-auto w-full object-contain object-center"
                         loading="lazy"
                         width={900}
                         height={400}
+                        decoding="async"
                       />
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* À la carte (secondary, on teal) — height from content; bag matches on lg via ResizeObserver */}
-              <section className="min-w-0">
-                <div
-                  ref={alaCarteCardRef}
-                  className="space-y-4 rounded-xl border border-white/50 p-5 sm:p-6"
-                >
+              {/* À la carte pricing */}
+              <section className="min-w-0 border-t border-gray-200 pt-6 lg:border-t-0 lg:border-l lg:border-gray-200 lg:pl-8 lg:pt-0">
+                <div className="space-y-4 p-5 sm:p-6">
                   <div className="text-center">
-                    <h2 className="text-lg font-semibold text-white sm:text-xl">
+                    <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">
                       {t('subscriptions.nonSubscription.title')}
                     </h2>
                   </div>
                   <div className="overflow-x-auto -mx-1">
                     <table className="w-full min-w-[280px] border-collapse">
                       <thead>
-                        <tr className="border-b border-white/35">
+                        <tr className="border-b border-gray-200">
                           <th
                             scope="col"
-                            className="py-2 pr-4 text-left text-base font-medium text-white"
+                            className="py-2 pr-4 text-left text-base font-medium text-gray-900"
                           >
                             {t('subscriptions.table.service')}
                           </th>
                           <th
                             scope="col"
-                            className="whitespace-nowrap py-2 pl-4 text-right text-base font-medium text-white"
+                            className="whitespace-nowrap py-2 pl-4 text-right text-base font-medium text-gray-900"
                           >
                             {t('subscriptions.table.price')}
                           </th>
@@ -672,9 +674,9 @@ export function SubscriptionsPage() {
                       </thead>
                       <tbody className="text-sm">
                         {NON_SUBSCRIPTION_ROWS.map((row) => (
-                          <tr key={row.labelKey} className="border-b border-white/25">
-                            <td className="py-2.5 pr-4 text-white/95">{t(row.labelKey)}</td>
-                            <td className="whitespace-nowrap py-2.5 pl-4 text-right font-semibold text-white">
+                          <tr key={row.labelKey} className="border-b border-gray-100">
+                            <td className="py-2.5 pr-4 text-gray-800">{t(row.labelKey)}</td>
+                            <td className="whitespace-nowrap py-2.5 pl-4 text-right font-semibold text-gray-900">
                               {row.price}
                             </td>
                           </tr>
@@ -685,18 +687,22 @@ export function SubscriptionsPage() {
                 </div>
               </section>
             </div>
-          </div>
 
-          <p className="text-center">
-            <Link
-              to="/services"
-              className="text-white underline hover:text-white/90 transition-colors"
-              onClick={scrollToTop}
-            >
-              {t('ctaForm.backToWebsite')}
-            </Link>
-          </p>
-        </div>
+            <div className="mt-auto shrink-0 w-full">
+              <div className="pt-8 lg:mt-8">
+                <p className="text-center">
+                  <Link
+                    to="/services"
+                    className="font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
+                    onClick={scrollToTop}
+                  >
+                    {t('ctaForm.backToWebsite')}
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
