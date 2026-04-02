@@ -226,7 +226,7 @@ export function Chatbot() {
         type="button"
         onClick={() => (isOpen ? handleEndChat() : setIsOpen(true))}
         className={cn(
-          'fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all',
+          'fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-white shadow-lg transition-all',
           'bg-[#00bfb3] text-white hover:bg-[#00a89d] hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00bfb3] focus-visible:ring-offset-2'
         )}
         aria-label={isOpen ? 'End chat' : 'Open chat'}
