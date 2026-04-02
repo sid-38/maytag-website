@@ -11,6 +11,7 @@ import { TestimonialsPage } from './pages/TestimonialsPage';
 import { CTAFormPage } from './pages/CTAFormPage';
 import { CTAFormSuccessPreview } from './pages/CTAFormSuccessPreview';
 import { SchedulePickupFormPage } from './pages/SchedulePickupFormPage';
+import { SubscriptionsPage } from './pages/SubscriptionsPage';
 import { LocationSEO } from './components/LocationSEO';
 import { WolfpackPage } from './pages/Wolfpack';
 import { TermsPage } from './pages/TermsPage';
@@ -20,7 +21,11 @@ import { Chatbot } from './components/Chatbot';
 
 function AppContent() {
   const location = useLocation();
-  const isStandaloneFormPage = location.pathname === '/claim' || location.pathname === '/claim/success' || location.pathname === '/schedule-pickup';
+  const isStandaloneFormPage =
+    location.pathname === '/claim' ||
+    location.pathname === '/claim/success' ||
+    location.pathname === '/schedule-pickup' ||
+    location.pathname === '/subscriptions';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -38,6 +43,7 @@ function AppContent() {
               <Route path="/claim" element={<CTAFormPage />} />
               <Route path="/claim/success" element={<CTAFormSuccessPreview />} />
               <Route path="/schedule-pickup" element={<SchedulePickupFormPage />} />
+              <Route path="/subscriptions" element={<SubscriptionsPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
 

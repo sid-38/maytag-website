@@ -94,7 +94,7 @@ export function NewDateTimePicker({
               <ChevronDownIcon className="h-4 w-4" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0 border border-gray-300 rounded-lg shadow-lg bg-white" align="start">
+          <PopoverContent className="w-auto overflow-hidden p-0 border border-gray-300 rounded-lg shadow-lg bg-white" align="center">
             <Calendar
               value={calendarValue}
               onChange={handleDateChange}
@@ -102,20 +102,6 @@ export function NewDateTimePicker({
             />
           </PopoverContent>
         </Popover>
-      </div>
-      <div className="flex flex-col flex-1">
-        <label htmlFor="time" className="block text-sm font-semibold text-black mb-1">
-          {timeLabel}
-        </label>
-        <input
-          type="time"
-          id="time"
-          step="60"
-          value={timeValue}
-          onChange={handleTimeChange}
-          disabled={disabled}
-          className="w-full text-base px-4 py-2.5 min-h-[46px] border border-gray-300 rounded focus:outline-none focus:border-[#00bfb3] transition-colors appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-        />
       </div>
     </div>
   )
