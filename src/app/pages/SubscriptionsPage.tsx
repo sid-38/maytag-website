@@ -78,6 +78,10 @@ const PLANS: {
 
 const HOLD_DURATION_MS = 3000;
 
+/** Google Apps Script Web App URL — subscription form → Sheet + email (see docs/google-sheets-apps-script-subscriptions.js) */
+const GOOGLE_SHEETS_WEB_APP_URL =
+  'https://script.google.com/macros/s/AKfycbwRVTBRDJcRQplN9oMjnEOEGJYQuGCQsNTl42EMpPM8DluDLfbLPPfw-blPiGiCV7c_wA/exec';
+
 const NON_SUBSCRIPTION_ROWS: { labelKey: string; price: string }[] = [
   { labelKey: 'subscriptions.row.singleBag', price: '$30' },
   { labelKey: 'subscriptions.row.twin', price: '$25' },
@@ -216,6 +220,44 @@ export function SubscriptionsPage() {
     }
     setErrors({});
     setShowFieldError(false);
+
+    const planLabel = t(selectedPlanMeta.nameKey);
+    const fields: Record<string, string> = {
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      plan: planLabel,
+    };
+
+    // Form POST to hidden iframe — avoids CORS (same pattern as SchedulePickupFormPage)
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = GOOGLE_SHEETS_WEB_APP_URL;
+    form.target = 'sheet-submit-frame-subscriptions';
+    form.style.display = 'none';
+    form.setAttribute('enctype', 'application/x-www-form-urlencoded');
+
+    for (const [key, value] of Object.entries(fields)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    let iframe = document.getElementById('sheet-submit-frame-subscriptions') as HTMLIFrameElement | null;
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'sheet-submit-frame-subscriptions';
+      iframe.id = 'sheet-submit-frame-subscriptions';
+      iframe.style.display = 'none';
+      iframe.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(iframe);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+
     setFormSubmitted(true);
   };
 
