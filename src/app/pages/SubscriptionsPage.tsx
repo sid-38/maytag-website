@@ -1,13 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ChangeEvent, FocusEvent, FormEvent, MouseEvent } from 'react';
-import { Link } from 'react-router';
-import { Check, ChevronsUpDownIcon, PartyPopper } from 'lucide-react';
+import { Link, useLocation } from 'react-router';
+import Lottie from 'lottie-react';
+import { Check, ChevronsUpDownIcon } from 'lucide-react';
 import { ConfettiIcon } from '@phosphor-icons/react';
+import confettiAnimation from '../../imports/Confetti Effects Lottie Animation.json';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
+function isValidEmail(value: string): boolean {
+  if (!value.trim()) return false;
+  return value.includes('@') && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
 
 function isValidUSPhone(value: string): boolean {
   const digits = value.replace(/\D/g, '');
@@ -22,6 +29,8 @@ const BAG_REFERENCE_URL =
 const BAG_IMAGE_SRC = '/images/01-laundry-bag.jpg';
 
 const BAG_SECTION_ID = 'subscriptions-bag';
+
+const SUBSCRIPTIONS_SUCCESS_PATH = '/subscriptions/success';
 
 function scrollToBagSection(e: MouseEvent<HTMLAnchorElement>) {
   e.preventDefault();
@@ -97,16 +106,118 @@ const planDropdownTriggerClassName = cn(
   'focus:border-[#00bfb3] focus:ring-2 focus:ring-[#00bfb3]/30 focus:outline-none',
 );
 
+function SubscriptionPlansPicker({
+  selectedPlan,
+  onSelectPlan,
+  t,
+}: {
+  selectedPlan: PlanId;
+  onSelectPlan: (id: PlanId) => void;
+  t: (key: string) => string;
+}) {
+  return (
+    <div className="flex min-h-0 min-w-0 flex-col lg:h-full lg:min-h-0">
+      <div className="flex min-h-0 w-full flex-1 flex-col lg:h-full lg:min-h-0">
+        <div
+          id="subscription-plans-group"
+          className="flex min-h-0 w-full flex-1 flex-col items-center justify-start lg:justify-center"
+          role="radiogroup"
+          aria-labelledby="subscriptions-page-title"
+        >
+          <div className="grid w-full grid-cols-1 items-start gap-5 sm:gap-4 lg:grid-cols-3 lg:items-center lg:gap-4">
+            {PLANS.map((plan) => {
+              const selected = selectedPlan === plan.id;
+              const featureKeys = [plan.feature1Key, plan.feature2Key] as const;
+              return (
+                <button
+                  key={plan.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  onClick={() => onSelectPlan(plan.id)}
+                  className={cn(
+                    'flex min-h-0 min-w-0 cursor-pointer flex-col rounded-2xl border-2 p-4 text-left transition-colors',
+                    'lg:transition-[min-height,box-shadow] lg:duration-300 lg:ease-in-out motion-reduce:lg:transition-none',
+                    selected
+                      ? 'border-[#00bfb3] bg-[#00bfb3]/10 shadow-lg ring-2 ring-[#00bfb3]/20 lg:min-h-[22.25rem]'
+                      : 'border-gray-200 bg-white hover:border-gray-400 lg:min-h-[20rem]',
+                  )}
+                >
+                  <div className="flex min-h-0 w-full flex-1 flex-col">
+                    <h3 className="line-clamp-2 text-left text-sm font-semibold leading-snug text-black">
+                      {t(plan.cardTitleKey)}
+                    </h3>
+                    <p className="mt-1 line-clamp-3 text-left text-xs leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
+                      {t(plan.blurbKey)}
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-baseline gap-x-1 gap-y-0 sm:mt-4">
+                      <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
+                        {t(plan.priceKey)}
+                      </span>
+                      <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
+                        {t('subscriptions.perMonth')}
+                      </span>
+                    </div>
+                    <div className="mt-3 flex flex-col border-t border-gray-200 pt-3 sm:mt-4 sm:pt-4">
+                      <p className="text-xs font-bold tracking-wide text-black sm:text-[10px] lg:text-xs">
+                        {t('subscriptions.plan.whatsIncluded')}
+                      </p>
+                      <ul className="mt-2 flex flex-col gap-2 sm:mt-2.5 sm:gap-2.5">
+                        {featureKeys.map((key) => (
+                          <li key={key} className="flex gap-2 sm:gap-2.5">
+                            <Check
+                              className="h-3.5 w-3.5 shrink-0 text-gray-500 sm:mt-0.5 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4"
+                              strokeWidth={2.5}
+                              aria-hidden
+                            />
+                            <span className="text-left text-xs leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
+                              {t(key)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    {plan.featured && (
+                      <span className="max-sm:mt-8 shrink-0 self-center rounded-full bg-[#00bfb3] px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white sm:mt-auto sm:text-[10px]">
+                        {t('subscriptions.plan.mostPopular')}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4">
+          <a
+            href={`#${BAG_SECTION_ID}`}
+            onClick={scrollToBagSection}
+            className="text-base font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
+          >
+            {t('subscriptions.checkLaundryBag')}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function SubscriptionsPage() {
+  const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
   const [selectedPlan, setSelectedPlan] = useState<PlanId>('couples');
   const [planPopoverOpen, setPlanPopoverOpen] = useState(false);
   const planTriggerRef = useRef<HTMLButtonElement>(null);
   const [planMenuWidth, setPlanMenuWidth] = useState<number | undefined>(undefined);
-  const [formData, setFormData] = useState({ name: '', phone: '' });
-  const [errors, setErrors] = useState<{ phone?: string }>({});
+  /** Natural height of signup panel while form is visible; then fixed so success state does not shrink the column. */
+  const [lockedSignupPanelHeight, setLockedSignupPanelHeight] = useState<number | null>(null);
+  const signupPanelRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [errors, setErrors] = useState<{ phone?: string; email?: string }>({});
   const [showFieldError, setShowFieldError] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const isSuccessRoute = location.pathname === SUBSCRIPTIONS_SUCCESS_PATH;
+  const showSuccessScreen = formSubmitted || isSuccessRoute;
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
   const errorDismissRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -115,9 +226,10 @@ export function SubscriptionsPage() {
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const phoneValid = isValidUSPhone(formData.phone);
+  const emailValid = isValidEmail(formData.email);
   const phoneValidRef = useRef(phoneValid);
   phoneValidRef.current = phoneValid;
-  const allFilled = Boolean(formData.name.trim() && formData.phone.trim());
+  const allFilled = Boolean(formData.name.trim() && formData.phone.trim() && emailValid);
 
   const setPlan = (planId: PlanId) => {
     setSelectedPlan(planId);
@@ -127,6 +239,34 @@ export function SubscriptionsPage() {
     if (!planPopoverOpen || !planTriggerRef.current) return;
     setPlanMenuWidth(planTriggerRef.current.getBoundingClientRect().width);
   }, [planPopoverOpen]);
+
+  /** Step 1: while the form is shown, parent height follows signup content (ResizeObserver). Step 2: same px value is applied as fixed height via state + submit snapshot. */
+  useLayoutEffect(() => {
+    if (showSuccessScreen) return;
+    const el = signupPanelRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const h = el.offsetHeight;
+      if (h > 0) setLockedSignupPanelHeight(h);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [showSuccessScreen]);
+
+  /** Direct visit to /subscriptions/success: lock height from success UI when form never ran. */
+  useLayoutEffect(() => {
+    if (!showSuccessScreen || lockedSignupPanelHeight != null) return;
+    const el = signupPanelRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      const h = el.offsetHeight;
+      if (h > 0) setLockedSignupPanelHeight(h);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [showSuccessScreen, lockedSignupPanelHeight]);
 
   const selectedPlanMeta = PLANS.find((p) => p.id === selectedPlan) ?? PLANS[0];
 
@@ -202,6 +342,7 @@ export function SubscriptionsPage() {
     setErrors({});
     setShowFieldError(false);
     if (name === 'phone' && verified && !isValidUSPhone(value)) setVerified(false);
+    if (name === 'email' && verified && !isValidEmail(value)) setVerified(false);
   };
 
   const handleFormSubmit = (e: FormEvent) => {
@@ -209,13 +350,13 @@ export function SubscriptionsPage() {
     if (!verified) return;
     const nameOk = formData.name.trim().length > 0;
     const phoneOk = isValidUSPhone(formData.phone);
-    if (!nameOk || !formData.phone.trim()) {
+    const emailOk = isValidEmail(formData.email);
+    if (!nameOk || !formData.phone.trim() || !emailOk || !phoneOk) {
       setShowFieldError(true);
-      setErrors({ phone: !phoneOk && formData.phone.trim() ? t('ctaForm.errorPhoneUSOnly') : undefined });
-      return;
-    }
-    if (!phoneOk) {
-      setErrors({ phone: t('ctaForm.errorPhoneUSOnly') });
+      setErrors({
+        phone: formData.phone.trim() && !phoneOk ? t('ctaForm.errorPhoneUSOnly') : undefined,
+        email: !emailOk ? t('ctaForm.errorEmailInvalid') : undefined,
+      });
       return;
     }
     setErrors({});
@@ -224,6 +365,7 @@ export function SubscriptionsPage() {
     const planLabel = t(selectedPlanMeta.nameKey);
     const fields: Record<string, string> = {
       name: formData.name.trim(),
+      email: formData.email.trim(),
       phone: formData.phone.trim(),
       plan: planLabel,
     };
@@ -258,19 +400,12 @@ export function SubscriptionsPage() {
     form.submit();
     form.remove();
 
-    setFormSubmitted(true);
-  };
+    const panel = signupPanelRef.current;
+    if (panel && panel.offsetHeight > 0) {
+      setLockedSignupPanelHeight(panel.offsetHeight);
+    }
 
-  const handleSubmitAnother = () => {
-    setFormSubmitted(false);
-    setFormData({ name: '', phone: '' });
-    setErrors({});
-    setShowFieldError(false);
-    setVerified(false);
-    setHoldProgress(0);
-    setGeneralError(null);
-    setShowError(false);
-    clearHold();
+    setFormSubmitted(true);
   };
 
   useEffect(() => {
@@ -281,6 +416,8 @@ export function SubscriptionsPage() {
 
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden overflow-y-auto bg-[#00bfb3]">
+      
+      {/* Language selection */}
       <div className="flex justify-center px-4 py-4 shrink-0">
         <div
           className="flex items-center rounded-full border border-white/50 bg-white/10 p-0.5 cursor-pointer hover:bg-white/20 transition-colors"
@@ -311,7 +448,7 @@ export function SubscriptionsPage() {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col items-stretch gap-0">
-        <div className="mx-auto w-full max-w-6xl shrink-0 px-4 pb-20 pt-10">
+        <div className="mx-auto w-full max-w-6xl shrink-0 px-4 pt-6 pb-14 sm:pt-10 sm:pb-20">
           <h1
             id="subscriptions-page-title"
             className="text-2xl sm:text-3xl font-bold text-white text-center mb-2 text-balance"
@@ -327,135 +464,83 @@ export function SubscriptionsPage() {
               role="status"
             >
               <ConfettiIcon className="h-3.5 w-3.5 shrink-0 text-[#00bfb3] sm:h-4 sm:w-4" aria-hidden />
-              <p className="text-[11px] font-medium leading-snug text-[#00bfb3] text-balance sm:text-xs">
+              <p className="text-xs font-medium leading-snug text-[#00bfb3] text-balance sm:text-xs">
                 {t('subscriptions.promo')}
               </p>
             </div>
           </div>
 
-          {/* Section 1: subscription plans & sign-up */}
+          {/* Section 1: mobile = two white cards; desktop = one white card (signup | divider | plans) */}
           <section className="min-w-0">
-              <div className="flex min-h-0 w-full flex-col overflow-hidden rounded-xl bg-white shadow-lg">
-                {/* Plans + signup row — lg: grid so all columns share one row height (plans column fills full height) */}
-                <div
-                  className={cn(
-                    'grid min-h-0 w-full flex-1 grid-cols-1 gap-0',
-                    'lg:grid-cols-[minmax(0,22rem)_1px_1fr] lg:grid-rows-1 lg:items-stretch',
-                  )}
-                >
-                <div className="order-1 flex min-h-0 min-w-0 flex-col p-4 sm:p-8 lg:order-none lg:col-start-3 lg:row-start-1 lg:h-full lg:min-h-0 lg:p-8">
-                  <div className="flex min-h-0 w-full flex-1 flex-col lg:h-full lg:min-h-0">
-                    <div
-                      id="subscription-plans-group"
-                      className="flex min-h-0 w-full flex-1 flex-col items-center justify-start lg:justify-center"
-                      role="radiogroup"
-                      aria-labelledby="subscriptions-page-title"
-                    >
-                      <div className="grid w-full grid-cols-1 items-start gap-2 sm:gap-3 lg:grid-cols-3 lg:items-center lg:gap-4">
-                      {PLANS.map((plan) => {
-                        const selected = selectedPlan === plan.id;
-                        const featureKeys = [plan.feature1Key, plan.feature2Key] as const;
-                        return (
-                          <button
-                            key={plan.id}
-                            type="button"
-                            role="radio"
-                            aria-checked={selected}
-                            onClick={() => setPlan(plan.id)}
-                            className={cn(
-                              'flex min-h-0 min-w-0 cursor-pointer flex-col rounded-2xl border-2 p-2.5 text-left transition-colors sm:p-3 lg:p-4',
-                              'lg:transition-[min-height,box-shadow] lg:duration-300 lg:ease-in-out motion-reduce:lg:transition-none',
-                              selected
-                                ? 'border-[#00bfb3] bg-[#00bfb3]/10 shadow-lg ring-2 ring-[#00bfb3]/20 lg:min-h-[22.25rem]'
-                                : 'border-gray-200 bg-white hover:border-gray-400 lg:min-h-[20rem]',
-                            )}
-                          >
-                            <div className="flex min-h-0 w-full flex-1 flex-col">
-                              <h3 className="line-clamp-2 text-left text-sm font-semibold leading-snug text-black">
-                                {t(plan.cardTitleKey)}
-                              </h3>
-                              <p className="mt-1 line-clamp-3 text-left text-[9px] leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
-                                {t(plan.blurbKey)}
-                              </p>
-                              <div className="mt-3 flex flex-wrap items-baseline gap-x-1 gap-y-0 sm:mt-4">
-                                <span className="text-xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
-                                  {t(plan.priceKey)}
-                                </span>
-                                <span className="text-[10px] font-medium text-gray-500 sm:text-xs lg:text-sm">
-                                  {t('subscriptions.perMonth')}
-                                </span>
-                              </div>
-                              <div className="mt-3 flex flex-col border-t border-gray-200 pt-3 sm:mt-4 sm:pt-4">
-                                <p className="text-[9px] font-bold tracking-wide text-black sm:text-[10px] lg:text-xs">
-                                  {t('subscriptions.plan.whatsIncluded')}
-                                </p>
-                                <ul className="mt-2 flex flex-col gap-2 sm:mt-2.5 sm:gap-2.5">
-                                  {featureKeys.map((key) => (
-                                    <li key={key} className="flex gap-2 sm:gap-2.5">
-                                      <Check
-                                        className="mt-0.5 h-3 w-3 shrink-0 text-gray-500 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4"
-                                        strokeWidth={2.5}
-                                        aria-hidden
-                                      />
-                                      <span className="text-left text-[9px] leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
-                                        {t(key)}
-                                      </span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              {plan.featured && (
-                                <span className="mt-auto shrink-0 self-center rounded-full bg-[#00bfb3] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide text-white sm:text-[10px]">
-                                  {t('subscriptions.plan.mostPopular')}
-                                </span>
-                              )}
-                            </div>
-                          </button>
-                        );
-                      })}
-                      </div>
-                    </div>
-                    <div className="flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4">
-                      <a
-                        href={`#${BAG_SECTION_ID}`}
-                        onClick={scrollToBagSection}
-                        className="text-base font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
-                      >
-                        {t('subscriptions.checkLaundryBag')}
-                      </a>
-                    </div>
-                  </div>
+            <div
+              className={cn(
+                'flex min-w-0 flex-col gap-4',
+                'lg:grid lg:grid-cols-[minmax(0,22rem)_1px_1fr] lg:items-stretch lg:gap-0 lg:overflow-hidden lg:rounded-xl lg:bg-white lg:shadow-lg',
+              )}
+            >
+              <div
+                className={cn(
+                  'order-1 min-w-0 overflow-hidden rounded-xl bg-white shadow-lg',
+                  'lg:order-none lg:col-start-3 lg:row-start-1 lg:min-h-0 lg:h-full lg:rounded-none lg:bg-transparent lg:shadow-none',
+                )}
+              >
+                <div className="flex min-h-0 flex-col p-4 sm:p-8 lg:h-full lg:min-h-0 lg:p-8">
+                  <p
+                    className="mb-4 text-center text-sm leading-snug text-gray-600 text-balance sm:text-base lg:hidden"
+                    id="subscription-plans-mobile-intro"
+                  >
+                    {t('subscriptions.plansMobileIntro')}
+                  </p>
+                  <SubscriptionPlansPicker selectedPlan={selectedPlan} onSelectPlan={setPlan} t={t} />
                 </div>
+              </div>
 
-                <div
-                  className="order-2 my-4 h-px w-full shrink-0 bg-gray-200 mx-4 sm:mx-6 lg:hidden"
-                  role="separator"
-                  aria-orientation="horizontal"
-                />
-                <div
-                  className="order-2 my-4 hidden w-px shrink-0 self-stretch bg-gray-200 lg:col-start-2 lg:row-start-1 lg:my-0 lg:block"
-                  role="separator"
-                  aria-orientation="vertical"
-                />
+              <div
+                className="order-2 my-8 hidden w-px shrink-0 self-stretch bg-gray-200 lg:col-start-2 lg:row-start-1 lg:my-8 lg:block"
+                role="separator"
+                aria-orientation="vertical"
+              />
 
-                {/* Mobile: signup after divider; desktop: signup on the left (narrower column) */}
-                <div className="order-3 min-w-0 px-4 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-8 lg:order-none lg:col-start-1 lg:row-start-1 lg:min-h-0 lg:w-full lg:min-w-0 lg:p-8">
-                  {formSubmitted ? (
-                    <div className="space-y-4 text-center">
-                      <p className="text-lg font-bold text-black">{t('subscriptions.form.successTitle')}</p>
-                      <p className="text-sm text-gray-700 sm:text-base">{t('subscriptions.form.successMessage')}</p>
-                      <button
-                        type="button"
-                        onClick={handleSubmitAnother}
-                        className="mt-2 w-full min-h-[44px] rounded bg-black px-8 py-3 font-semibold text-white transition-colors hover:bg-gray-800 cursor-pointer"
-                      >
-                        {t('subscriptions.form.submitAnother')}
-                      </button>
+              <div
+                className={cn(
+                  'order-3 min-w-0 overflow-hidden rounded-xl bg-white shadow-lg',
+                  'lg:order-none lg:col-start-1 lg:row-start-1 lg:w-full lg:min-w-0 lg:rounded-none lg:bg-transparent lg:shadow-none',
+                )}
+              >
+                <div
+                  ref={signupPanelRef}
+                  className="flex min-h-0 min-w-0 flex-col overflow-hidden px-4 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-8 lg:p-8"
+                  style={
+                    lockedSignupPanelHeight != null
+                      ? {
+                          height: lockedSignupPanelHeight,
+                          minHeight: lockedSignupPanelHeight,
+                          maxHeight: lockedSignupPanelHeight,
+                        }
+                      : undefined
+                  }
+                >
+                  {showSuccessScreen ? (
+                    <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden text-center">
+                      <Lottie
+                        animationData={confettiAnimation}
+                        loop
+                        className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+                        aria-hidden
+                      />
+                      <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto">
+                        <div className="flex w-full max-w-sm flex-col justify-center space-y-4">
+                          <p className="text-lg font-bold text-black">{t('subscriptions.form.successTitle')}</p>
+                          <p className="text-balance text-sm text-gray-700 sm:text-base">
+                            {t('subscriptions.form.successMessage')}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <form
                       onSubmit={handleFormSubmit}
-                      className="space-y-4"
+                      className="flex min-h-0 flex-1 flex-col space-y-4 overflow-y-auto overflow-x-hidden"
                       noValidate
                       aria-labelledby="subscriptions-page-title"
                     >
@@ -477,6 +562,26 @@ export function SubscriptionsPage() {
                           }`}
                           placeholder={t('contact.form.namePlaceholder')}
                         />
+                      </div>
+                      <div>
+                        <label htmlFor="subscription-email" className="mb-1 block text-sm font-semibold text-black">
+                          {t('contact.form.email')} <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="subscription-email"
+                          name="email"
+                          autoComplete="email"
+                          value={formData.email}
+                          onChange={handleFormChange}
+                          className={`w-full rounded border px-4 py-2.5 transition-colors focus:outline-none ${
+                            errors.email || (showFieldError && !formData.email.trim())
+                              ? 'border-red-500 focus:border-red-500'
+                              : 'border-gray-300 focus:border-[#00bfb3]'
+                          }`}
+                          placeholder={t('contact.form.emailPlaceholder')}
+                        />
+                        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                       </div>
                       <div>
                         <label htmlFor="subscription-phone" className="mb-1 block text-sm font-semibold text-black">
@@ -582,11 +687,11 @@ export function SubscriptionsPage() {
                         ) : null}
                       </div>
                       <p className="mb-2 text-sm text-black text-balance">{t('ctaForm.holdInstruction')}</p>
-                      {verified && phoneValid ? (
-                        <div className="flex w-full items-start justify-start rounded border-2 border-[#00bfb3] bg-[#00bfb3]/15 px-3 py-3 font-medium text-[#00a89d] transition-all duration-300 ease-out">
+                      {verified && phoneValid && emailValid ? (
+                        <div className="flex h-12 min-h-12 w-full shrink-0 items-center justify-start rounded border-2 border-[#00bfb3] bg-[#00bfb3]/15 px-3 font-medium text-[#00a89d] transition-all duration-300 ease-out">
                           <span className="inline-flex items-center gap-2">
                             <span className="font-bold text-[#00bfb3]">✓</span>
-                            {t('ctaForm.verifiedMessage')}
+                            {t('subscriptions.form.verifiedMessage')}
                           </span>
                         </div>
                       ) : allFilled ? (
@@ -602,7 +707,7 @@ export function SubscriptionsPage() {
                           onTouchEnd={cancelHold}
                           onTouchCancel={cancelHold}
                           onContextMenu={(e) => e.preventDefault()}
-                          className="relative flex min-h-[44px] w-full cursor-pointer items-center justify-center overflow-hidden rounded bg-[#00bfb3]/30 px-8 py-3 text-center font-semibold text-gray-800 transition-colors duration-300 ease-out"
+                          className="relative flex h-12 min-h-12 w-full shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded bg-[#00bfb3]/30 px-8 text-center font-semibold text-gray-800 transition-colors duration-300 ease-out"
                         >
                           <span
                             className="absolute inset-y-0 left-0 bg-[#00bfb3] transition-[width] duration-100 ease-linear"
@@ -614,14 +719,14 @@ export function SubscriptionsPage() {
                         <button
                           type="button"
                           onClick={() => validateAllAndShowErrors()}
-                          className="w-full min-h-[44px] cursor-not-allowed rounded bg-[#00bfb3]/15 px-8 py-3 text-center font-semibold text-gray-500"
+                          className="h-12 min-h-12 w-full shrink-0 cursor-not-allowed rounded bg-[#00bfb3]/15 px-8 text-center font-semibold text-gray-500"
                         >
                           {t('ctaForm.holdToVerify')}
                         </button>
                       )}
                       <button
                         type="submit"
-                        disabled={!verified || !phoneValid}
+                        disabled={!verified || !phoneValid || !emailValid}
                         className="mt-2 w-full min-h-[44px] cursor-pointer rounded bg-black px-8 py-3 font-semibold text-white transition-all duration-300 ease-out hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {t('subscriptions.form.submit')}
@@ -629,8 +734,8 @@ export function SubscriptionsPage() {
                     </form>
                   )}
                 </div>
-                </div>
               </div>
+            </div>
           </section>
 
           <div className="mt-8 flex flex-col items-center text-center sm:mt-10">
@@ -649,7 +754,7 @@ export function SubscriptionsPage() {
         {/* Section 2: full-bleed white — grows to bottom of viewport; back link pinned inside */}
         <section
           id="subscriptions-add-ons"
-          className="flex min-h-0 min-w-0 w-full flex-1 flex-col bg-white py-20"
+          className="flex min-h-0 min-w-0 w-full flex-1 flex-col bg-white py-14 sm:py-20"
           aria-labelledby="subscriptions-add-ons-title"
         >
           <h2 id="subscriptions-add-ons-title" className="sr-only">
@@ -665,9 +770,9 @@ export function SubscriptionsPage() {
               {/* Bag first in DOM — stack order on mobile; left column on lg */}
               <section
                 id={BAG_SECTION_ID}
-                className="flex min-w-0 scroll-mt-6 flex-col border-t border-gray-200 pt-6 lg:border-t-0 lg:pt-0 lg:pr-8"
+                className="flex min-w-0 scroll-mt-6 flex-col lg:pr-8"
               >
-                <div className="flex flex-col gap-5 p-5 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-0">
+                <div className="flex flex-col gap-5 pt-0 pb-6 sm:gap-6 sm:px-6 sm:pt-6 sm:pb-0">
                   <h2 className="shrink-0 text-center text-base font-semibold text-gray-900 sm:text-lg">
                     {t('subscriptions.bagSectionTitle')}
                   </h2>
@@ -689,8 +794,8 @@ export function SubscriptionsPage() {
               </section>
 
               {/* À la carte pricing */}
-              <section className="min-w-0 border-t border-gray-200 pt-6 lg:border-t-0 lg:border-l lg:border-gray-200 lg:pl-8 lg:pt-0">
-                <div className="space-y-4 p-5 sm:p-6">
+              <section className="min-w-0 border-t border-gray-200 sm:pt-6 lg:border-t-0 lg:border-l lg:border-gray-200 lg:pl-8 lg:pt-0">
+                <div className="space-y-4 p-6 sm:p-6">
                   <div className="text-center">
                     <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">
                       {t('subscriptions.nonSubscription.title')}

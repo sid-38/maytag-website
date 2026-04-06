@@ -25,7 +25,8 @@ function AppContent() {
     location.pathname === '/claim' ||
     location.pathname === '/claim/success' ||
     location.pathname === '/schedule-pickup' ||
-    location.pathname === '/subscriptions';
+    location.pathname === '/subscriptions' ||
+    location.pathname === '/subscriptions/success';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,6 +45,7 @@ function AppContent() {
               <Route path="/claim/success" element={<CTAFormSuccessPreview />} />
               <Route path="/schedule-pickup" element={<SchedulePickupFormPage />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              <Route path="/subscriptions/success" element={<SubscriptionsPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
 

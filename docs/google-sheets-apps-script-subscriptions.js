@@ -1,8 +1,11 @@
 /**
  * Google Apps Script — Subscription sign-up → Google Sheet + email notification
  *
- * Sheet (row 1 headers):
- *   Name | Phone | Plan | Timestamp
+ * Sheet (row 1 headers) — column order must match appendRow in doPost:
+ *   Name | Email | Phone | Plan | Timestamp
+ *
+ * Migrating an existing sheet: insert an Email column (e.g. column B), shift Phone and Plan
+ * right, and set row 1 to the headers above so data aligns with the script.
  *
  * Setup:
  * 1. Open your spreadsheet (or create one with the headers above).
@@ -35,6 +38,7 @@ var SUBSCRIPTION_NOTIFY_CC = [
 function testAuthorizeMailAppForSubscriptions() {
   sendSubscriptionRequestEmail_({
     name: 'Authorization test (ignore)',
+    email: 'test@example.com',
     phone: '555-555-5555',
     plan: 'Couples Plan (test)',
   });
@@ -45,6 +49,7 @@ function sendSubscriptionRequestEmail_(data) {
   var body =
     'A new subscription request was submitted from the Maytag website.\n\n' +
     'Name: ' + (data.name || '') + '\n' +
+    'Email: ' + (data.email || '') + '\n' +
     'Phone: ' + (data.phone || '') + '\n' +
     'Plan: ' + (data.plan || '') + '\n';
 
@@ -76,11 +81,18 @@ function doPost(e) {
     var plan = data.plan || '';
     var ts = new Date().toISOString();
 
-    sheet.appendRow([data.name || '', data.phone || '', plan, ts]);
+    sheet.appendRow([
+      data.name || '',
+      data.email || '',
+      data.phone || '',
+      plan,
+      ts,
+    ]);
 
     try {
       sendSubscriptionRequestEmail_({
         name: data.name,
+        email: data.email,
         phone: data.phone,
         plan: plan,
       });
