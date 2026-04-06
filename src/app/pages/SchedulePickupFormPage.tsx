@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
+import { clampPreferredDateToMin, getMinSelectableCalendarDate } from '../../lib/schedule-pickup-date';
 import { SchedulePickupSuccessScreen } from '../components/SchedulePickupSuccessScreen';
 import { NewDateTimePicker } from '../../components/ui/new-date-time-picker';
 
@@ -26,7 +27,7 @@ export function SchedulePickupFormPage() {
     address: '',
     notes: '',
   });
-  const [preferredDateTime, setPreferredDateTime] = useState<Date | null>(null);
+  const [preferredDate, setPreferredDate] = useState<Date | null>(null);
   const [errors, setErrors] = useState<{ phone?: string }>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
@@ -128,18 +129,12 @@ export function SchedulePickupFormPage() {
     setSubmitError(null);
     setSubmitting(true);
 
-    const preferredDate = preferredDateTime
-      ? preferredDateTime.toLocaleDateString(undefined, {
+    const preferredDateStr = preferredDate
+      ? preferredDate.toLocaleDateString(undefined, {
           weekday: 'short',
           year: 'numeric',
           month: 'short',
           day: 'numeric',
-        })
-      : '';
-    const preferredTime = preferredDateTime
-      ? preferredDateTime.toLocaleTimeString(undefined, {
-          hour: '2-digit',
-          minute: '2-digit',
         })
       : '';
 
@@ -154,8 +149,7 @@ export function SchedulePickupFormPage() {
       name: formData.name.trim(),
       phone: formData.phone.trim(),
       address: formData.address.trim(),
-      preferredDate,
-      preferredTime,
+      preferredDate: preferredDateStr,
       notes: formData.notes.trim(),
     };
 
@@ -189,6 +183,20 @@ export function SchedulePickupFormPage() {
     return () => {
       if (errorDismissRef.current) clearTimeout(errorDismissRef.current);
     };
+  }, []);
+
+  /** After cutoff, today is disabled in the calendar; if user already picked today, bump to min day. No auto-selection when empty. */
+  useEffect(() => {
+    const sync = () => {
+      const minCal = getMinSelectableCalendarDate(new Date());
+      setPreferredDate((prev: Date | null) => {
+        if (prev === null) return null;
+        return clampPreferredDateToMin(prev, minCal);
+      });
+    };
+    sync();
+    const id = window.setInterval(sync, 60_000);
+    return () => window.clearInterval(id);
   }, []);
 
   return (
@@ -293,11 +301,11 @@ export function SchedulePickupFormPage() {
                 </div>
                 <div>
                   <NewDateTimePicker
-                    value={preferredDateTime}
-                    onChange={setPreferredDateTime}
+                    value={preferredDate}
+                    onChange={setPreferredDate}
+                    minDate={getMinSelectableCalendarDate()}
                     datePlaceholder={t('pickupForm.pickDatePlaceholder')}
                     dateLabel={t('pickupForm.preferredDate')}
-                    timeLabel={t('pickupForm.preferredTime')}
                   />
                 </div>
                 <div>

@@ -3,7 +3,7 @@
  *
  * Setup:
  * 1. Create a Google Sheet with headers in row 1:
- *    Name | Phone | Address | Preferred Date | Preferred Time | Notes | Timestamp
+ *    Name | Phone | Address | Preferred Date | Notes | Timestamp
  *
  * 2. Extensions → Apps Script
  * 3. Replace the default code with this script
@@ -19,6 +19,11 @@
  *    - Execute as: Me
  *    - Who has access: Anyone
  * 6. Copy the web app URL into GOOGLE_SHEETS_WEB_APP_URL in SchedulePickupFormPage.tsx
+ *
+ * Migrating an existing sheet (removed "Preferred Time" column):
+ * - In the Sheet: delete the Preferred Time column (or leave it empty; new rows won't fill it).
+ * - In Apps Script: replace doPost/sendPickupRequestEmail_ with this file's version, then Deploy → New version.
+ * - Timestamp column stays last; it records when the form was submitted (ISO time), not a customer "preferred time".
  */
 
 var PICKUP_NOTIFY_TO = 'shubham.j@smrtsystems.com';
@@ -38,7 +43,6 @@ function testAuthorizeMailAppForPickup() {
     phone: '555-555-5555',
     address: '123 Test St',
     preferredDate: '(test)',
-    preferredTime: '(test)',
     notes: 'Sent from Apps Script editor to authorize MailApp.',
   });
 }
@@ -51,7 +55,6 @@ function sendPickupRequestEmail_(data) {
     'Phone: ' + (data.phone || '') + '\n' +
     'Address: ' + (data.address || '') + '\n' +
     'Preferred date: ' + (data.preferredDate || '') + '\n' +
-    'Preferred time: ' + (data.preferredTime || '') + '\n' +
     'Notes: ' + (data.notes || '') + '\n';
 
   MailApp.sendEmail({
@@ -74,7 +77,6 @@ function doPost(e) {
       data.phone || '',
       data.address || '',
       data.preferredDate || '',
-      data.preferredTime || '',
       data.notes || '',
       new Date().toISOString(),
     ]);

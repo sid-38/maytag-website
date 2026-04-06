@@ -16,19 +16,18 @@ function toCalendarDate(d: Date): CalendarDate {
   return new CalendarDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
 }
 
-function formatTimeForInput(d: Date): string {
-  return [
-    d.getHours().toString().padStart(2, "0"),
-    d.getMinutes().toString().padStart(2, "0"),
-  ].join(":")
+/** Local midnight for the given calendar day (date-only; no separate time picker). */
+function calendarDateToLocalMidnight(cal: CalendarDate): Date {
+  return new Date(cal.year, cal.month - 1, cal.day, 0, 0, 0, 0)
 }
 
 export interface NewDateTimePickerProps {
   value?: Date | null
   onChange?: (date: Date | null) => void
+  /** Earliest selectable calendar day (local). Defaults to today. */
+  minDate?: CalendarDate
   datePlaceholder?: string
   dateLabel?: string
-  timeLabel?: string
   disabled?: boolean
   className?: string
 }
@@ -36,33 +35,15 @@ export interface NewDateTimePickerProps {
 export function NewDateTimePicker({
   value,
   onChange,
+  minDate,
   datePlaceholder = "Select date",
   dateLabel = "Date",
-  timeLabel = "Time",
   disabled = false,
   className,
 }: NewDateTimePickerProps) {
   const [dateOpen, setDateOpen] = React.useState(false)
   const calendarValue = value ? toCalendarDate(value) : null
-  const systemTime = React.useMemo(() => formatTimeForInput(new Date()), [])
-  const timeValue = value ? formatTimeForInput(value) : systemTime
-  const minValue = today(getLocalTimeZone())
-
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const timeStr = e.target.value
-    if (!timeStr) return
-    const [h, m] = timeStr.split(":").map(Number)
-    const hourNum = h ?? 0
-    const minuteNum = m ?? 0
-    if (!calendarValue) {
-      const d = new Date()
-      d.setHours(hourNum, minuteNum, 0, 0)
-      onChange?.(d)
-      return
-    }
-    const d = new Date(calendarValue.year, calendarValue.month - 1, calendarValue.day, hourNum, minuteNum, 0)
-    onChange?.(d)
-  }
+  const minValue = minDate ?? today(getLocalTimeZone())
 
   const handleDateChange = (cal: CalendarDate | null) => {
     if (!cal) {
@@ -70,9 +51,7 @@ export function NewDateTimePicker({
       setDateOpen(false)
       return
     }
-    const [h, m] = timeValue.split(":").map(Number)
-    const d = new Date(cal.year, cal.month - 1, cal.day, h ?? 0, m ?? 0, 0)
-    onChange?.(d)
+    onChange?.(calendarDateToLocalMidnight(cal))
     setDateOpen(false)
   }
 

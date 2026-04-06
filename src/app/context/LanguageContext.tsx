@@ -314,7 +314,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Schedule Pickup Form
     'pickupForm.title': 'Schedule a Home Pickup',
-    'pickupForm.subtitle': 'Share your preferences and we\'ll reach out to confirm your pickup time.',
+    'pickupForm.subtitle': "We'll schedule your pickup based on your preferences. Requests made after 6 PM will be scheduled for the next day.",
     'pickupForm.address': 'Pickup Address',
     'pickupForm.addressPlaceholder': 'Street address, city, ZIP',
     'pickupForm.preferredDate': 'Preferred Date',
@@ -339,6 +339,8 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.bagAlt':
       'Large wash and fold laundry bag, approximately 30 gallon, 20 by 14 by 15 inches',
     'subscriptions.bagReferenceLink': 'Similar bag (reference)',
+    'subscriptions.bagDetailsBar':
+      'Wash and fold bag — standard 30 gal size. See details below.',
     'subscriptions.linkToFullBag': 'Jump to bag details',
     'subscriptions.checkLaundryBag': 'Check Laundry Bag',
     'subscriptions.bagSectionTitle': 'Laundry Bag (30 Gal)',
@@ -617,6 +619,7 @@ const translations: Record<Language, Record<string, string>> = {
     'contact.parking.loading': 'Easy loading and unloading access',
     'contact.parking.handicap': 'Handicap accessible spaces available',
     'contact.faq.title.line1': 'Common Questions from Our Customers',
+    'contact.faq.title.line2': "We're here to help",
     'contact.faq.q1': 'Do I need to bring my own detergent?',
     'contact.faq.a1': "While you're welcome to bring your own, we offer high-quality detergent, fabric softener, and other supplies for purchase on-site.",
     'contact.faq.q2': 'What payment methods do you accept?',
@@ -956,7 +959,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Schedule Pickup Form
     'pickupForm.title': 'Programar Servicio a Domicilio',
-    'pickupForm.subtitle': 'Comparta sus preferencias y nos pondremos en contacto para confirmar su horario de servicio.',
+    'pickupForm.subtitle':
+      'Programaremos su servicio a domicilio según sus preferencias. Las solicitudes enviadas después de las 6:00 p. m. se programarán para el día siguiente.',
     'pickupForm.address': 'Dirección de Servicio',
     'pickupForm.addressPlaceholder': 'Dirección, ciudad, código postal',
     'pickupForm.preferredDate': 'Fecha Preferida',
