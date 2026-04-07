@@ -468,9 +468,9 @@ export function SubscriptionsPage() {
             {t('subscriptions.subtitle.mobile')}
           </p>
           <div className="mb-4 hidden md:block">
-            <p className="mb-0 text-center text-sm text-balance text-white/90 sm:text-base">
+            {/* <p className="mb-0 text-center text-sm text-balance text-white/90 sm:text-base">
               {t('subscriptions.subtitle.01')}
-            </p>
+            </p> */}
             <p className="mb-0 text-center text-sm text-balance text-white/90 sm:text-base">
               {t('subscriptions.subtitle.02')}
             </p>
