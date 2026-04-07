@@ -315,6 +315,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Schedule Pickup Form
     'pickupForm.title': 'Schedule a Home Pickup',
     'pickupForm.subtitle': "We'll schedule your pickup based on your preferences. Requests made after 6 PM will be scheduled for the next day.",
+    'pickupForm.promoPill.washers': 'Washing from $4',
+    'pickupForm.promoPill.dryers': 'Drying from $0.50',
     'pickupForm.address': 'Pickup Address',
     'pickupForm.addressPlaceholder': 'Street address, city, ZIP',
     'pickupForm.preferredDate': 'Preferred Date',
@@ -332,8 +334,12 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Subscriptions (wash & fold)
     'subscriptions.title': 'Wash & Fold Subscriptions',
-    'subscriptions.subtitle':
+    'subscriptions.subtitle.01':
+      'Enjoy affordable laundry with washers from $4 and dryers starting at just $0.50.',
+    'subscriptions.subtitle.02':
       'Subscribe for weekly wash & fold by the bag. Comforter allowances are included each month.',
+    'subscriptions.subtitle.mobile':
+      'Enjoy affordable laundry with washers from $4 and dryers starting at just $0.50. Subscribe for weekly wash & fold by the bag. Comforter allowances are included each month.',
     'subscriptions.promo': 'Sign up today for $20 off your first month',
     'subscriptions.bagCaption': 'Example industry bag size (30 gal capacity).',
     'subscriptions.bagAlt':
@@ -343,8 +349,11 @@ const translations: Record<Language, Record<string, string>> = {
       'Wash and fold bag — standard 30 gal size. See details below.',
     'subscriptions.linkToFullBag': 'Jump to bag details',
     'subscriptions.checkLaundryBag': 'Check Laundry Bag',
+    'subscriptions.checkPriceList': 'Check Price List',
+    'subscriptions.checkLaundryBagAndPriceList': 'Check Laundry Bag & Price List',
     'subscriptions.bagSectionTitle': 'Laundry Bag (30 Gal)',
-    'subscriptions.addOnsSectionTitle': 'Laundry bag and à la carte pricing',
+    'subscriptions.bagSectionSubtitle': "Measuring 20\" x 14\" x 15\", this extra heavy-weight laundry bag is ideal for large wash-and-fold loads. It can typically hold about a week's worth of everyday clothing for a family of four and fits roughly the same as 2-3 standard 13-gallon kitchen bags.",
+    'subscriptions.addOnsSectionTitle': 'Laundry bag and A la carte pricing',
     'subscriptions.plansHeading': 'Choose a plan',
     'subscriptions.plansMobileIntro':
       'Pick a plan below, then enter your details in the form to subscribe.',
@@ -369,7 +378,8 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.plan.family.feature2': '2 comforters (any size) per month',
     'subscriptions.plan.family.price': '$280',
     'subscriptions.perMonth': '/month',
-    'subscriptions.nonSubscription.title': 'À la carte Pricing',
+    'subscriptions.nonSubscription.title': 'A La Carte Pricing',
+    'subscriptions.priceListSectionSubtitle': 'Flat rates of a single laundry bag and household items.',
     'subscriptions.table.service': 'Service',
     'subscriptions.table.price': 'Price',
     'subscriptions.row.singleBag': 'Single bag',
@@ -377,6 +387,15 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.row.full': 'Full blanket / comforter',
     'subscriptions.row.queen': 'Queen blanket / comforter',
     'subscriptions.row.king': 'King blanket / comforter',
+    'subscriptions.washersDryers.title': 'Machine Prices',
+    'subscriptions.washersDryers.subtitle': 'Our high-tech washers and dryers, at an affordable price.',
+    'subscriptions.washersDryers.model': 'Model #',
+    'subscriptions.washersDryers.hot': 'Hot',
+    'subscriptions.washersDryers.warm': 'Warm',
+    'subscriptions.washersDryers.cold': 'Cold',
+    'subscriptions.washersDryers.type': 'Type',
+    'subscriptions.machineType.washer': 'Washer',
+    'subscriptions.machineType.dryer': 'Dryer',
     'subscriptions.form.title': 'Sign up',
     'subscriptions.form.planLabel': 'Subscription Plan',
     'subscriptions.form.holdToVerify': 'Hold to Verify',
@@ -961,6 +980,8 @@ const translations: Record<Language, Record<string, string>> = {
     'pickupForm.title': 'Programar Servicio a Domicilio',
     'pickupForm.subtitle':
       'Programaremos su servicio a domicilio según sus preferencias. Las solicitudes enviadas después de las 6:00 p. m. se programarán para el día siguiente.',
+    'pickupForm.promoPill.washers': 'Lavado desde $4',
+    'pickupForm.promoPill.dryers': 'Secado desde $0.50',
     'pickupForm.address': 'Dirección de Servicio',
     'pickupForm.addressPlaceholder': 'Dirección, ciudad, código postal',
     'pickupForm.preferredDate': 'Fecha Preferida',
@@ -978,8 +999,12 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Subscriptions (wash & fold)
     'subscriptions.title': 'Suscripciones de lavado y doblado',
-    'subscriptions.subtitle':
-      'Suscríbase al lavado y doblado semanal por bolsa. Incluye edredones cada mes.',
+    'subscriptions.subtitle.01':
+      'Disfrute de un lavado accesible con lavadoras desde $4 y secadoras desde solo $0.50.',
+    'subscriptions.subtitle.02':
+      'Suscríbase al lavado y doblado semanal por bolsa. Incluye asignación de edredones cada mes.',
+    'subscriptions.subtitle.mobile':
+      'Disfrute de un lavado accesible con lavadoras desde $4 y secadoras desde solo $0.50. Suscríbase al lavado y doblado semanal por bolsa. Incluye asignación de edredones cada mes.',
     'subscriptions.promo': '¡Regístrese hoy y obtenga $20 de descuento en su primer mes!',
     'subscriptions.bagCaption': 'Ejemplo de bolsa estándar (capacidad de 30 gal).',
     'subscriptions.bagAlt':
@@ -989,8 +1014,12 @@ const translations: Record<Language, Record<string, string>> = {
       'Bolsa de lavado y doblado — tamaño estándar de 30 gal. Vea los detalles abajo.',
     'subscriptions.linkToFullBag': 'Ir a detalles de la bolsa',
     'subscriptions.checkLaundryBag': 'Ver bolsa de lavado',
+    'subscriptions.checkPriceList': 'Ver precios a la carta',
+    'subscriptions.checkLaundryBagAndPriceList': 'Ver bolsa de lavado y precios a la carta',
     'subscriptions.bagSectionTitle': 'Bolsa de lavado (30 gal)',
-    'subscriptions.addOnsSectionTitle': 'Bolsa y precios a la carta',
+    'subscriptions.bagSectionSubtitle':
+      'Mide 20" x 14" x 15"; esta bolsa de lavado de gramaje extrapesado es ideal para cargas grandes de lavado y doblado. Suele contener aproximadamente una semana de ropa de uso diario para una familia de cuatro y equivale más o menos a 2 o 3 bolsas de basura para cocina típicas de 13 galones.',
+    'subscriptions.addOnsSectionTitle': 'Bolsa de lavado y precios a la carta',
     'subscriptions.plansHeading': 'Elija un plan',
     'subscriptions.plansMobileIntro':
       'Elija un plan a continuación y complete sus datos en el formulario para suscribirse.',
@@ -1016,6 +1045,8 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.plan.family.price': '$280',
     'subscriptions.perMonth': '/mes',
     'subscriptions.nonSubscription.title': 'Precios a la carta',
+    'subscriptions.priceListSectionSubtitle':
+      'Tarifas fijas para una bolsa de lavado y artículos del hogar.',
     'subscriptions.table.service': 'Servicio',
     'subscriptions.table.price': 'Precio',
     'subscriptions.row.singleBag': 'Bolsa individual',
@@ -1023,6 +1054,16 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.row.full': 'Manta / edredón matrimonial (full)',
     'subscriptions.row.queen': 'Manta / edredón queen',
     'subscriptions.row.king': 'Manta / edredón king',
+    'subscriptions.washersDryers.title': 'Lavadoras y secadoras',
+    'subscriptions.washersDryers.subtitle':
+      'Nuestras lavadoras y secadoras de alta tecnología, a un precio accesible.',
+    'subscriptions.washersDryers.model': 'Modelo n.º',
+    'subscriptions.washersDryers.hot': 'Caliente',
+    'subscriptions.washersDryers.warm': 'Tibia',
+    'subscriptions.washersDryers.cold': 'Fría',
+    'subscriptions.washersDryers.type': 'Tipo',
+    'subscriptions.machineType.washer': 'Lavadora',
+    'subscriptions.machineType.dryer': 'Secadora',
     'subscriptions.form.title': 'Regístrese',
     'subscriptions.form.planLabel': 'Plan de suscripción',
     'subscriptions.form.holdToVerify': 'Mantener para verificar',

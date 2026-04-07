@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router';
+import { DropIcon, WindIcon } from '@phosphor-icons/react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
 import { clampPreferredDateToMin, getMinSelectableCalendarDate } from '../../lib/schedule-pickup-date';
@@ -238,9 +239,43 @@ export function SchedulePickupFormPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-white text-center mb-2 text-balance">
                 {t('pickupForm.title')}
               </h1>
-              <p className="text-white/90 text-center text-sm sm:text-base mb-6 text-balance">
+              <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
                 {t('pickupForm.subtitle')}
               </p>
+              <div className="mx-auto mb-6 flex w-full justify-center">
+                <div
+                  className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full bg-[#00948B] px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
+                  role="status"
+                >
+                  <span className="inline-flex items-center gap-1.5 sm:gap-2">
+                    <DropIcon
+                      weight="bold"
+                      className="h-4 w-4 shrink-0 text-white sm:h-4 sm:w-4"
+                      aria-hidden
+                    />
+                    <span className="text-sm font-medium leading-snug text-balance text-white sm:text-sm">
+                      {t('pickupForm.promoPill.washers')}
+                    </span>
+                  </span>
+                  <span className="shrink-0 py-1.5 sm:py-2" aria-hidden>
+                    <span
+                      className="block h-4 w-px bg-white sm:h-5"
+                      role="separator"
+                      aria-orientation="vertical"
+                    />
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 sm:gap-2">
+                    <WindIcon
+                      weight="bold"
+                      className="h-4 w-4 shrink-0 text-white sm:h-4 sm:w-4"
+                      aria-hidden
+                    />
+                    <span className="text-sm font-medium leading-snug text-balance text-white sm:text-sm">
+                      {t('pickupForm.promoPill.dryers')}
+                    </span>
+                  </span>
+                </div>
+              </div>
               <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-4"
