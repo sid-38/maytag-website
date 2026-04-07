@@ -242,7 +242,7 @@ export function SchedulePickupFormPage() {
               <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
                 {t('pickupForm.subtitle')}
               </p>
-              <div className="mx-auto mb-6 flex w-full justify-center">
+              {/* <div className="mx-auto mb-6 flex w-full justify-center">
                 <div
                   className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full bg-[#00948B] px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
                   role="status"
@@ -275,7 +275,7 @@ export function SchedulePickupFormPage() {
                     </span>
                   </span>
                 </div>
-              </div>
+              </div> */}
               <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-4"
