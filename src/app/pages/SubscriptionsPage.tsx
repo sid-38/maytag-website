@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { ChangeEvent, FocusEvent, FormEvent, MouseEvent } from 'react';
-import { Link, useLocation } from 'react-router';
+import type { ChangeEvent, FocusEvent, FormEvent } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router';
 import Lottie from 'lottie-react';
 import { Check, ChevronsUpDownIcon } from 'lucide-react';
 import { ConfettiIcon } from '@phosphor-icons/react';
@@ -8,9 +8,13 @@ import confettiAnimation from '../../imports/Confetti Effects Lottie Animation.j
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
 import { Card, CardContent } from '../components/Card';
+import { SubscriptionPlansPicker } from '../components/SubscriptionPlansPicker';
 import { cn } from '@/lib/utils';
+import { SUBSCRIPTION_PLANS, type SubscriptionPlanId } from '../../lib/subscription-plans';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { NewDateTimePicker } from '@/components/ui/new-date-time-picker';
+import { clampPreferredDateToMin, getMinSelectableCalendarDate } from '../../lib/schedule-pickup-date';
 
 function isValidEmail(value: string): boolean {
   if (!value.trim()) return false;
@@ -37,62 +41,17 @@ const ADD_ONS_SECTION_ID = 'subscriptions-add-ons';
 
 const SUBSCRIPTIONS_SUCCESS_PATH = '/subscriptions/success';
 
-function scrollToAnchorById(id: string) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  el.scrollIntoView({
-    behavior: prefersReducedMotion ? 'auto' : 'smooth',
-    block: 'start',
-  });
+type PlanId = SubscriptionPlanId;
+
+const PLANS = SUBSCRIPTION_PLANS;
+
+function planFromSearchParams(searchParams: URLSearchParams): PlanId {
+  const raw = searchParams.get('plan');
+  if (raw && PLANS.some((p) => p.id === raw)) {
+    return raw as PlanId;
+  }
+  return 'couples';
 }
-
-function scrollToAddOnsSection(e: MouseEvent<HTMLAnchorElement>) {
-  e.preventDefault();
-  scrollToAnchorById(ADD_ONS_SECTION_ID);
-}
-
-type PlanId = 'singles' | 'couples' | 'family';
-
-const PLANS: {
-  id: PlanId;
-  nameKey: string;
-  cardTitleKey: string;
-  blurbKey: string;
-  feature1Key: string;
-  feature2Key: string;
-  priceKey: string;
-  featured?: boolean;
-}[] = [
-  {
-    id: 'singles',
-    nameKey: 'subscriptions.plan.singles.name',
-    cardTitleKey: 'subscriptions.plan.singles.cardTitle',
-    blurbKey: 'subscriptions.plan.singles.blurb',
-    feature1Key: 'subscriptions.plan.singles.feature1',
-    feature2Key: 'subscriptions.plan.singles.feature2',
-    priceKey: 'subscriptions.plan.singles.price',
-  },
-  {
-    id: 'couples',
-    nameKey: 'subscriptions.plan.couples.name',
-    cardTitleKey: 'subscriptions.plan.couples.cardTitle',
-    blurbKey: 'subscriptions.plan.couples.blurb',
-    feature1Key: 'subscriptions.plan.couples.feature1',
-    feature2Key: 'subscriptions.plan.couples.feature2',
-    priceKey: 'subscriptions.plan.couples.price',
-    featured: true,
-  },
-  {
-    id: 'family',
-    nameKey: 'subscriptions.plan.family.name',
-    cardTitleKey: 'subscriptions.plan.family.cardTitle',
-    blurbKey: 'subscriptions.plan.family.blurb',
-    feature1Key: 'subscriptions.plan.family.feature1',
-    feature2Key: 'subscriptions.plan.family.feature2',
-    priceKey: 'subscriptions.plan.family.price',
-  },
-];
 
 const HOLD_DURATION_MS = 3000;
 
@@ -110,111 +69,16 @@ const NON_SUBSCRIPTION_ROWS: { labelKey: string; price: string }[] = [
 
 /** Matches [new-date-time-picker.tsx](src/components/ui/new-date-time-picker.tsx) date trigger + option row height */
 const planDropdownTriggerClassName = cn(
-  'w-full justify-between text-base font-normal border border-gray-300 rounded bg-white px-4 py-2.5 min-h-[46px]',
+  'w-full h-auto min-h-[46px] items-center justify-between gap-2 text-base font-normal border border-gray-300 rounded bg-white px-4 py-2.5',
   'shadow-none hover:bg-white focus-visible:ring-0 focus-visible:ring-offset-0',
   'focus:border-[#00bfb3] focus:ring-2 focus:ring-[#00bfb3]/30 focus:outline-none',
 );
 
-function SubscriptionPlansPicker({
-  selectedPlan,
-  onSelectPlan,
-  t,
-}: {
-  selectedPlan: PlanId;
-  onSelectPlan: (id: PlanId) => void;
-  t: (key: string) => string;
-}) {
-  return (
-    <div className="flex min-h-0 min-w-0 flex-col lg:h-full lg:min-h-0">
-      <div className="flex min-h-0 w-full flex-1 flex-col lg:h-full lg:min-h-0">
-        <div
-          id="subscription-plans-group"
-          className="flex min-h-0 w-full flex-1 flex-col items-center justify-start lg:justify-center"
-          role="radiogroup"
-          aria-labelledby="subscriptions-page-title"
-        >
-          <div className="grid w-full grid-cols-1 items-start gap-5 sm:gap-4 lg:grid-cols-3 lg:items-center lg:gap-4">
-            {PLANS.map((plan) => {
-              const selected = selectedPlan === plan.id;
-              const featureKeys = [plan.feature1Key, plan.feature2Key] as const;
-              return (
-                <button
-                  key={plan.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  onClick={() => onSelectPlan(plan.id)}
-                  className={cn(
-                    'flex min-h-0 min-w-0 cursor-pointer flex-col rounded-2xl border-2 p-4 text-left transition-colors',
-                    'lg:transition-[min-height,box-shadow] lg:duration-300 lg:ease-in-out motion-reduce:lg:transition-none',
-                    selected
-                      ? 'border-[#00bfb3] bg-[#00bfb3]/10 shadow-lg ring-2 ring-[#00bfb3]/20 lg:min-h-[22.25rem]'
-                      : 'border-gray-200 bg-white hover:border-gray-400 lg:min-h-[20rem]',
-                  )}
-                >
-                  <div className="flex min-h-0 w-full flex-1 flex-col">
-                    <h3 className="line-clamp-2 text-left text-sm font-semibold leading-snug text-black">
-                      {t(plan.cardTitleKey)}
-                    </h3>
-                    <p className="mt-1 line-clamp-3 text-left text-xs leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
-                      {t(plan.blurbKey)}
-                    </p>
-                    <div className="mt-3 flex flex-wrap items-baseline gap-x-1 gap-y-0 sm:mt-4">
-                      <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
-                        {t(plan.priceKey)}
-                      </span>
-                      <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
-                        {t('subscriptions.perMonth')}
-                      </span>
-                    </div>
-                    <div className="mt-3 flex flex-col border-t border-gray-200 pt-3 sm:mt-4 sm:pt-4">
-                      <p className="text-xs font-bold tracking-wide text-black sm:text-[10px] lg:text-xs">
-                        {t('subscriptions.plan.whatsIncluded')}
-                      </p>
-                      <ul className="mt-2 flex flex-col gap-2 sm:mt-2.5 sm:gap-2.5">
-                        {featureKeys.map((key) => (
-                          <li key={key} className="flex gap-2 sm:gap-2.5">
-                            <Check
-                              className="h-3.5 w-3.5 shrink-0 text-gray-500 sm:mt-0.5 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4"
-                              strokeWidth={2.5}
-                              aria-hidden
-                            />
-                            <span className="text-left text-xs leading-snug text-gray-600 sm:text-[10px] lg:text-xs text-balance">
-                              {t(key)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {plan.featured && (
-                      <span className="max-sm:mt-8 shrink-0 self-center rounded-full bg-[#00bfb3] px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white sm:mt-auto sm:text-[10px]">
-                        {t('subscriptions.plan.mostPopular')}
-                      </span>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <div className="flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4">
-          <a
-            href={`#${ADD_ONS_SECTION_ID}`}
-            onClick={scrollToAddOnsSection}
-            className="text-center text-base font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
-          >
-            {t('subscriptions.checkLaundryBagAndPriceList')}
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function SubscriptionsPage() {
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { language, setLanguage, t } = useLanguage();
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>('couples');
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(() => planFromSearchParams(searchParams));
   const [planPopoverOpen, setPlanPopoverOpen] = useState(false);
   const planTriggerRef = useRef<HTMLButtonElement>(null);
   const [planMenuWidth, setPlanMenuWidth] = useState<number | undefined>(undefined);
@@ -222,6 +86,7 @@ export function SubscriptionsPage() {
   const [lockedSignupPanelHeight, setLockedSignupPanelHeight] = useState<number | null>(null);
   const signupPanelRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [firstPickupDate, setFirstPickupDate] = useState<Date | null>(null);
   const [errors, setErrors] = useState<{ phone?: string; email?: string }>({});
   const [showFieldError, setShowFieldError] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -238,11 +103,39 @@ export function SubscriptionsPage() {
   const emailValid = isValidEmail(formData.email);
   const phoneValidRef = useRef(phoneValid);
   phoneValidRef.current = phoneValid;
-  const allFilled = Boolean(formData.name.trim() && formData.phone.trim() && emailValid);
+  const allFilled = Boolean(
+    formData.name.trim() && formData.phone.trim() && emailValid && firstPickupDate !== null,
+  );
 
   const setPlan = (planId: PlanId) => {
     setSelectedPlan(planId);
+    setSearchParams(
+      (prev: URLSearchParams) => {
+        const next = new URLSearchParams(prev);
+        next.set('plan', planId);
+        return next;
+      },
+      { replace: true },
+    );
   };
+
+  useEffect(() => {
+    setSelectedPlan(planFromSearchParams(searchParams));
+  }, [searchParams]);
+
+  /** After cutoff, today is disabled in the calendar; if user already picked today, bump to min day. */
+  useEffect(() => {
+    const sync = () => {
+      const minCal = getMinSelectableCalendarDate(new Date());
+      setFirstPickupDate((prev: Date | null) => {
+        if (prev === null) return null;
+        return clampPreferredDateToMin(prev, minCal);
+      });
+    };
+    sync();
+    const id = window.setInterval(sync, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   useLayoutEffect(() => {
     if (!planPopoverOpen || !planTriggerRef.current) return;
@@ -354,13 +247,20 @@ export function SubscriptionsPage() {
     if (name === 'email' && verified && !isValidEmail(value)) setVerified(false);
   };
 
+  const handleFirstPickupDateChange = (date: Date | null) => {
+    setFirstPickupDate(date);
+    setGeneralError(null);
+    setShowError(false);
+    setShowFieldError(false);
+  };
+
   const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!verified) return;
     const nameOk = formData.name.trim().length > 0;
     const phoneOk = isValidUSPhone(formData.phone);
     const emailOk = isValidEmail(formData.email);
-    if (!nameOk || !formData.phone.trim() || !emailOk || !phoneOk) {
+    if (!nameOk || !formData.phone.trim() || !emailOk || !phoneOk || firstPickupDate === null) {
       setShowFieldError(true);
       setErrors({
         phone: formData.phone.trim() && !phoneOk ? t('ctaForm.errorPhoneUSOnly') : undefined,
@@ -371,12 +271,20 @@ export function SubscriptionsPage() {
     setErrors({});
     setShowFieldError(false);
 
+    const firstPickupDateStr = firstPickupDate.toLocaleDateString(undefined, {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
     const planLabel = t(selectedPlanMeta.nameKey);
     const fields: Record<string, string> = {
       name: formData.name.trim(),
       email: formData.email.trim(),
       phone: formData.phone.trim(),
       plan: planLabel,
+      firstPickupDate: firstPickupDateStr,
     };
 
     // Form POST to hidden iframe — avoids CORS (same pattern as SchedulePickupFormPage)
@@ -464,17 +372,9 @@ export function SubscriptionsPage() {
           >
             {t('subscriptions.title')}
           </h1>
-          <p className="mb-4 text-center text-sm text-white/90 sm:text-base md:hidden">
-            {t('subscriptions.subtitle.mobile')}
+          <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
+            {t('subscriptions.subtitle.02')}
           </p>
-          <div className="mb-4 hidden md:block">
-            {/* <p className="mb-0 text-center text-sm text-balance text-white/90 sm:text-base">
-              {t('subscriptions.subtitle.01')}
-            </p> */}
-            <p className="mb-0 text-center text-sm text-balance text-white/90 sm:text-base">
-              {t('subscriptions.subtitle.02')}
-            </p>
-          </div>
           <div className="mx-auto mb-4 flex w-full max-w-4xl justify-center">
             <div
               className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-[#00948B] px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
@@ -512,7 +412,13 @@ export function SubscriptionsPage() {
                   >
                     {t('subscriptions.plansMobileIntro')}
                   </p>
-                  <SubscriptionPlansPicker selectedPlan={selectedPlan} onSelectPlan={setPlan} t={t} />
+                  <SubscriptionPlansPicker
+                    selectedPlan={selectedPlan}
+                    onSelectPlan={setPlan}
+                    t={t}
+                    ariaLabelledBy="subscriptions-page-title"
+                    featuredPlanCardFitContent
+                  />
                 </div>
               </div>
 
@@ -643,9 +549,8 @@ export function SubscriptionsPage() {
                               aria-haspopup="listbox"
                               className={planDropdownTriggerClassName}
                             >
-                              <span className="min-w-0 truncate text-left">
-                                {t(selectedPlanMeta.nameKey)} — {t(selectedPlanMeta.priceKey)}
-                                {t('subscriptions.perMonth')}
+                              <span className="min-w-0 flex-1 truncate text-left leading-tight">
+                                {t(selectedPlanMeta.nameKey)}
                               </span>
                               <ChevronsUpDownIcon className="h-4 w-4 shrink-0" aria-hidden />
                             </Button>
@@ -667,7 +572,7 @@ export function SubscriptionsPage() {
                                       role="option"
                                       aria-selected={selected}
                                       className={cn(
-                                        'flex w-full min-h-[46px] items-center justify-between gap-3 px-4 text-left text-base font-normal text-black',
+                                        'flex w-full min-h-[46px] items-center justify-between gap-3 px-4 py-2.5 text-left text-base font-normal text-black',
                                         'hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
                                         selected && 'bg-[#00bfb3]/10 text-black',
                                       )}
@@ -676,9 +581,8 @@ export function SubscriptionsPage() {
                                         setPlanPopoverOpen(false);
                                       }}
                                     >
-                                      <span className="min-w-0 flex-1">
-                                        {t(plan.nameKey)} — {t(plan.priceKey)}
-                                        {t('subscriptions.perMonth')}
+                                      <span className="min-w-0 flex-1 truncate text-left">
+                                        {t(plan.nameKey)}
                                       </span>
                                       <span
                                         className="flex h-4 w-4 shrink-0 items-center justify-center"
@@ -695,6 +599,27 @@ export function SubscriptionsPage() {
                             </ul>
                           </PopoverContent>
                         </Popover>
+                      </div>
+                      <div
+                        className={cn(
+                          showFieldError && firstPickupDate === null && 'rounded-lg ring-2 ring-red-500 ring-offset-0',
+                        )}
+                      >
+                        <NewDateTimePicker
+                          value={firstPickupDate}
+                          onChange={handleFirstPickupDateChange}
+                          minDate={getMinSelectableCalendarDate()}
+                          datePlaceholder={t('pickupForm.pickDatePlaceholder')}
+                          dateLabel={
+                            <>
+                              {t('subscriptions.form.firstPickupDate')}{' '}
+                              <span className="text-red-500">*</span>
+                            </>
+                          }
+                        />
+                        {showFieldError && firstPickupDate === null ? (
+                          <p className="mt-1 text-sm text-red-600">{t('subscriptions.form.firstPickupDateError')}</p>
+                        ) : null}
                       </div>
                       <div className="flex min-h-[44px] flex-col gap-1">
                         {generalError || !allFilled ? (
@@ -747,7 +672,7 @@ export function SubscriptionsPage() {
                       )}
                       <button
                         type="submit"
-                        disabled={!verified || !phoneValid || !emailValid}
+                        disabled={!verified || !phoneValid || !emailValid || firstPickupDate === null}
                         className="mt-2 w-full min-h-[44px] cursor-pointer rounded bg-black px-8 py-3 font-semibold text-white transition-all duration-300 ease-out hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {t('subscriptions.form.submit')}
