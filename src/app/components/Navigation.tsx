@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
-import { Menu, X } from 'lucide-react';
+import { Menu, Phone, X } from 'lucide-react';
 import { scrollToTop } from '../../lib/utils';
 import navigationLogoSvg from '../../imports/new-logo-white.svg';
 import { useLanguage } from '../context/LanguageContext';
@@ -80,16 +80,27 @@ export function Navigation() {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="md:hidden text-black cursor-pointer"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-nav"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile: call + menu */}
+          <div className="flex md:hidden items-center gap-2">
+            <a
+              href="tel:9842059506"
+              aria-label={t('nav.callUs')}
+              className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded bg-[#00bfb3] px-3 py-2 text-md font-medium text-white transition-colors hover:bg-[#00a89d]"
+            >
+              <Phone className="size-[16px] shrink-0" aria-hidden />
+              <span>{t('nav.call')}</span>
+            </a>
+            <button
+              type="button"
+              className="inline-flex size-11 shrink-0 items-center justify-center text-black cursor-pointer"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-nav"
+              aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation - absolute overlay with smooth animation */}
@@ -147,13 +158,13 @@ export function Navigation() {
                 </button>
               </div>
             </div>
-            <a
+            {/* <a
               href="tel:9842059506"
               onClick={() => setIsMenuOpen(false)}
               className="block bg-[#00bfb3] text-white px-6 py-2 rounded hover:bg-[#00a89d] transition-colors text-center mt-4"
             >
               {t('nav.callUs')}
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
