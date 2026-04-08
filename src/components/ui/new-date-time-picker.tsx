@@ -27,7 +27,7 @@ export interface NewDateTimePickerProps {
   /** Earliest selectable calendar day (local). Defaults to today. */
   minDate?: CalendarDate
   datePlaceholder?: string
-  dateLabel?: string
+  dateLabel?: React.ReactNode
   disabled?: boolean
   className?: string
 }

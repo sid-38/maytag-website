@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router';
-import { DropIcon, WindIcon } from '@phosphor-icons/react';
+import { Link, useSearchParams } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
+import type { SubscriptionPlanId } from '../../lib/subscription-plans';
 import { clampPreferredDateToMin, getMinSelectableCalendarDate } from '../../lib/schedule-pickup-date';
 import { SchedulePickupSuccessScreen } from '../components/SchedulePickupSuccessScreen';
 import { NewDateTimePicker } from '../../components/ui/new-date-time-picker';
@@ -20,8 +20,17 @@ function isValidUSPhone(value: string): boolean {
   return false;
 }
 
+function planFromSearchParam(value: string | null): SubscriptionPlanId | null {
+  if (value === 'singles' || value === 'couples' || value === 'family') return value;
+  return null;
+}
+
 export function SchedulePickupFormPage() {
   const { language, setLanguage, t } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const [interestPlan, setInterestPlan] = useState<SubscriptionPlanId | null>(() =>
+    planFromSearchParam(searchParams.get('plan')),
+  );
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -152,6 +161,7 @@ export function SchedulePickupFormPage() {
       address: formData.address.trim(),
       preferredDate: preferredDateStr,
       notes: formData.notes.trim(),
+      planInterest: interestPlan ?? '',
     };
 
     for (const [key, value] of Object.entries(fields)) {
@@ -185,6 +195,10 @@ export function SchedulePickupFormPage() {
       if (errorDismissRef.current) clearTimeout(errorDismissRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    setInterestPlan(planFromSearchParam(searchParams.get('plan')));
+  }, [searchParams]);
 
   /** After cutoff, today is disabled in the calendar; if user already picked today, bump to min day. No auto-selection when empty. */
   useEffect(() => {
@@ -242,40 +256,6 @@ export function SchedulePickupFormPage() {
               <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
                 {t('pickupForm.subtitle')}
               </p>
-              {/* <div className="mx-auto mb-6 flex w-full justify-center">
-                <div
-                  className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full bg-[#00948B] px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
-                  role="status"
-                >
-                  <span className="inline-flex items-center gap-1.5 sm:gap-2">
-                    <DropIcon
-                      weight="bold"
-                      className="h-4 w-4 shrink-0 text-white sm:h-4 sm:w-4"
-                      aria-hidden
-                    />
-                    <span className="text-sm font-medium leading-snug text-balance text-white sm:text-sm">
-                      {t('pickupForm.promoPill.washers')}
-                    </span>
-                  </span>
-                  <span className="shrink-0 py-1.5 sm:py-2" aria-hidden>
-                    <span
-                      className="block h-4 w-px bg-white sm:h-5"
-                      role="separator"
-                      aria-orientation="vertical"
-                    />
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 sm:gap-2">
-                    <WindIcon
-                      weight="bold"
-                      className="h-4 w-4 shrink-0 text-white sm:h-4 sm:w-4"
-                      aria-hidden
-                    />
-                    <span className="text-sm font-medium leading-snug text-balance text-white sm:text-sm">
-                      {t('pickupForm.promoPill.dryers')}
-                    </span>
-                  </span>
-                </div>
-              </div> */}
               <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-4"

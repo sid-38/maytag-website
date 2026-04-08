@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { Shirt, Wind, Droplet, Package } from 'lucide-react';
 import { WifiHighIcon, ArmchairIcon, CoffeeIcon, ShoppingCartIcon, BankIcon, SecurityCameraIcon, CarIcon, UserIcon } from '@phosphor-icons/react';
@@ -6,9 +6,11 @@ import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
 import { scrollToTop } from '../../lib/utils';
+import { SubscriptionPlanModal } from '../components/SubscriptionPlanModal';
 
 export function ServicesPage() {
   const { t } = useLanguage();
+  const [planModalOpen, setPlanModalOpen] = useState(false);
 
   const services = [
     {
@@ -96,15 +98,27 @@ export function ServicesPage() {
             <p className="text-lg sm:text-xl text-gray-200 max-w-[450px] mb-8">
               {t('services.hero.subtitle')}
             </p>
-            <Link
-              to="/schedule-pickup"
-              className="block w-full md:w-auto md:inline-block bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center"
-              onClick={scrollToTop}
-            >
-              {t('services.hero.schedulePickup')}
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/subscriptions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-14 w-full items-center justify-center box-border rounded border border-white/80 bg-black/50 px-8 text-center font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto"
+                onClick={scrollToTop}
+              >
+                {t('home.hero.subscribe')}
+              </Link>
+              <button
+                type="button"
+                className="inline-flex h-14 w-full cursor-pointer items-center justify-center box-border rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto"
+                onClick={() => setPlanModalOpen(true)}
+              >
+                {t('home.hero.schedulePickup')}
+              </button>
+            </div>
           </div>
         </div>
+        <SubscriptionPlanModal open={planModalOpen} onOpenChange={setPlanModalOpen} />
       </section>
 
       {/* Self-Service Laundromat — text + image block same row from md; image block = col1 lady, col2 stacked */}
@@ -301,13 +315,24 @@ export function ServicesPage() {
             {t('services.pickupDelivery.titleLine1')}
             <br className="hidden sm:block" /> {t('services.pickupDelivery.titleLine2')}
           </h2>
-          <Link
-            to="/schedule-pickup"
-            className="inline-flex items-center justify-center w-full sm:w-auto bg-[#00bfb3] text-white px-8 py-4 rounded font-semibold hover:bg-[#00a89d] transition-colors min-h-[44px]"
-            onClick={scrollToTop}
-          >
-            {t('services.hero.schedulePickup')}
-          </Link>
+          <div className="flex w-full max-w-lg flex-col items-stretch gap-4 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
+            <Link
+              to="/subscriptions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-14 w-full items-center justify-center box-border rounded border border-white/80 bg-black/50 px-8 text-center font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
+              onClick={scrollToTop}
+            >
+              {t('home.hero.subscribe')}
+            </Link>
+            <button
+              type="button"
+              className="inline-flex h-14 w-full cursor-pointer items-center justify-center box-border rounded border border-transparent bg-[#00bfb3] px-8 font-semibold text-white transition-colors hover:bg-[#00a89d] sm:w-auto"
+              onClick={() => setPlanModalOpen(true)}
+            >
+              {t('home.hero.schedulePickup')}
+            </button>
+          </div>
         </div>
       </section>
 

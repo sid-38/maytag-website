@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { scrollToTop } from '../../lib/utils';
 import { AreasMap } from '../components/AreasMap';
@@ -7,6 +7,7 @@ import { GiftIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
+import { SubscriptionPlanModal } from '../components/SubscriptionPlanModal';
 
 const areas = [
   { nameKey: 'home.areas.raleigh', descKey: 'home.areas.raleighDesc' },
@@ -19,6 +20,7 @@ const areas = [
 
 export function HomePage() {
   const { t } = useLanguage();
+  const [planModalOpen, setPlanModalOpen] = useState(false);
 
   useEffect(() => {
     // Canonical link
@@ -154,15 +156,27 @@ export function HomePage() {
             <p className="text-lg sm:text-xl text-gray-200 max-w-[450px] mb-8">
               {t('home.hero.subtitle')}
             </p>
-            <Link
-              to="/contact"
-              className="block w-full md:w-auto md:inline-block bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center"
-              onClick={scrollToTop}
-            >
-              {t('home.hero.contactUs')}
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/subscriptions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-14 w-full items-center justify-center box-border rounded border border-white/80 bg-black/50 px-8 text-center font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto"
+                onClick={scrollToTop}
+              >
+                {t('home.hero.subscribe')}
+              </Link>
+              <button
+                type="button"
+                className="inline-flex h-14 w-full cursor-pointer items-center justify-center box-border rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto"
+                onClick={() => setPlanModalOpen(true)}
+              >
+                {t('home.hero.schedulePickup')}
+              </button>
+            </div>
           </div>
         </div>
+        <SubscriptionPlanModal open={planModalOpen} onOpenChange={setPlanModalOpen} />
       </section>
 
       {/* Services Section */}
