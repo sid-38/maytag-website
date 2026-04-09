@@ -8,4 +8,6 @@ export const buttonClass = {
   secondary: 'btn-secondary',
   /** Secondary; inside `.group`, becomes primary on card hover (desktop lg+ only) — see `buttons.css` */
   secondaryElevate: 'btn-secondary-elevate',
+  /** Primary below `md`; same as `secondaryElevate` from `md` — see `buttons.css` */
+  serviceCardCta: 'btn-service-card-cta',
 } as const;

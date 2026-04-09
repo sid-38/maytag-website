@@ -65,10 +65,8 @@ const SERVICE_PANEL_MEDIA = 'order-1 w-full md:order-1 md:min-w-0 md:flex-1';
 const SERVICE_PANEL_COPY =
   'order-2 flex w-full flex-col justify-center md:order-2 md:min-w-0 md:flex-1';
 
-/**
- * Tab CTAs: `.btn-primary` colors/hover, with height set to 56px (`h-14`) to match hero CTAs on this page.
- */
-const SERVICE_TAB_CTA_CLASS = [buttonClass.primary, '!h-14 !min-h-14 !rounded-[4px] w-full gap-2 sm:w-fit'].join(' ');
+/** Tab CTAs: `.btn-primary` (56px height, 4px radius — see `buttons.css` tokens). */
+const SERVICE_TAB_CTA_CLASS = [buttonClass.primary, 'w-full gap-2 sm:w-fit'].join(' ');
 
 /** Same as homepage “Have more questions” cards: 48px teal-tint circle + 24px icon */
 const TAB_ICON_WRAP =

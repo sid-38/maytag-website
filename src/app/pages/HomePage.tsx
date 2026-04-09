@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { buttonClass } from '../../lib/button-classes';
-import { cn, scrollToTop } from '../../lib/utils';
+import { scrollToTop } from '../../lib/utils';
 import { AreasMap } from '../components/AreasMap';
 import { Star, MapPin, Clock, Phone, Hand } from 'lucide-react';
 import { GiftIcon } from '@phosphor-icons/react';
@@ -228,7 +228,7 @@ export function HomePage() {
                     href={STORE_MAPS_DIRECTIONS_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    className={buttonClass.serviceCardCta}
                   >
                     {t('home.services.cardCta.Card01')}
                   </a>
@@ -267,7 +267,7 @@ export function HomePage() {
                 <div className="mt-6 w-full">
                   <Link
                     to="/subscriptions"
-                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    className={buttonClass.serviceCardCta}
                     onClick={scrollToTop}
                   >
                     {t('home.services.cardCta.Card02')}
@@ -307,7 +307,7 @@ export function HomePage() {
                 <div className="mt-6 w-full">
                   <Link
                     to="/contact#contact-form"
-                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    className={buttonClass.serviceCardCta}
                   >
                     {t('home.services.cardCta.Card03')}
                   </Link>
@@ -346,7 +346,7 @@ export function HomePage() {
                 <div className="mt-6 w-full">
                   <Link
                     to="/schedule-pickup"
-                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    className={buttonClass.serviceCardCta}
                     onClick={scrollToTop}
                   >
                     {t('home.services.cardCta.Card04')}
