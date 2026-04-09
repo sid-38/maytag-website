@@ -1,116 +1,186 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { Shirt, Wind, Droplet, Package } from 'lucide-react';
-import { WifiHighIcon, ArmchairIcon, CoffeeIcon, ShoppingCartIcon, BankIcon, SecurityCameraIcon, CarIcon, UserIcon } from '@phosphor-icons/react';
-import { Card, CardContent } from '../components/Card';
+import {
+  WifiHighIcon,
+  ArmchairIcon,
+  CoffeeIcon,
+  ShoppingCartIcon,
+  BankIcon,
+  SecurityCameraIcon,
+  CarIcon,
+  UserIcon,
+  WashingMachineIcon,
+  TShirtIcon,
+  PawPrintIcon,
+  VanIcon,
+  ArrowRightIcon,
+} from '@phosphor-icons/react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
-import { scrollToTop } from '../../lib/utils';
+import { buttonClass } from '../../lib/button-classes';
+import { cn, scrollToTop } from '../../lib/utils';
 import { SubscriptionPlanModal } from '../components/SubscriptionPlanModal';
+
+const STORE_MAPS_DIRECTIONS_URL =
+  'https://www.google.com/maps/dir/?api=1&destination=15+Jones+Franklin+Rd,+Raleigh,+NC+27606';
+
+const amenitiesConfig = [
+  { Icon: WifiHighIcon, labelKey: 'services.amenities.wifi' as const },
+  { Icon: ArmchairIcon, labelKey: 'services.amenities.seating' as const },
+  { Icon: CoffeeIcon, labelKey: 'services.amenities.vending' as const },
+  { Icon: ShoppingCartIcon, labelKey: 'services.amenities.folding' as const },
+  { Icon: BankIcon, labelKey: 'services.amenities.atm' as const },
+  { Icon: SecurityCameraIcon, labelKey: 'services.amenities.security' as const },
+  { Icon: CarIcon, labelKey: 'services.amenities.parking' as const },
+  { Icon: UserIcon, labelKey: 'services.amenities.attendant' as const },
+];
+
+const amenitiesImages = [
+  '/images/amenities-1.png',
+  '/images/amenities-2.png',
+  '/images/amenities-3.png',
+  '/images/amenities-4.png',
+  '/images/amenities-5.png',
+  '/images/amenities-6.png',
+  '/images/amenities-7.png',
+];
+
+/** Mobile: one hero image/video. sm+: three-image row (main + two stacked). */
+const SERVICE_MEDIA_MOBILE =
+  'h-[300px] w-full shrink-0 overflow-hidden rounded-lg bg-gray-100 shadow-lg sm:hidden';
+const SERVICE_MEDIA_GRID =
+  'hidden h-[500px] flex-shrink-0 flex-row items-stretch gap-4 sm:flex';
+const SERVICE_MEDIA_MAIN =
+  'flex h-full min-h-0 min-w-0 flex-1 overflow-hidden rounded-lg bg-gray-100 shadow-lg';
+const SERVICE_MEDIA_MAIN_COVER = 'h-full w-full min-h-0 object-cover object-center';
+const SERVICE_MEDIA_STACK = 'flex h-full min-h-0 min-w-0 flex-1 flex-col gap-2 sm:gap-4';
+const SERVICE_MEDIA_STACK_CELL =
+  'min-h-0 flex-1 overflow-hidden rounded-lg bg-gray-100 shadow-md';
+const SERVICE_MEDIA_STACK_IMG = 'h-full w-full object-cover object-center';
+
+const SERVICE_PANEL_ROW =
+  'flex flex-col gap-10 md:flex-row md:items-stretch md:gap-8 lg:gap-12';
+const SERVICE_PANEL_MEDIA = 'order-1 w-full md:order-1 md:min-w-0 md:flex-1';
+const SERVICE_PANEL_COPY =
+  'order-2 flex w-full flex-col justify-center md:order-2 md:min-w-0 md:flex-1';
+
+/**
+ * Tab CTAs: `.btn-primary` colors/hover, with height set to 56px (`h-14`) to match hero CTAs on this page.
+ */
+const SERVICE_TAB_CTA_CLASS = [buttonClass.primary, '!h-14 !min-h-14 !rounded-[4px] w-full gap-2 sm:w-fit'].join(' ');
+
+/** Same as homepage “Have more questions” cards: 48px teal-tint circle + 24px icon */
+const TAB_ICON_WRAP =
+  'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100 transition-colors group-data-[state=active]:bg-[#00bfb3]/10';
+const TAB_ICON_CLASS =
+  'size-6 shrink-0 text-gray-500 transition-colors group-data-[state=active]:text-[#00bfb3]';
+
+function SectionEyebrow({ tagline }: { tagline: string }) {
+  return (
+    <div className="mb-3 text-[#00bfb3] uppercase tracking-wide font-bold text-sm sm:text-base">
+      {tagline}
+    </div>
+  );
+}
+
+function ServicesTabLabel({
+  t,
+  desktopKey,
+  line1Key,
+  line2Key,
+}: {
+  t: (key: string) => string;
+  desktopKey: string;
+  line1Key: string;
+  line2Key: string;
+}) {
+  return (
+    <>
+      <span className="hidden text-center text-sm font-medium leading-tight sm:block">{t(desktopKey)}</span>
+      <span className="grid w-full min-w-0 justify-items-center gap-0.5 text-center text-[11px] font-medium leading-snug sm:hidden">
+        <span className="block max-w-full break-words">{t(line1Key)}</span>
+        <span className="block max-w-full break-words">{t(line2Key)}</span>
+      </span>
+    </>
+  );
+}
+
+type ServiceSectionPrefix =
+  | 'services.section.selfService'
+  | 'services.section.washFold'
+  | 'services.section.pet'
+  | 'services.section.pickup';
+
+function ServiceSectionBodyBlock({
+  t,
+  sectionPrefix,
+}: {
+  t: (key: string) => string;
+  sectionPrefix: ServiceSectionPrefix;
+}) {
+  return (
+    <>
+      <p className="mb-8 leading-relaxed text-gray-700 sm:hidden">{t(`${sectionPrefix}.body.mobile`)}</p>
+      <p className="mb-6 leading-relaxed text-gray-700 hidden sm:block">{t(`${sectionPrefix}.body1`)}</p>
+      <p className="mb-8 leading-relaxed text-gray-700 hidden sm:block">{t(`${sectionPrefix}.body2`)}</p>
+    </>
+  );
+}
 
 export function ServicesPage() {
   const { t } = useLanguage();
   const [planModalOpen, setPlanModalOpen] = useState(false);
 
-  const services = [
-    {
-      icon: <Shirt className="w-12 h-12" />,
-      title: 'Self-Service Wash',
-      description: 'Use our state-of-the-art Maytag washers to clean your clothes exactly how you like them. Multiple sizes available from regular to extra-large capacity.',
-      features: ['Regular, Large, and XL washers', 'Hot, warm, and cold water options', 'Multiple cycle settings', 'Energy-efficient machines'],
-    },
-    {
-      icon: <Wind className="w-12 h-12" />,
-      title: 'Self-Service Dry',
-      description: 'Our high-efficiency dryers get your laundry dry quickly and evenly. Large capacity dryers can handle even your biggest loads with ease.',
-      features: ['Multiple temperature settings', 'Large capacity dryers', 'Quick dry cycles', 'Wrinkle-free options'],
-    },
-    {
-      icon: <Droplet className="w-12 h-12" />,
-      title: 'Wash & Fold Service',
-      description: 'Let our professional staff handle your laundry from start to finish. Drop off your clothes and pick them up clean, fresh, and neatly folded.',
-      features: ['Same-day service available', 'Professional folding', 'Special care for delicates', 'Eco-friendly detergents'],
-    },
-    {
-      icon: <Package className="w-12 h-12" />,
-      title: 'Commercial Services',
-      description: 'We offer bulk laundry services for businesses, hotels, and restaurants. Competitive pricing and reliable turnaround times for all your commercial needs.',
-      features: ['Bulk pricing discounts', 'Regular pickup and delivery', 'Customized service plans', 'Quality guaranteed'],
-    },
-  ]; 
-
-  const amenities = [
-    { Icon: WifiHighIcon, label: 'Free WiFi throughout facility' },
-    { Icon: ArmchairIcon, label: 'Comfortable seating areas' },
-    { Icon: CoffeeIcon, label: 'Vending machines for snacks and drinks' },
-    { Icon: ShoppingCartIcon, label: 'Folding tables and carts available' },
-    { Icon: BankIcon, label: 'ATM on-site' },
-    { Icon: SecurityCameraIcon, label: 'Security cameras for your safety' },
-    { Icon: CarIcon, label: 'Well-lit parking area' },
-    { Icon: UserIcon, label: 'Attendant on duty during business hours' },
-  ];
-
-  const amenitiesImages = [
-    { src: '/images/amenities-1.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-2.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-3.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-4.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-5.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-6.png', alt: 'Store feature photo' },
-    { src: '/images/amenities-7.png', alt: 'Store feature photo' },
-  ];
+  const tabTriggerClass =
+    'group flex min-w-0 flex-1 basis-0 flex-col items-center gap-1.5 rounded-none border-0 border-b-2 border-transparent bg-transparent p-2 text-gray-500 shadow-none transition-colors data-[state=active]:border-[#00bfb3] data-[state=active]:text-[#00bfb3] data-[state=inactive]:text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00bfb3] focus-visible:ring-offset-2 sm:gap-2';
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative text-white min-h-screen flex items-end">
+    <div className="bg-white overflow-x-hidden">
+      <section className="relative flex min-h-screen items-end text-white">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src="/images/services-mobile-hero.png"
             alt={t('common.heroAlt')}
-            className="block md:hidden w-full h-full object-cover object-center"
+            className="block h-full w-full object-cover object-center md:hidden"
           />
           <img
             src="/images/services-hero.png"
             alt={t('common.heroAlt')}
-            className="hidden md:block w-full h-full object-cover object-top"
+            className="hidden h-full w-full object-cover object-top md:block"
           />
-          {/* Mobile: overlay from bottom */}
           <div
             className="absolute inset-x-0 bottom-0 h-2/3 md:hidden"
             style={{
-              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%)'
+              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%)',
             }}
           />
-          {/* Desktop: overlay from left */}
           <div
-            className="hidden md:block absolute inset-y-0 left-0 w-3/5"
+            className="absolute inset-y-0 left-0 hidden w-3/5 md:block"
             style={{
-              background: 'linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%)'
+              background: 'linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%)',
             }}
           />
         </div>
-        <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-20 sm:py-32 w-full">
+        <div className="relative mx-auto w-full max-w-[1200px] px-4 py-20 sm:px-6 sm:py-32">
           <div className="max-w-2xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance">
+            <h1 className="mb-6 text-balance text-4xl font-bold sm:text-5xl lg:text-6xl">
               <CharacterMorph texts={[t('services.hero.title')]} />
             </h1>
-            <p className="text-lg sm:text-xl text-gray-200 max-w-[450px] mb-8">
-              {t('services.hero.subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <p className="mb-8 max-w-[450px] text-lg text-gray-200 sm:text-xl">{t('services.hero.subtitle')}</p>
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link
                 to="/subscriptions"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-14 w-full items-center justify-center box-border rounded border border-white/80 bg-black/50 px-8 text-center font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto"
+                className="inline-flex h-14 w-full items-center justify-center rounded border border-white/80 bg-black/50 px-8 font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto"
                 onClick={scrollToTop}
               >
                 {t('home.hero.subscribe')}
               </Link>
               <button
                 type="button"
-                className="inline-flex h-14 w-full cursor-pointer items-center justify-center box-border rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto"
+                className="inline-flex h-14 w-full cursor-pointer items-center justify-center rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto"
                 onClick={() => setPlanModalOpen(true)}
               >
                 {t('home.hero.schedulePickup')}
@@ -121,293 +191,324 @@ export function ServicesPage() {
         <SubscriptionPlanModal open={planModalOpen} onOpenChange={setPlanModalOpen} />
       </section>
 
-      {/* Self-Service Laundromat — text + image block same row from md; image block = col1 lady, col2 stacked */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          {/* Single row from md: text | images. Below md stacks with images first. */}
-          <div className="flex flex-col md:flex-row md:items-stretch gap-10 md:gap-8 lg:gap-12">
-            {/* Left: copy — stays in row with images from md up */}
-            <div className="order-2 md:order-1 md:flex-1 md:min-w-0 flex flex-col justify-center">
-              <div className="mb-6">
-                <div className="text-[#00bfb3] uppercase tracking-wide font-bold text-sm sm:text-base">
-                  Clean, Convenient and Modern
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
-                  Self-Service Laundromat in Raleigh
-                </h2>
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                Use our modern self-service laundromat in Raleigh, NC to wash and dry your clothes quickly and conveniently. Our facility features state-of-the-art washers and high-efficiency dryers designed to handle everything from everyday loads to extra-large laundry.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                We have multiple washer sizes, fast drying cycles, and both cashless and coin payment options for a simple and flexible laundry experience. Whether you&apos;re washing a small load or large bedding and towels, our machines are built to get your laundry clean and dry faster.
-              </p>
-            </div>
-            {/* Right: image section — column 1 = lady full height, column 2 = app + terminal stacked */}
-            <div className="order-1 md:order-2 w-full md:flex-1 md:min-w-0">
-              <div className="flex flex-row gap-3 sm:gap-4 items-stretch h-full min-h-[260px] sm:min-h-[320px]">
-                {/* Column 1: lady — spans full height of the pair beside it */}
-                <div className="flex-1 min-w-0 rounded-lg overflow-hidden shadow-lg bg-gray-100">
-                  <img
-                    src="/images/self-service-laundromat-main.png"
-                    alt="Guest using a front-loading washer at our self-service laundromat"
-                    className="w-full h-full object-cover object-center min-h-[240px] md:min-h-0"
+      {/* Tabbed services */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <Tabs defaultValue="self-service" className="w-full gap-0">
+            <div className="w-full pb-2 sm:pb-px">
+              <TabsList
+                className={cn(
+                  'flex h-auto w-full min-w-0 gap-0 rounded-none border-0 border-b border-gray-200 bg-transparent p-0 text-inherit shadow-none'
+                )}
+              >
+                <TabsTrigger value="self-service" className={tabTriggerClass}>
+                  <span className={TAB_ICON_WRAP} aria-hidden>
+                    <WashingMachineIcon className={TAB_ICON_CLASS} weight="regular" />
+                  </span>
+                  <ServicesTabLabel
+                    t={t}
+                    desktopKey="services.tabs.selfService"
+                    line1Key="services.tabs.mobile.selfService.line1"
+                    line2Key="services.tabs.mobile.selfService.line2"
                   />
-                </div>
-                {/* Column 2: two images stacked vertically */}
-                <div className="flex flex-col gap-3 sm:gap-4 flex-1 min-w-0">
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <img
-                      src="/images/self-service-side-payment.png"
-                      alt="Mobile app with wallet and start machine — cashless laundry payment"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <img
-                      src="/images/self-service-side-dexter.png"
-                      alt="Bubblepay terminal with scan and tap payment instructions"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Wash & Fold — swapped layout like reference (images left, text right) */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          {/* Single row from md: images | text. Below md stacks with images first. */}
-          <div className="flex flex-col md:flex-row md:items-stretch gap-10 md:gap-8 lg:gap-12">
-            {/* Left: image section — column 1 = hero image, column 2 = towels + bag stacked */}
-            <div className="order-1 w-full md:flex-1 md:min-w-0">
-              <div className="flex flex-row gap-3 sm:gap-4 h-[320px] sm:h-[380px] md:h-[420px]">
-                <div className="flex-1 min-w-0 rounded-lg overflow-hidden shadow-lg bg-gray-100">
-                  <img
-                    src="/images/wash-fold-hero.png"
-                    alt="Wash and fold laundry service"
-                    className="w-full h-full object-cover object-center"
+                </TabsTrigger>
+                <TabsTrigger value="wash-fold" className={tabTriggerClass}>
+                  <span className={TAB_ICON_WRAP} aria-hidden>
+                    <TShirtIcon className={TAB_ICON_CLASS} weight="regular" />
+                  </span>
+                  <ServicesTabLabel
+                    t={t}
+                    desktopKey="services.tabs.washFold"
+                    line1Key="services.tabs.mobile.washFold.line1"
+                    line2Key="services.tabs.mobile.washFold.line2"
                   />
-                </div>
-
-                <div className="flex flex-col gap-3 sm:gap-4 flex-1 min-w-0 h-full">
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <img
-                      src="/images/wash-fold-towels.png"
-                      alt="Freshly folded towels ready for pickup"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <img
-                      src="/images/wash-fold-bag.png"
-                      alt="Bagged wash and fold laundry ready for pickup"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: copy */}
-            <div className="order-2 w-full md:flex-1 md:min-w-0 flex flex-col justify-center">
-              <div className="mb-6">
-                <div className="text-[#00bfb3] uppercase tracking-wide font-bold text-sm sm:text-base">
-                  Fast, Professional and Easy
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
-                  Wash &amp; Fold Laundry Service in Raleigh
-                </h2>
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                Save time with our professional wash and fold laundry service in Raleigh, NC. Simply drop off your laundry and our team will wash, dry, and neatly fold your clothes so they are ready to wear when you pick them up.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Our Raleigh laundromat uses high-quality detergents, modern machines, and careful handling to ensure your laundry is cleaned and folded to the highest standards. Customers choose us for our fast turnaround times, clean facility, and reliable laundry service.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pet Laundry / Dog Wash — like reference (text left, images right) */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          {/* Single row from md: text | images. Below md stacks with images first. */}
-          <div className="flex flex-col md:flex-row md:items-stretch gap-10 md:gap-8 lg:gap-12">
-            {/* Left: copy */}
-            <div className="order-2 md:order-1 md:flex-1 md:min-w-0 flex flex-col justify-center">
-              <div className="mb-6">
-                <div className="text-[#00bfb3] uppercase tracking-wide font-bold text-sm sm:text-base">
-                  Convenient and Pet-Safe
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
-                  Easiest Pet Laundry Service in Raleigh
-                </h2>
-              </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                Keep your home fresh with our professional pet laundry service in Raleigh, NC. We specialize in cleaning dog beds, pet blankets, throws, and other pet items, removing dirt, odors, and pet hair effectively.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Our Raleigh laundromat uses high-quality detergents, powerful machines, and thorough cleaning processes to ensure your pet&apos;s items come out fresh, clean, and safe. Whether it&apos;s everyday pet bedding or heavily used items, we handle each load with care.
-              </p>
-            </div>
-
-            {/* Right: collage — column 1 large, column 2 stacked */}
-            <div className="order-1 md:order-2 w-full md:flex-1 md:min-w-0">
-              <div className="flex flex-row gap-3 sm:gap-4 h-[320px] sm:h-[380px] md:h-[500px]">
-                <div className="flex-1 min-w-0 rounded-lg overflow-hidden shadow-lg bg-gray-100">
-                  <img
-                    src="/images/pet-laundry-washer.png"
-                    alt="Happy dog enjoying clean pet laundry"
-                    className="w-full h-full object-cover object-center"
+                </TabsTrigger>
+                <TabsTrigger value="pet" className={tabTriggerClass}>
+                  <span className={TAB_ICON_WRAP} aria-hidden>
+                    <PawPrintIcon className={TAB_ICON_CLASS} weight="regular" />
+                  </span>
+                  <ServicesTabLabel
+                    t={t}
+                    desktopKey="services.tabs.pet"
+                    line1Key="services.tabs.mobile.pet.line1"
+                    line2Key="services.tabs.mobile.pet.line2"
                   />
-                </div>
+                </TabsTrigger>
+                <TabsTrigger value="pickup" className={tabTriggerClass}>
+                  <span className={TAB_ICON_WRAP} aria-hidden>
+                    <VanIcon className={TAB_ICON_CLASS} weight="regular" />
+                  </span>
+                  <ServicesTabLabel
+                    t={t}
+                    desktopKey="services.tabs.pickup"
+                    line1Key="services.tabs.mobile.pickup.line1"
+                    line2Key="services.tabs.mobile.pickup.line2"
+                  />
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-                <div className="flex flex-col gap-3 sm:gap-4 flex-1 min-w-0 h-full">
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
+            <TabsContent value="self-service" className="mt-10 outline-none">
+              <div className={SERVICE_PANEL_ROW}>
+                <div className={SERVICE_PANEL_MEDIA}>
+                  <div className={SERVICE_MEDIA_MOBILE}>
                     <img
-                      src="/images/pet-laundry-hero.png"
-                      alt="Washing pet bedding in a washer"
-                      className="w-full h-full object-cover object-center"
+                      src="/images/self-service-laundromat-main.png"
+                      alt={t('services.alt.selfServiceMain')}
+                      className={cn(SERVICE_MEDIA_MAIN_COVER, 'object-[center_20%]')}
                     />
                   </div>
-                  <div className="flex-1 min-h-0 rounded-lg overflow-hidden shadow-md bg-gray-100">
-                    <img
-                      src="/images/pet-laundry-dog-toy.png"
-                      alt="Dog waiting next to freshly cleaned pet items"
-                      className="w-full h-full object-cover object-center"
-                    />
+                  <div className={SERVICE_MEDIA_GRID}>
+                    <div className={SERVICE_MEDIA_MAIN}>
+                      <img
+                        src="/images/self-service-laundromat-main.png"
+                        alt={t('services.alt.selfServiceMain')}
+                        className={SERVICE_MEDIA_MAIN_COVER}
+                      />
+                    </div>
+                    <div className={SERVICE_MEDIA_STACK}>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/self-service-side-payment.png"
+                          alt={t('services.alt.selfServicePayment')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/self-service-side-dexter.png"
+                          alt={t('services.alt.selfServiceTerminal')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div className={SERVICE_PANEL_COPY}>
+                  <SectionEyebrow tagline={t('services.section.selfService.tagline')} />
+                  <h2 className="mb-6 text-balance text-3xl font-bold text-black sm:text-4xl">
+                    {t('services.section.selfService.heading')}
+                  </h2>
+                  <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.selfService" />
+                  <a
+                    href={STORE_MAPS_DIRECTIONS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={SERVICE_TAB_CTA_CLASS}
+                  >
+                    {t('home.services.cardCta.Card01')}
+                    <ArrowRightIcon className="size-5" weight="bold" />
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </TabsContent>
 
-      {/* Full-width video CTA — Pickup & Delivery */}
-      <section className="relative w-full overflow-hidden">
-        {/* Background video */}
-        <div className="absolute inset-0">
-          <video
-            className="w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/storefront-areas.png"
-          >
-            <source src="/videos/pickup-delivery.mp4" type="video/mp4" />
-          </video>
-          {/* 60% black overlay */}
-          <div className="absolute inset-0 bg-black/60" />
-        </div>
-
-        {/* Content */}
-        <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 min-h-[420px] sm:min-h-[500px] py-12 sm:py-20 text-center text-white flex flex-col items-center justify-center">
-          <p className="text-base sm:text-lg text-gray-100 mb-2">{t('services.pickupDelivery.tagline')}</p>
-          <h2 className="text-2xl sm:text-4xl font-bold text-balance mb-8">
-            {t('services.pickupDelivery.titleLine1')}
-            <br className="hidden sm:block" /> {t('services.pickupDelivery.titleLine2')}
-          </h2>
-          <div className="flex w-full max-w-lg flex-col items-stretch gap-4 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
-            <Link
-              to="/subscriptions"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-14 w-full items-center justify-center box-border rounded border border-white/80 bg-black/50 px-8 text-center font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
-              onClick={scrollToTop}
-            >
-              {t('home.hero.subscribe')}
-            </Link>
-            <button
-              type="button"
-              className="inline-flex h-14 w-full cursor-pointer items-center justify-center box-border rounded border border-transparent bg-[#00bfb3] px-8 font-semibold text-white transition-colors hover:bg-[#00a89d] sm:w-auto"
-              onClick={() => setPlanModalOpen(true)}
-            >
-              {t('home.hero.schedulePickup')}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/*
-      Services Grid (hidden for now)
-
-      <section className="py-16 sm:py-20">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} hover>
-                <CardContent padding="lg">
-                  <div className="text-[#00bfb3] mb-4">
-                    {service.icon}
+            <TabsContent value="wash-fold" className="mt-10 outline-none">
+              <div className={SERVICE_PANEL_ROW}>
+                <div className={SERVICE_PANEL_MEDIA}>
+                  <div className={SERVICE_MEDIA_MOBILE}>
+                    <img
+                      src="/images/maintenance.png"
+                      alt={t('services.alt.washFoldHero')}
+                      className={cn(SERVICE_MEDIA_MAIN_COVER, 'object-[center_10%]')}
+                    />
                   </div>
-                  <h3 className="text-2xl font-bold text-black mb-3">{t(service.titleKey)}</h3>
-                  <p className="text-gray-600 mb-6">{t(service.descKey)}</p>
-                  <ul className="space-y-2">
-                    {service.featureKeys.map((key, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <div className="w-5 h-5 bg-[#00bfb3] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-700">{t(key)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <div className={SERVICE_MEDIA_GRID}>
+                    <div className={SERVICE_MEDIA_MAIN}>
+                      <img
+                        src="/images/wash-fold-hero.png"
+                        alt={t('services.alt.washFoldHero')}
+                        className={SERVICE_MEDIA_MAIN_COVER}
+                      />
+                    </div>
+                    <div className={SERVICE_MEDIA_STACK}>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/wash-fold-towels.png"
+                          alt={t('services.alt.washFoldTowels')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/wash-fold-bag.png"
+                          alt={t('services.alt.washFoldBag')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={SERVICE_PANEL_COPY}>
+                  <SectionEyebrow tagline={t('services.section.washFold.tagline')} />
+                  <h2 className="mb-6 text-balance text-3xl font-bold text-black sm:text-4xl">
+                    {t('services.section.washFold.heading')}
+                  </h2>
+                  <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.washFold" />
+                  <Link
+                    to="/subscriptions"
+                    className={SERVICE_TAB_CTA_CLASS}
+                    onClick={scrollToTop}
+                  >
+                    {t('home.services.cardCta.Card02')}
+                    <ArrowRightIcon className="size-5" weight="bold" />
+                  </Link>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="pet" className="mt-10 outline-none">
+              <div className={SERVICE_PANEL_ROW}>
+                <div className={SERVICE_PANEL_MEDIA}>
+                  <div className={SERVICE_MEDIA_MOBILE}>
+                    <img
+                      src="/images/pet-laundry-washer.png"
+                      alt={t('services.alt.petWasher')}
+                      className={cn(SERVICE_MEDIA_MAIN_COVER, 'object-[center_25%]')}
+                    />
+                  </div>
+                  <div className={SERVICE_MEDIA_GRID}>
+                    <div className={SERVICE_MEDIA_MAIN}>
+                      <img
+                        src="/images/pet-laundry-washer.png"
+                        alt={t('services.alt.petWasher')}
+                        className={SERVICE_MEDIA_MAIN_COVER}
+                      />
+                    </div>
+                    <div className={SERVICE_MEDIA_STACK}>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/pet-laundry-hero.png"
+                          alt={t('services.alt.petHero')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/pet-laundry-dog-toy.png"
+                          alt={t('services.alt.petToy')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={SERVICE_PANEL_COPY}>
+                  <SectionEyebrow tagline={t('services.section.pet.tagline')} />
+                  <h2 className="mb-6 text-balance text-3xl font-bold text-black sm:text-4xl">
+                    {t('services.section.pet.heading')}
+                  </h2>
+                  <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.pet" />
+                  <Link to="/contact#contact-form" className={SERVICE_TAB_CTA_CLASS}>
+                    {t('home.services.cardCta.Card03')}
+                    <ArrowRightIcon className="size-5" weight="bold" />
+                  </Link>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="pickup" className="mt-10 outline-none">
+              <div className={SERVICE_PANEL_ROW}>
+                <div className={SERVICE_PANEL_MEDIA}>
+                  <div className={SERVICE_MEDIA_MOBILE}>
+                    <img
+                      src="/images/home-services-delivery.jpg"
+                      alt={t('services.alt.pickupVideo')}
+                      className={SERVICE_MEDIA_MAIN_COVER}
+                    />
+                  </div>
+                  <div className={SERVICE_MEDIA_GRID}>
+                    <div className={SERVICE_MEDIA_MAIN}>
+                      <video
+                        className={SERVICE_MEDIA_MAIN_COVER}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster="/images/free-pickup-delivery.png"
+                        aria-label={t('services.alt.pickupVideo')}
+                      >
+                        <source src="/videos/pickup-delivery.mp4" type="video/mp4" />
+                      </video>
+                    </div>
+                    <div className={SERVICE_MEDIA_STACK}>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/hero-storefront.png"
+                          alt={t('services.alt.pickupStorefront')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                      <div className={SERVICE_MEDIA_STACK_CELL}>
+                        <img
+                          src="/images/home-services-delivery.jpg"
+                          alt={t('services.alt.pickupDeliveryVan')}
+                          className={SERVICE_MEDIA_STACK_IMG}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={SERVICE_PANEL_COPY}>
+                  <SectionEyebrow tagline={t('services.pickupDelivery.tagline')} />
+                  <h2 className="mb-6 text-balance text-3xl font-bold text-black sm:text-4xl">
+                    {t('services.pickupDelivery.titleLine1')}{' '}
+                    {t('services.pickupDelivery.titleLine2')}
+                  </h2>
+                  <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.pickup" />
+                  <Link
+                    to="/schedule-pickup"
+                    className={SERVICE_TAB_CTA_CLASS}
+                    onClick={scrollToTop}
+                  >
+                    {t('home.services.cardCta.Card04')}
+                    <ArrowRightIcon className="size-5" weight="bold" />
+                  </Link>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
-      */}
 
-      {/* Amenities + full-bleed image strip */}
-      <section className="py-16 sm:py-20 bg-gray-50">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-black text-balance">
-              #1 Most Comfortable Laundromat Experience in Raleigh
-            </h2>
+      <section className="bg-gray-50 py-16 sm:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <div className="mb-12 text-center">
+            <h2 className="text-balance text-3xl font-bold text-black sm:text-4xl">{t('services.amenities.title')}</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
-            {amenities.map((amenity, index) => {
+          <div className="mx-auto grid w-full max-w-xs grid-cols-1 gap-x-8 gap-y-6 sm:mx-0 sm:max-w-none sm:grid-cols-2 lg:grid-cols-4">
+            {amenitiesConfig.map((amenity, index) => {
               const IconComponent = amenity.Icon;
               return (
                 <div key={index} className="flex items-center gap-3">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#00bfb3]/10 rounded-full flex-shrink-0 text-[#00bfb3]">
+                  <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#00bfb3]/10 text-[#00bfb3]">
                     <IconComponent size={24} weight="regular" />
                   </div>
-                  <div className="text-sm sm:text-base font-medium text-[#363d4f] leading-snug text-balance">
-                    {amenity.label}
-                  </div>
+                  <div className="text-base font-medium leading-snug text-balance text-[#363d4f]">{t(amenity.labelKey)}</div>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* End-to-end image row */}
         <div className="mt-12 w-full">
           <div className="amenities-ticker">
             <div className="amenities-ticker__track">
               {[0, 1].map((groupIndex) => (
                 <div className="amenities-ticker__group" key={groupIndex} aria-hidden={groupIndex === 1}>
-                  {amenitiesImages.map((img, idx) => (
+                  {amenitiesImages.map((src, idx) => (
                     <div
                       key={`${groupIndex}-${idx}`}
-                      className="flex-none overflow-hidden h-40 sm:h-48 md:h-56 lg:h-64 min-w-[220px] sm:min-w-[260px] md:min-w-[320px] lg:min-w-[360px]"
+                      className="h-40 min-w-[220px] flex-none overflow-hidden sm:h-48 sm:min-w-[260px] md:h-56 md:min-w-[320px] lg:h-64 lg:min-w-[360px]"
                     >
-                      <img src={img.src} alt={img.alt} className="w-full h-full object-cover" loading="lazy" />
+                      <img
+                        src={src}
+                        alt={t('services.alt.amenitiesGallery')}
+                        className="h-full w-full object-cover rounded-lg"
+                        loading="lazy"
+                      />
                     </div>
                   ))}
                 </div>
@@ -417,19 +518,14 @@ export function ServicesPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-[#00bfb3]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            Have Questions About Our Services?
-          </h2>
-          <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-            Our friendly staff is here to help. Visit us or give us a call to learn more about how we can make your laundry day easier.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <section className="bg-[#00bfb3] py-16 sm:py-20">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6">
+          <h2 className="mb-6 text-3xl font-bold text-white sm:text-4xl">{t('services.cta.title')}</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">{t('services.cta.subtitle')}</p>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <a
               href="tel:9842059506"
-              className="bg-white text-black px-8 py-4 rounded hover:bg-gray-200 transition-colors font-medium"
+              className="inline-flex w-full items-center justify-center rounded bg-white px-8 py-4 font-medium text-black transition-colors hover:bg-gray-200 sm:w-auto"
             >
               {t('services.cta.callUs')}
             </a>
@@ -437,7 +533,7 @@ export function ServicesPage() {
               href="https://www.google.com/maps?q=15+Jones+Franklin+Rd,+Raleigh,+NC+27606"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-transparent text-white px-8 py-4 rounded border border-white/80 hover:bg-white hover:text-black transition-colors font-medium"
+              className="inline-flex w-full items-center justify-center rounded border border-white/80 bg-transparent px-8 py-4 font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
             >
               {t('services.cta.visitUs')}
             </a>
