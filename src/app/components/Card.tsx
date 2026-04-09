@@ -16,6 +16,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     objectPosition?: 'top' | 'center' | 'bottom';
     /** Image area: fixed height (default) or aspect ratio */
     aspect?: '4/3' | 'square';
+    /** Tailwind height class for the image area; when set, overrides `aspect`. Example: `h-[220px]` */
+    heightClass?: string;
   };
   /** Enable hover effect (border + shadow) */
   hover?: boolean;
@@ -41,9 +43,12 @@ export function Card({
         <div
           className={cn(
             'overflow-hidden',
-            image.aspect === '4/3' && 'aspect-[4/3]',
-            image.aspect === 'square' && 'aspect-square',
-            !image.aspect && 'h-[255px]'
+            image.heightClass ||
+              cn(
+                image.aspect === '4/3' && 'aspect-[4/3]',
+                image.aspect === 'square' && 'aspect-square',
+                !image.aspect && 'h-[255px]'
+              )
           )}
         >
           <img
@@ -52,6 +57,7 @@ export function Card({
             className={cn(
               'h-full w-full object-cover',
               image.objectPosition === 'top' && 'object-top',
+              image.objectPosition === 'center' && 'object-center',
               image.objectPosition === 'bottom' && 'object-bottom'
             )}
           />

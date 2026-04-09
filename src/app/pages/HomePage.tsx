@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { scrollToTop } from '../../lib/utils';
+import { buttonClass } from '../../lib/button-classes';
+import { cn, scrollToTop } from '../../lib/utils';
 import { AreasMap } from '../components/AreasMap';
-import { Star, MapPin, Clock, Phone, Hand, CircleCheck } from 'lucide-react';
+import { Star, MapPin, Clock, Phone, Hand } from 'lucide-react';
 import { GiftIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
@@ -17,6 +18,10 @@ const areas = [
   { nameKey: 'home.areas.westRaleigh', descKey: 'home.areas.westRaleighDesc' },
   { nameKey: 'home.areas.garner', descKey: 'home.areas.garnerDesc' },
 ] as const;
+
+/** Google Maps — directions to storefront (same address as site footer / contact) */
+const STORE_MAPS_DIRECTIONS_URL =
+  'https://www.google.com/maps/dir/?api=1&destination=15+Jones+Franklin+Rd,+Raleigh,+NC+27606';
 
 export function HomePage() {
   const { t } = useLanguage();
@@ -184,18 +189,27 @@ export function HomePage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">{t('home.services.title')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto text-balance">
               {t('home.services.subtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card image={{ src: '/images/self-service-laundry.jpg', alt: 'Self-Service Laundry', aspect: '4/3' }} hover className="flex flex-col">
-              <CardContent className="flex flex-col justify-between flex-1">
+          <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2 xl:grid-cols-4">
+            <Card
+              image={{
+                src: '/images/self-service-laundry.jpg',
+                alt: 'Self-Service Laundry',
+                heightClass: 'h-[300px]',
+                objectPosition: 'center',
+              }}
+              hover
+              className="group flex flex-col"
+            >
+              <CardContent className="flex flex-col">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.selfService.title')}</h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.selfService.description')}</p>
-                  <div className="space-y-2">
+                  <p className="text-gray-600 leading-relaxed text-sm text-balance">{t('home.services.selfService.description')}</p>
+                  {/* <div className="space-y-2">
                     {[
                       'home.services.selfService.feature1',
                       'home.services.selfService.feature2',
@@ -207,17 +221,36 @@ export function HomePage() {
                         <p className="text-gray-700 text-sm font-semibold">{t(key)}</p>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
+                </div>
+                <div className="mt-6 w-full">
+                  <a
+                    href={STORE_MAPS_DIRECTIONS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                  >
+                    {t('home.services.cardCta.Card01')}
+                  </a>
                 </div>
               </CardContent>
             </Card>
 
-            <Card image={{ src: '/images/01-wash-fold-service.png', alt: 'Wash and Fold Service', aspect: '4/3' }} hover className="flex flex-col">
-              <CardContent className="flex flex-col justify-between flex-1">
+            <Card
+              image={{
+                src: '/images/01-wash-fold-service.png',
+                alt: 'Wash and Fold Service',
+                heightClass: 'h-[300px]',
+                objectPosition: 'center',
+              }}
+              hover
+              className="group flex flex-col"
+            >
+              <CardContent className="flex flex-col">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.washFold.title')}</h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.washFold.description')}</p>
-                  <div className="space-y-2">
+                  <p className="text-gray-600 leading-relaxed text-sm text-balance">{t('home.services.washFold.description')}</p>
+                  {/* <div className="space-y-2">
                     {[
                       'home.services.washFold.feature1',
                       'home.services.washFold.feature2',
@@ -229,17 +262,74 @@ export function HomePage() {
                         <p className="text-gray-700 text-sm font-semibold">{t(key)}</p>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
+                </div>
+                <div className="mt-6 w-full">
+                  <Link
+                    to="/subscriptions"
+                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    onClick={scrollToTop}
+                  >
+                    {t('home.services.cardCta.Card02')}
+                  </Link>
                 </div>
               </CardContent>
             </Card>
 
-            <Card image={{ src: '/images/01-free-pickup-delivery.png', alt: 'Free Pickup and Delivery', aspect: '4/3', objectPosition: 'top' }} hover className="flex flex-col">
-              <CardContent className="flex flex-col justify-between flex-1">
+            <Card
+              image={{
+                src: '/images/pet-laundry-washer.png',
+                alt: 'Pet laundry service',
+                heightClass: 'h-[300px]',
+                objectPosition: 'center',
+              }}
+              hover
+              className="group flex flex-col"
+            >
+              <CardContent className="flex flex-col">
+                <div>
+                  <h3 className="text-xl font-bold text-black mb-3">{t('home.services.petLaundry.title')}</h3>
+                  <p className="text-gray-600 leading-relaxed text-sm text-balance">{t('home.services.petLaundry.description')}</p>
+                  {/* <div className="space-y-2">
+                    {[
+                      'home.services.petLaundry.feature1',
+                      'home.services.petLaundry.feature2',
+                      'home.services.petLaundry.feature3',
+                      'home.services.petLaundry.feature4',
+                    ].map((key) => (
+                      <div key={key} className="flex items-center gap-2">
+                        <CircleCheck className="w-5 h-5 flex-shrink-0 text-white fill-[#00bfb3]" />
+                        <p className="text-gray-700 text-sm font-semibold">{t(key)}</p>
+                      </div>
+                    ))}
+                  </div> */}
+                </div>
+                <div className="mt-6 w-full">
+                  <Link
+                    to="/contact#contact-form"
+                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                  >
+                    {t('home.services.cardCta.Card03')}
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card
+              image={{
+                src: '/images/home-services-delivery.jpg',
+                alt: 'Free Pickup and Delivery',
+                heightClass: 'h-[300px]',
+                objectPosition: 'center',
+              }}
+              hover
+              className="group flex flex-col"
+            >
+              <CardContent className="flex flex-col">
                 <div>
                   <h3 className="text-xl font-bold text-black mb-3">{t('home.services.pickupDelivery.title')}</h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">{t('home.services.pickupDelivery.description')}</p>
-                  <div className="space-y-2">
+                  <p className="text-gray-600 leading-relaxed text-sm">{t('home.services.pickupDelivery.description')}</p>
+                  {/* <div className="space-y-2">
                     {[
                       'home.services.pickupDelivery.feature1',
                       'home.services.pickupDelivery.feature2',
@@ -251,7 +341,16 @@ export function HomePage() {
                         <p className="text-gray-700 text-sm font-semibold">{t(key)}</p>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
+                </div>
+                <div className="mt-6 w-full">
+                  <Link
+                    to="/schedule-pickup"
+                    className={cn(buttonClass.secondaryElevate, 'w-full')}
+                    onClick={scrollToTop}
+                  >
+                    {t('home.services.cardCta.Card04')}
+                  </Link>
                 </div>
               </CardContent>
             </Card>
