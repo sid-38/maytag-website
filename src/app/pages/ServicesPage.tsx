@@ -3,9 +3,7 @@ import { Link } from 'react-router';
 import {
   WifiHighIcon,
   ArmchairIcon,
-  CoffeeIcon,
   ShoppingCartIcon,
-  BankIcon,
   SecurityCameraIcon,
   CarIcon,
   UserIcon,
@@ -28,16 +26,13 @@ const STORE_MAPS_DIRECTIONS_URL =
 const amenitiesConfig = [
   { Icon: WifiHighIcon, labelKey: 'services.amenities.wifi' as const },
   { Icon: ArmchairIcon, labelKey: 'services.amenities.seating' as const },
-  { Icon: CoffeeIcon, labelKey: 'services.amenities.vending' as const },
   { Icon: ShoppingCartIcon, labelKey: 'services.amenities.folding' as const },
-  { Icon: BankIcon, labelKey: 'services.amenities.atm' as const },
   { Icon: SecurityCameraIcon, labelKey: 'services.amenities.security' as const },
   { Icon: CarIcon, labelKey: 'services.amenities.parking' as const },
   { Icon: UserIcon, labelKey: 'services.amenities.attendant' as const },
 ];
 
 const amenitiesImages = [
-  '/images/amenities-1.png',
   '/images/amenities-2.png',
   '/images/amenities-3.png',
   '/images/amenities-4.png',
@@ -476,7 +471,7 @@ export function ServicesPage() {
             <h2 className="text-balance text-3xl font-bold text-black sm:text-4xl">{t('services.amenities.title')}</h2>
           </div>
 
-          <div className="mx-auto grid w-full max-w-xs grid-cols-1 gap-x-8 gap-y-6 sm:mx-0 sm:max-w-none sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto grid w-full max-w-xs grid-cols-1 gap-x-8 gap-y-6 sm:mx-0 sm:max-w-none sm:grid-cols-3">
             {amenitiesConfig.map((amenity, index) => {
               const IconComponent = amenity.Icon;
               return (
