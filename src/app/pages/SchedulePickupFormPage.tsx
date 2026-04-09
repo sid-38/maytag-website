@@ -13,6 +13,9 @@ const HOLD_DURATION_MS = 3000;
 const GOOGLE_SHEETS_WEB_APP_URL =
   'https://script.google.com/macros/s/AKfycbz34aM2KtTbCTa4NPCANFKhkpY-xqpl5qS5imuxlojf3LaiTGX92587sXhnA-k5DGLJ/exec';
 
+/** Same asset as subscriptions bag section */
+const BAG_IMAGE_SRC = '/images/01-laundry-bag.jpg';
+
 function isValidUSPhone(value: string): boolean {
   const digits = value.replace(/\D/g, '');
   if (digits.length === 10) return true;
@@ -245,7 +248,7 @@ export function SchedulePickupFormPage() {
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center px-4 py-6 sm:py-8 min-h-0 overflow-visible">
-        <div className="w-full max-w-md overflow-visible">
+        <div className="mx-auto w-full max-w-md overflow-visible">
           {submitted ? (
             <SchedulePickupSuccessScreen />
           ) : (
@@ -256,10 +259,45 @@ export function SchedulePickupFormPage() {
               <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
                 {t('pickupForm.subtitle')}
               </p>
-              <form
-                onSubmit={handleSubmit}
-                className="bg-white rounded-xl shadow-lg p-6 sm:p-8 space-y-4"
-              >
+              <div className="mb-6 w-full overflow-hidden rounded-2xl border-2 border-white/40 bg-white shadow-lg">
+                <div className="p-6 pb-8 sm:p-8">
+                  <div className="flex flex-row items-center gap-3 md:grid md:grid-cols-2 md:items-center md:gap-6">
+                    <div className="flex min-h-0 w-auto shrink-0 items-center justify-center overflow-hidden rounded-xl md:w-full md:max-w-none">
+                      <img
+                        src={BAG_IMAGE_SRC}
+                        alt={t('pickupForm.bagPromo.imageAlt')}
+                        className="h-auto max-h-[60px] w-auto max-w-[100px] object-contain object-center sm:max-w-[120px] md:max-h-[200px] md:w-full md:max-w-none"
+                      />
+                    </div>
+                    <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-center text-left md:min-w-0">
+                      <div className="flex flex-row items-center justify-between gap-3 md:flex-col md:items-start md:gap-4">
+                        <div className="order-1 min-w-0 flex-1 md:order-2">
+                          {/* <h2 className="line-clamp-3 text-sm font-semibold leading-snug text-black sm:text-base text-balance">
+                            {t('pickupForm.bagPromo.title')}
+                          </h2> */}
+                          <p className="mt-0 text-xs leading-snug text-gray-600 sm:text-sm text-balance md:mt-0">
+                            {t('schedulePickupForm.bagSectionSubtitle')}
+                          </p>
+                        </div>
+                        <div className="order-2 flex shrink-0 flex-col items-end md:order-1 md:mt-0 md:w-full md:items-start">
+                          <div className="flex flex-col items-center gap-0.5 md:flex-row md:flex-wrap md:items-baseline md:justify-start md:gap-x-2 md:gap-y-0">
+                            <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
+                              {t('pickupForm.bagPromo.price')}
+                            </span>
+                            <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
+                              {t('pickupForm.bagPromo.flatRate')}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr className="m-0 mx-4 border-0 border-t border-gray-200" />
+                <form
+                  onSubmit={handleSubmit}
+                  className="w-full space-y-4 p-6 pt-8 sm:p-8"
+                >
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-black mb-1">
                     {t('contact.form.name')} <span className="text-red-500">*</span>
@@ -395,7 +433,8 @@ export function SchedulePickupFormPage() {
                 >
                   {submitting ? t('contact.form.sending') : t('pickupForm.submit')}
                 </button>
-              </form>
+                </form>
+              </div>
               <p className="text-center mt-6">
                 <Link
                   to="/services"
