@@ -14,6 +14,8 @@
   --btn-radius: 4px;
   --btn-font-size: 1rem; /* 16px when root font size is 16px */
   --btn-line-height: 1.5rem;
+  /** Fixed width for `.btn-primary` / `.btn-secondary` at lg+ (overrides conflicting utility widths). */
+  --btn-width-desktop: 200px;
 }
 
 @layer utilities {
@@ -100,6 +102,28 @@
   .btn-secondary:disabled {
     pointer-events: none;
     opacity: 0.5;
+  }
+
+  @media (min-width: 1024px) {
+    .btn-primary,
+    .btn-secondary {
+      width: var(--btn-width-desktop) !important;
+      min-width: var(--btn-width-desktop) !important;
+      max-width: var(--btn-width-desktop) !important;
+    }
+  }
+
+  /**
+   * Full-bleed image heroes: keep `w-full` (and optional `md:w-auto`) below lg;
+   * at lg+ match `.btn-primary` / `.btn-secondary` width token.
+   */
+  @media (min-width: 1024px) {
+    .hero-cta {
+      box-sizing: border-box;
+      width: var(--btn-width-desktop) !important;
+      min-width: var(--btn-width-desktop) !important;
+      max-width: var(--btn-width-desktop) !important;
+    }
   }
 
   /**
