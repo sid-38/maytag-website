@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { buttonClass } from '../../lib/button-classes';
 import { scrollToTop } from '../../lib/utils';
 import { SparkleIcon, HeartStraightIcon, ShieldIcon, SunHorizonIcon, TrophyIcon, UsersThreeIcon, WrenchIcon, HandHeartIcon } from '@phosphor-icons/react';
 import { Card, CardContent } from '../components/Card';
@@ -56,7 +57,7 @@ export function AboutPage() {
             </p>
             <Link
               to="/services"
-              className="block w-full md:w-auto md:inline-block bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center"
+              className={`${buttonClass.heroCta} block w-full md:w-auto md:inline-block bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center`}
               onClick={scrollToTop}
             >
               {t('about.hero.exploreServices')}

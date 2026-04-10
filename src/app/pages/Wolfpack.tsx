@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { buttonClass } from '../../lib/button-classes';
 import { scrollToTop } from '../../lib/utils';
 import {
   GraduationCap,
@@ -119,7 +120,7 @@ export function WolfpackPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/pricing"
-                className="bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center inline-flex items-center justify-center gap-2"
+                className={`${buttonClass.heroCta} w-full sm:w-auto bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center inline-flex items-center justify-center gap-2`}
                 onClick={scrollToTop}
               >
                 <Zap className="w-5 h-5" />
@@ -127,7 +128,7 @@ export function WolfpackPage() {
               </Link>
               <Link
                 to="/contact"
-                className="bg-white text-[#CC0000] px-8 py-4 rounded hover:bg-gray-100 transition-colors text-center"
+                className={`${buttonClass.heroCta} w-full sm:w-auto bg-white text-[#CC0000] px-8 py-4 rounded hover:bg-gray-100 transition-colors text-center inline-flex items-center justify-center`}
                 onClick={scrollToTop}
               >
                 Get Directions
