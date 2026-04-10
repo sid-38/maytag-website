@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
 import { buttonClass } from '../../lib/button-classes';
-import { cn, scrollToTop } from '../../lib/utils';
+import { cn, HOME_SUBSCRIPTION_PRICES_HASH, scrollToTop } from '../../lib/utils';
 import { SubscriptionPlanModal } from '../components/SubscriptionPlanModal';
 
 const STORE_MAPS_DIRECTIONS_URL =
@@ -163,17 +163,14 @@ export function ServicesPage() {
             <p className="mb-8 max-w-[450px] text-lg text-gray-200 sm:text-xl">{t('services.hero.subtitle')}</p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
-                to="/subscriptions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-14 w-full items-center justify-center rounded border border-white/80 bg-black/50 px-8 font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto"
-                onClick={scrollToTop}
+                to={`/${HOME_SUBSCRIPTION_PRICES_HASH}`}
+                className={`${buttonClass.heroCta} inline-flex h-14 w-full items-center justify-center rounded border border-white/80 bg-black/50 px-8 font-medium text-white transition-colors hover:bg-white hover:text-black md:w-auto`}
               >
                 {t('home.hero.subscribe')}
               </Link>
               <button
                 type="button"
-                className="inline-flex h-14 w-full cursor-pointer items-center justify-center rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto"
+                className={`${buttonClass.heroCta} inline-flex h-14 w-full cursor-pointer items-center justify-center rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto`}
                 onClick={() => setPlanModalOpen(true)}
               >
                 {t('home.hero.schedulePickup')}

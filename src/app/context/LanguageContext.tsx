@@ -255,6 +255,26 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.pickupDelivery.feature3': 'Flexible scheduling',
     'home.services.pickupDelivery.feature4': 'Serving the Triangle area',
 
+    // Home Page - Prices Section
+    'home.prices.title': 'Pricing That Fits Your Needs',
+    'home.prices.subtitle.01': 'Subscribe and let us handle your monthly laundry.',
+    'home.prices.subtitle.02': 'Comforter allowances are included.',
+    'home.prices.unlockBenefits': 'Unlock Plan Benefits',
+    'home.prices.trySingleBag': 'Try a Single Bag',
+    'home.prices.singleBag.title': 'Single Bag Laundry',
+    'home.prices.singleBag.description':
+      "One bag, one flat price. Fill it with your clothes and we'll take care of the rest.",
+    'home.prices.singleBag.price': '$35',
+    'home.prices.singleBag.flatRate': 'Flat Rate',
+    'home.prices.singleBag.included1': 'Fill with as many clothes as you can',
+    'home.prices.singleBag.included2': 'Wash, dry, and neatly folded',
+    'home.prices.singleBag.included3': 'Free pickup and delivery',
+    'home.prices.payAsYouGo.title': 'Simple Laundry Options',
+    'home.prices.payAsYouGo.subtitle':
+      'Perfect for larger items like blankets and comforters with simple per item pricing.',
+    'home.prices.payAsYouGo.alacarte.title': 'Free pickup and delivery',
+    'home.prices.payAsYouGo.alacarte.subtitle': 'Flat rates of a single laundry bag and household items.',
+
     // Home Page - Areas Section
     'home.areas.title': 'Pickup & Delivery Near You',
     'home.areas.subtitle': "We offer convenient pickup and delivery service throughout Raleigh and the surrounding Triangle area. Schedule a pickup and let us handle the rest.",
@@ -388,11 +408,12 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.plansMobileIntro':
       'Pick a plan below, then enter your details in the form to subscribe.',
     'subscriptions.plan.whatsIncluded': "What's included:",
+    'subscriptions.plan.homeCardOffer': 'Offer Applied: $20 Store Credit',
     'subscriptions.plan.commonFeature': 'Free pickup and delivery',
     'subscriptions.plan.mostPopular': 'Most popular',
-    'subscriptions.plan.singles.blurb': 'Weekly wash & fold for one person.',
-    'subscriptions.plan.couples.blurb': 'Great for two—our most popular option.',
-    'subscriptions.plan.family.blurb': 'Maximum weekly bags for busy households.',
+    'subscriptions.plan.singles.blurb': 'Ideal for individuals who want easy, consistent laundry care.',
+    'subscriptions.plan.couples.blurb': 'Designed for two with a simple shared laundry plan.',
+    'subscriptions.plan.family.blurb': 'Made for busy households with higher laundry needs.',
     'subscriptions.plan.singles.name': 'Singles Plan',
     'subscriptions.plan.singles.cardTitle': 'Singles Plan',
     'subscriptions.plan.singles.feature1': '4 wash & fold bags per month',
@@ -989,7 +1010,7 @@ const translations: Record<Language, Record<string, string>> = {
       'Haga el lavado fácil: máquinas para cada carga, y WiFi gratis mientras espera.',
     'home.services.selfService.feature1': 'Máquinas de bajo consumo',
     'home.services.selfService.feature2': 'Variedad de tamaños',
-    'home.services.selfService.feature3': 'WiFi Free',
+    'home.services.selfService.feature3': 'WiFi Gratis',
     'home.services.selfService.feature4': 'Centro con clima controlado',
     'home.services.washFold.title': 'Servicio de Lavado y Doblado',
     'home.services.washFold.description':
@@ -1015,8 +1036,29 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.pickupDelivery.feature3': 'Horarios a su gusto',
     'home.services.pickupDelivery.feature4': 'Cobertura en el Triángulo',
 
+    // Home Page - Prices Section (homepage subscription preview)
+    'home.prices.title': 'Precios Que se Adaptan a sus Necesidades',
+    'home.prices.subtitle.01': 'Suscríbase y nosotros nos encargamos de su lavado cada mes.',
+    'home.prices.subtitle.02': 'Las franquicias para edredones están incluidas.',
+    'home.prices.unlockBenefits': 'Desbloquee Los Beneficios del Plan',
+    'home.prices.trySingleBag': 'Pruebe Una Bolsa Individual',
+    'home.prices.singleBag.title': 'Lavado por bolsa única',
+    'home.prices.singleBag.description':
+      'Una bolsa, un precio fijo. Llénela con su ropa y nosotros nos encargamos del resto.',
+    'home.prices.singleBag.price': '$35',
+    'home.prices.singleBag.flatRate': 'Precio Fijo',
+    'home.prices.singleBag.included1': 'Llévela con toda la ropa que quepa',
+    'home.prices.singleBag.included2': 'Lavado, secado y doblado prolijo',
+    'home.prices.singleBag.included3': 'Recolección y entrega gratis',
+    'home.prices.payAsYouGo.title': 'Opciones de Lavado Sencillas',
+    'home.prices.payAsYouGo.subtitle':
+      'Ideal para piezas grandes como mantas y edredones, con precios claros por artículo.',
+    'home.prices.payAsYouGo.alacarte.title': 'Recolección y entrega gratis',
+    'home.prices.payAsYouGo.alacarte.subtitle':
+      'Tarifas fijas por bolsa de lavado y artículos del hogar.',
+
     // Home Page - Areas Section
-    'home.areas.title': 'Servicio a domicilio cerca de usted',
+    'home.areas.title': 'Servicio a Domicilio Cerca de Usted',
     'home.areas.subtitle': 'Ofrecemos un servicio conveniente de entrega a domicilio en Raleigh y en el área del Triángulo. Programe un servicio y nosotros nos encargamos del resto.',
     'home.areas.serviceAreas': 'Areas de Servicio',
     'home.areas.raleigh': 'Raleigh',
@@ -1038,7 +1080,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.areas.mapHint': 'Use los controles del mapa para acercar y alejar para explorar nuestras áreas de servicio',
 
     // Home Page - Questions Section
-    'home.questions.title': '¿Tiene más preguntas?',
+    'home.questions.title': '¿Tiene más Preguntas?',
     'home.questions.subtitle': 'Visite nuestra tienda o llámenos; somos fáciles de contactar.',
     'home.questions.findUs': 'Encuéntrenos',
     'home.questions.address': '15 Jones Franklin Rd, Raleigh, NC 27606',
@@ -1097,7 +1139,7 @@ const translations: Record<Language, Record<string, string>> = {
     'pickupForm.bagPromo.description':
       'Con medidas de 20" × 14" × 15", esta bolsa de lavado y doblado extra resistente es ideal para cargas grandes. Suele bastar para aproximadamente una semana de ropa diaria para una familia de cuatro y equivale más o menos a 2–3 bolsas de basura estándar de 13 galones.',
     'pickupForm.bagPromo.price': '$35',
-    'pickupForm.bagPromo.flatRate': 'Tarifa Plana',
+    'pickupForm.bagPromo.flatRate': 'Precio Fijo',
     'pickupForm.promoPill.washers': 'Lavado desde $4',
     'pickupForm.promoPill.dryers': 'Secado desde $0.50',
     'pickupForm.address': 'Dirección De Servicio',
@@ -1115,9 +1157,9 @@ const translations: Record<Language, Record<string, string>> = {
     'pickupForm.planStep.title': 'Obtenga Más con Planes Mensuales',
     'pickupForm.planStep.subtitle':
       'Más valor, más artículos incluidos y un calendario constante que le ahorra tiempo cada semana.',
-    'pickupForm.planStep.continue': 'Desbloquear Beneficios del Plan',
+    'pickupForm.planStep.continue': 'Desbloquee Los Beneficios del Plan',
     'pickupForm.planStep.skip': 'Continuar sin un Plan',
-    'pickupForm.planStep.back': 'Volver a los Planes',
+    'pickupForm.planStep.back': 'Volver A Los Planes',
     'pickupForm.successTitle': '¡Solicitud Recibida!',
     'pickupForm.successMessage': 'Nos pondremos en contacto pronto para confirmar su horario de servicio. ¡Gracias por elegir Maytag Laundry!',
     'schedulePickupForm.bagSectionSubtitle':
@@ -1141,16 +1183,17 @@ const translations: Record<Language, Record<string, string>> = {
       'Bolsa de lavado y doblado — tamaño estándar de 30 gal. Vea los detalles abajo.',
     'subscriptions.linkToFullBag': 'Ir a detalles de la bolsa',
     'subscriptions.checkLaundryBag': 'Ver Bolsa de Lavado',
-    'subscriptions.checkPriceList': 'Ver Precios a la Carta',
-    'subscriptions.checkLaundryBagAndPriceList': 'Ver Bolsa de Lavado y Precios a la Carta',
+    'subscriptions.checkPriceList': 'Ver Precios A La Carta',
+    'subscriptions.checkLaundryBagAndPriceList': 'Ver Bolsa de Lavado y Precios A La Carta',
     'subscriptions.bagSectionTitle': 'Bolsa de lavado (30 gal)',
     'subscriptions.bagSectionSubtitle':
       'Mide 20" x 14" x 15"; esta bolsa de lavado de gramaje extrapesado es ideal para cargas grandes de lavado y doblado. Suele contener aproximadamente una semana de ropa de uso diario para una familia de cuatro y equivale más o menos a 2 o 3 bolsas de basura para cocina típicas de 13 galones.',
-    'subscriptions.addOnsSectionTitle': 'Bolsa de lavado y precios a la carta',
+    'subscriptions.addOnsSectionTitle': 'Bolsa de lavado y precios A La Carta',
     'subscriptions.plansHeading': 'Elija un Plan',
     'subscriptions.plansMobileIntro':
       'Elija un plan a continuación y complete sus datos en el formulario para suscribirse.',
     'subscriptions.plan.whatsIncluded': 'Incluye:',
+    'subscriptions.plan.homeCardOffer': 'Oferta Aplicada: $20 de Crédito en la Tienda',
     'subscriptions.plan.commonFeature': 'Servicio y entrega gratis',
     'subscriptions.plan.mostPopular': 'Más Popular',
     'subscriptions.plan.singles.blurb': 'Lavado y doblado semanal para una persona.',
@@ -1175,8 +1218,8 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.plan.family.price': '$280',
     'subscriptions.plan.family.discountPrice': '$260',
     'subscriptions.perMonth': '/mes',
-    'subscriptions.perFirstMonth': 'primer mes',
-    'subscriptions.nonSubscription.title': 'Precios a la Carta',
+    'subscriptions.perFirstMonth': 'Primer Mes',
+    'subscriptions.nonSubscription.title': 'Precios A La Carta',
     'subscriptions.priceListSectionSubtitle':
       'Tarifas fijas para una bolsa de lavado y artículos del hogar.',
     'subscriptions.table.service': 'Servicio',
@@ -1299,7 +1342,7 @@ const translations: Record<Language, Record<string, string>> = {
     'services.commercial.feature4': 'Calidad garantizada',
     'services.amenities.title': '#1 Experiencia de lavandería más cómoda en Raleigh',
     'services.amenities.subtitle': 'Creemos que hacer la lavandería debe ser lo más cómodo y conveniente posible. Por eso hemos equipado nuestras instalaciones con comodidades modernas para hacer su visita agradable.',
-    'services.amenities.wifi': 'WiFi gratis en toda la instalación',
+    'services.amenities.wifi': 'WiFi Gratis en Toda la Instalación',
     'services.amenities.seating': 'Áreas de asientos cómodas',
     'services.amenities.folding': 'Mesas de doblado y carritos disponibles',
     'services.amenities.security': 'Cámaras de seguridad para su protección',
