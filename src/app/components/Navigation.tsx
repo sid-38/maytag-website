@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { Menu, Phone, X } from 'lucide-react';
+import { trackGa4Event } from '../../lib/analytics';
 import { scrollToTop } from '../../lib/utils';
 import navigationLogoSvg from '../../imports/new-logo-white.svg';
 import { useLanguage } from '../context/LanguageContext';
@@ -75,6 +76,12 @@ export function Navigation() {
             <a
               href="tel:9842059506"
               className="bg-[#00bfb3] text-white px-6 py-2 rounded hover:bg-[#00a89d] transition-colors"
+              onClick={() =>
+                trackGa4Event('phone_call_click', {
+                  link_location: 'header_desktop',
+                  link_url: 'tel:9842059506',
+                })
+              }
             >
               {t('nav.callUs')}
             </a>
@@ -86,6 +93,12 @@ export function Navigation() {
               href="tel:9842059506"
               aria-label={t('nav.callUs')}
               className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded bg-[#00bfb3] px-3 py-2 text-md font-medium text-white transition-colors hover:bg-[#00a89d]"
+              onClick={() =>
+                trackGa4Event('phone_call_click', {
+                  link_location: 'header_mobile',
+                  link_url: 'tel:9842059506',
+                })
+              }
             >
               <Phone className="size-[16px] shrink-0" aria-hidden />
               <span>{t('nav.call')}</span>
