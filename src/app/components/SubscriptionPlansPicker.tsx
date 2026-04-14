@@ -25,6 +25,8 @@ export type SubscriptionPlansPickerProps = {
   onSelectPlan: (id: SubscriptionPlanId) => void;
   t: (key: string) => string;
   showLaundryBagLink?: boolean;
+  /** When set with `showLaundryBagLink`, hides the scroll link from the `lg` breakpoint up. */
+  hideLaundryBagLinkOnDesktop?: boolean;
   ariaLabelledBy: string;
   planCardWidthPx?: 200;
   /** @deprecated No longer used. */
@@ -40,6 +42,7 @@ export function SubscriptionPlansPicker({
   onSelectPlan,
   t,
   showLaundryBagLink = true,
+  hideLaundryBagLinkOnDesktop = false,
   ariaLabelledBy,
   planCardWidthPx,
   noPlanGridTopMargin = false,
@@ -65,9 +68,9 @@ export function SubscriptionPlansPicker({
               fixedW
                 ? 'flex w-full flex-wrap justify-center gap-4 sm:gap-5'
                 : cn(
-                    'grid w-full grid-cols-1 items-start gap-5 sm:gap-4 lg:grid-cols-3 lg:gap-4 mb-8',
+                    'grid w-full grid-cols-1 items-start gap-5 sm:gap-4 lg:grid-cols-3 lg:gap-4 mb-8 lg:mb-0',
                     featuredPlanCardFitContent ? 'lg:items-stretch' : 'lg:items-center',
-                    noPlanGridTopMargin ? 'mt-0' : 'mt-8',
+                    noPlanGridTopMargin ? 'mt-0' : 'mt-8 lg:mt-0',
                   ),
             )}
           >
@@ -167,7 +170,12 @@ export function SubscriptionPlansPicker({
           </div>
         </div>
         {showLaundryBagLink ? (
-          <div className="flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4">
+          <div
+            className={cn(
+              'flex w-full shrink-0 justify-center self-center pt-3 sm:pt-4',
+              hideLaundryBagLinkOnDesktop && 'lg:hidden',
+            )}
+          >
             <a
               href={`#${ADD_ONS_SECTION_ID}`}
               onClick={scrollToAddOnsSection}

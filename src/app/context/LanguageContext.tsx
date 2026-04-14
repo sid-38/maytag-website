@@ -436,9 +436,8 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.perMonth': '/month',
     'subscriptions.nonSubscription.title': 'A La Carte Pricing',
     'subscriptions.priceListSectionSubtitle': 'Flat rates of a single laundry bag and household items.',
-    'subscriptions.table.service': 'Service',
+    'subscriptions.table.item': 'Item',
     'subscriptions.table.price': 'Price',
-    'subscriptions.row.singleBag': 'Single bag',
     'subscriptions.row.twin': 'Twin blanket / comforter',
     'subscriptions.row.full': 'Full blanket / comforter',
     'subscriptions.row.queen': 'Queen blanket / comforter',
@@ -1170,7 +1169,7 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.subtitle.01':
       'Disfrute de un lavado accesible con lavadoras desde $4 y secadoras desde solo $0.50.',
     'subscriptions.subtitle.02':
-      'Suscríbase al lavado y doblado semanal por bolsa. Incluye asignación de edredones cada mes.',
+      'Suscríbase al lavado y doblado semanal por bolsa. Cada mes incluye cupos para edredones.',
     'subscriptions.subtitle.mobile':
       'Disfrute de un lavado accesible con lavadoras desde $4 y secadoras desde solo $0.50. Suscríbase al lavado y doblado semanal por bolsa. Incluye asignación de edredones cada mes.',
     'subscriptions.promo': 'Regístrese hoy y obtenga $20 de crédito en la tienda',
@@ -1188,10 +1187,10 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.bagSectionTitle': 'Bolsa de lavado (30 gal)',
     'subscriptions.bagSectionSubtitle':
       'Mide 20" x 14" x 15"; esta bolsa de lavado de gramaje extrapesado es ideal para cargas grandes de lavado y doblado. Suele contener aproximadamente una semana de ropa de uso diario para una familia de cuatro y equivale más o menos a 2 o 3 bolsas de basura para cocina típicas de 13 galones.',
-    'subscriptions.addOnsSectionTitle': 'Bolsa de lavado y precios A La Carta',
+    'subscriptions.addOnsSectionTitle': 'Bolsa de lavado y precios a la carta',
     'subscriptions.plansHeading': 'Elija un Plan',
     'subscriptions.plansMobileIntro':
-      'Elija un plan a continuación y complete sus datos en el formulario para suscribirse.',
+      'Elija un plan a continuación; luego ingrese sus datos en el formulario para suscribirse.',
     'subscriptions.plan.whatsIncluded': 'Incluye:',
     'subscriptions.plan.homeCardOffer': 'Oferta Aplicada: $20 de Crédito en la Tienda',
     'subscriptions.plan.commonFeature': 'Servicio y entrega gratis',
@@ -1221,8 +1220,9 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.perFirstMonth': 'Primer Mes',
     'subscriptions.nonSubscription.title': 'Precios A La Carta',
     'subscriptions.priceListSectionSubtitle':
-      'Tarifas fijas para una bolsa de lavado y artículos del hogar.',
+      'Tarifas fijas para una bolsa de lavado individual y artículos del hogar.',
     'subscriptions.table.service': 'Servicio',
+    'subscriptions.table.item': 'Artículo',
     'subscriptions.table.price': 'Precio',
     'subscriptions.row.singleBag': 'Bolsa individual',
     'subscriptions.row.twin': 'Manta / edredón individual (twin)',
@@ -1244,15 +1244,15 @@ const translations: Record<Language, Record<string, string>> = {
     'subscriptions.form.firstPickupDate': 'Primera fecha de servicio',
     'subscriptions.form.firstPickupDateError': 'Seleccione una primera fecha de servicio.',
     'subscriptions.form.holdToVerify': 'Mantener Para Verificar',
-    'subscriptions.form.verifiedMessage': '¡Verificado! Ya puede continuar.',
+    'subscriptions.form.verifiedMessage': '¡Verificado! Todo listo para continuar.',
     'subscriptions.form.submit': 'Comenzar',
     'subscriptions.form.successTitle': '¡Todo listo!',
     'subscriptions.form.successMessage':
       'Nuestro equipo revisará sus datos y pondrá en marcha su servicio de lavandería pronto.',
     'subscriptions.form.submitAnother': 'Enviar Otra Solicitud',
     'subscriptions.notReadyTitle':
-      '¿Aún lo piensa? Con gusto le ayudamos a encontrar el plan adecuado.',
-    'subscriptions.contactUsButton': 'Contáctenos',
+      '¿Aún lo está pensando? Con gusto le ayudamos a encontrar el plan adecuado.',
+    'subscriptions.contactUsButton': 'Póngase en contacto',
 
     // Services Page
     'services.hero.title': 'Nuestros Servicios',
