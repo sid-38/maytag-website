@@ -568,13 +568,26 @@ export function HomePage() {
                               {t('home.prices.singleBag.description')}
                             </p>
                             <div className="mt-4 flex flex-col gap-1 sm:mt-5">
-                              <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-0">
-                                <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
-                                  {t('home.prices.singleBag.price')}
-                                </span>
-                                <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
-                                  {t('home.prices.singleBag.flatRate')}
-                                </span>
+                              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                                <div className="flex h-[100px] w-[100px] shrink-0 items-center justify-center overflow-hidden">
+                                  <img
+                                    src="/images/01-laundry-bag.jpg"
+                                    alt={t('home.prices.singleBag.title')}
+                                    className="h-full w-full object-contain"
+                                    width={100}
+                                    height={100}
+                                    loading="lazy"
+                                    decoding="async"
+                                  />
+                                </div>
+                                <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-0">
+                                  <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
+                                    {t('home.prices.singleBag.price')}
+                                  </span>
+                                  <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
+                                    {t('home.prices.singleBag.flatRate')}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>

@@ -7,7 +7,6 @@ import { ConfettiIcon } from '@phosphor-icons/react';
 import confettiAnimation from '../../imports/Confetti Effects Lottie Animation.json';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToTop } from '../../lib/utils';
-import { Card, CardContent } from '../components/Card';
 import { SubscriptionPlansPicker } from '../components/SubscriptionPlansPicker';
 import { cn } from '@/lib/utils';
 import { SUBSCRIPTION_PLANS, type SubscriptionPlanId } from '../../lib/subscription-plans';
@@ -15,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { NewDateTimePicker } from '@/components/ui/new-date-time-picker';
 import { clampPreferredDateToMin, getMinSelectableCalendarDate } from '../../lib/schedule-pickup-date';
+import { buttonClass } from '../../lib/button-classes';
 
 function isValidEmail(value: string): boolean {
   if (!value.trim()) return false;
@@ -59,8 +59,8 @@ const HOLD_DURATION_MS = 3000;
 const GOOGLE_SHEETS_WEB_APP_URL =
   'https://script.google.com/macros/s/AKfycbwRVTBRDJcRQplN9oMjnEOEGJYQuGCQsNTl42EMpPM8DluDLfbLPPfw-blPiGiCV7c_wA/exec';
 
+/** À la carte rows only (single bag is shown beside the table on desktop). */
 const NON_SUBSCRIPTION_ROWS: { labelKey: string; price: string }[] = [
-  { labelKey: 'subscriptions.row.singleBag', price: '$35' },
   { labelKey: 'subscriptions.row.twin', price: '$25' },
   { labelKey: 'subscriptions.row.full', price: '$28' },
   { labelKey: 'subscriptions.row.queen', price: '$35' },
@@ -418,7 +418,79 @@ export function SubscriptionsPage() {
                     t={t}
                     ariaLabelledBy="subscriptions-page-title"
                     featuredPlanCardFitContent
+                    hideLaundryBagLinkOnDesktop
                   />
+                  <div className="hidden w-full lg:mt-6 lg:block">
+                    <div className="flex w-full min-w-0 flex-row items-stretch gap-0">
+                      <div className="flex min-w-0 flex-1 flex-col justify-center pr-6 lg:pr-8">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden sm:h-[72px] sm:w-[72px]">
+                            <img
+                              src={BAG_IMAGE_SRC}
+                              alt={t('pickupForm.bagPromo.imageAlt')}
+                              className="h-full w-full object-contain p-0.5"
+                              width={72}
+                              height={72}
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-left text-xs leading-snug text-gray-600 text-balance">
+                              {t('schedulePickupForm.bagSectionSubtitle')}
+                            </p>
+                            <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
+                              <span className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                                {t('pickupForm.bagPromo.price')}
+                              </span>
+                              <span className="text-xs font-medium text-gray-500 sm:text-sm">
+                                {t('pickupForm.bagPromo.flatRate')}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="w-px shrink-0 self-stretch bg-gray-200"
+                        role="separator"
+                        aria-orientation="vertical"
+                      />
+                      <div className="min-w-0 flex-1 pl-6 lg:pl-8">
+                        <div className="flex min-w-0 w-full max-w-full flex-col text-xs leading-normal">
+                          <div className="min-w-0 w-full max-w-full overflow-x-auto">
+                            <table className="w-full min-w-0 max-w-full table-fixed border-collapse text-xs">
+                              <thead>
+                                <tr className="border-b border-gray-200">
+                                  <th
+                                    scope="col"
+                                    className="w-[65%] py-2 pr-3 text-left text-xs font-bold text-gray-900"
+                                  >
+                                    {t('subscriptions.table.item')}
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="w-[35%] whitespace-nowrap py-2 pl-3 text-right text-xs font-bold text-gray-900"
+                                  >
+                                    {t('subscriptions.table.price')}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {NON_SUBSCRIPTION_ROWS.map((row) => (
+                                  <tr key={row.labelKey} className="border-b border-gray-100">
+                                    <td className="break-words py-2.5 pr-3 text-gray-800">{t(row.labelKey)}</td>
+                                    <td className="whitespace-nowrap py-2.5 pl-3 text-right font-semibold text-gray-900">
+                                      {row.price}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -690,112 +762,113 @@ export function SubscriptionsPage() {
             </h2>
             <Link
               to="/contact#contact-form"
-              className="inline-block rounded bg-white px-5 py-2.5 text-sm font-semibold text-[#00bfb3] transition-colors hover:bg-gray-100 hover:text-[#009a91]"
+              className={cn(
+                buttonClass.primary,
+                'w-full !bg-white !text-[#00bfb3] hover:!bg-gray-100 hover:!text-[#00bfb3]',
+              )}
             >
               {t('subscriptions.contactUsButton')}
             </Link>
+            <p className="mt-8 text-center lg:mt-20">
+              <Link
+                to="/services"
+                className="font-medium text-white underline underline-offset-2 transition-colors hover:text-white/90"
+                onClick={scrollToTop}
+              >
+                {t('ctaForm.backToWebsite')}
+              </Link>
+            </p>
           </div>
         </div>
 
-        {/* Section 2: full-bleed white — grows to bottom of viewport; back link pinned inside */}
+        {/* Section 2: bag + à la carte (mobile / tablet); hidden on lg — desktop shows bag + table beside plans */}
         <section
           id="subscriptions-add-ons"
-          className="flex min-h-0 min-w-0 w-full flex-1 flex-col bg-white py-14 sm:py-20"
+          className="flex min-h-0 min-w-0 w-full flex-1 flex-col bg-white py-14 sm:py-20 lg:hidden"
           aria-labelledby="subscriptions-add-ons-title"
         >
           <h2 id="subscriptions-add-ons-title" className="sr-only">
             {t('subscriptions.addOnsSectionTitle')}
           </h2>
           <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-4 sm:px-6 lg:px-8">
-            <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-10 lg:min-h-0">
+            <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col gap-0 lg:flex-row lg:items-stretch lg:gap-10 lg:min-h-0">
               <section
                 id={BAG_SECTION_ID}
                 className="flex min-h-0 w-full flex-1 scroll-mt-6 flex-col items-center sm:px-6 lg:min-h-0 lg:px-0"
+                aria-label={t('subscriptions.bagSectionTitle')}
               >
-                <div className="flex w-full flex-1 flex-col items-center gap-0 pt-0 pb-0 sm:pt-6 lg:min-h-0">
-                  <h2 className="shrink-0 text-center text-base font-semibold text-gray-900 sm:text-lg">
-                    {t('subscriptions.bagSectionTitle')}
-                  </h2>
-                  <p className="w-full mt-2 text-center text-sm text-gray-600 text-balance">
-                    {t('subscriptions.bagSectionSubtitle')}
-                  </p>
-                  <div className="mt-4 w-full sm:mt-5">
-                    <div className="w-full overflow-hidden rounded-lg">
+                <div className="mx-auto flex w-full max-w-md min-w-0 flex-1 flex-col justify-center gap-0 pt-0 pb-0 sm:pt-6 lg:min-h-0">
+                  <div className="flex w-full min-w-0 items-center justify-center gap-3 sm:gap-4">
+                    <div className="flex h-[80px] w-[80px] shrink-0 items-center justify-center overflow-hidden">
                       <img
                         src={BAG_IMAGE_SRC}
-                        alt={t('subscriptions.bagAlt')}
-                        className="h-[300px] w-full object-contain object-center"
+                        alt={t('pickupForm.bagPromo.imageAlt')}
+                        className="h-full w-full max-h-[80px] max-w-[80px] object-contain p-0.5"
+                        width={80}
+                        height={80}
                         loading="lazy"
-                        width={900}
-                        height={400}
                         decoding="async"
                       />
+                    </div>
+                    <div className="w-fit min-w-0 max-w-[220px] shrink">
+                      <p className="text-left text-xs leading-snug text-gray-600 text-balance break-words">
+                        {t('schedulePickupForm.bagSectionSubtitle')}
+                      </p>
+                      <div className="mt-2 flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0">
+                        <span className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                          {t('pickupForm.bagPromo.price')}
+                        </span>
+                        <span className="text-xs font-medium text-gray-500 sm:text-sm">
+                          {t('pickupForm.bagPromo.flatRate')}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </section>
 
+              <div className="w-full py-[32px]" role="presentation">
+                <div className="h-px w-full bg-gray-200" aria-hidden />
+              </div>
+
               <section
                 id={PRICE_LIST_SECTION_ID}
                 className="flex min-h-0 w-full min-w-0 flex-1 scroll-mt-6 flex-col lg:min-h-0"
+                aria-label={t('subscriptions.nonSubscription.title')}
               >
-                <div className="flex min-h-0 w-full flex-1 flex-col sm:px-6 lg:min-h-0 lg:px-0">
-                  <Card className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
-                    <CardContent className="flex min-h-0 flex-1 flex-col lg:min-h-0">
-                      <h2 className="text-center text-base font-semibold text-gray-900 sm:text-lg">
-                        {t('subscriptions.nonSubscription.title')}
-                      </h2>
-                      <p className="mt-2 text-center text-sm text-gray-600 text-balance">
-                        {t('subscriptions.priceListSectionSubtitle')}
-                      </p>
-                      <div className="-mx-1 mt-4 overflow-x-auto">
-                        <table className="w-full min-w-[280px] border-collapse">
-                          <thead>
-                            <tr className="border-b border-gray-200">
-                              <th
-                                scope="col"
-                                className="py-2 pr-4 text-left text-base font-medium text-gray-900"
-                              >
-                                {t('subscriptions.table.service')}
-                              </th>
-                              <th
-                                scope="col"
-                                className="whitespace-nowrap py-2 pl-4 text-right text-base font-medium text-gray-900"
-                              >
-                                {t('subscriptions.table.price')}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-sm">
-                            {NON_SUBSCRIPTION_ROWS.map((row) => (
-                              <tr key={row.labelKey} className="border-b border-gray-100">
-                                <td className="py-2.5 pr-4 text-gray-800">{t(row.labelKey)}</td>
-                                <td className="whitespace-nowrap py-2.5 pl-4 text-right font-semibold text-gray-900">
-                                  {row.price}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <div className="flex min-h-0 w-full min-w-0 max-w-full flex-1 flex-col px-4 sm:px-6 lg:min-h-0 lg:px-0">
+                  <div className="min-w-0 w-full max-w-full overflow-x-auto">
+                    <table className="w-full min-w-0 max-w-full table-fixed border-collapse text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th
+                            scope="col"
+                            className="w-[65%] py-2 pr-4 text-left font-medium text-gray-900"
+                          >
+                            {t('subscriptions.table.item')}
+                          </th>
+                          <th
+                            scope="col"
+                            className="w-[35%] whitespace-nowrap py-2 pl-4 text-right font-medium text-gray-900"
+                          >
+                            {t('subscriptions.table.price')}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {NON_SUBSCRIPTION_ROWS.map((row) => (
+                          <tr key={row.labelKey} className="border-b border-gray-100">
+                            <td className="break-words py-2.5 pr-4 text-gray-800">{t(row.labelKey)}</td>
+                            <td className="whitespace-nowrap py-2.5 pl-4 text-right font-semibold text-gray-900">
+                              {row.price}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </section>
-            </div>
-
-            <div className="mt-auto shrink-0 w-full">
-              <div className="pt-8 lg:mt-8">
-                <p className="text-center">
-                  <Link
-                    to="/services"
-                    className="font-medium text-[#00bfb3] underline underline-offset-2 transition-colors hover:text-[#009a91]"
-                    onClick={scrollToTop}
-                  >
-                    {t('ctaForm.backToWebsite')}
-                  </Link>
-                </p>
-              </div>
             </div>
           </div>
         </section>
