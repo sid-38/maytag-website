@@ -75,7 +75,7 @@ export function Navigation() {
             </div>
             <a
               href="tel:9842059506"
-              className="bg-[#00bfb3] text-white px-6 py-2 rounded hover:bg-[#00a89d] transition-colors"
+              className="inline-flex h-11 shrink-0 items-center justify-center rounded border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 transition-colors hover:border-[#00bfb3] hover:text-[#00bfb3]"
               onClick={() =>
                 trackGa4Event('phone_call_click', {
                   link_location: 'header_desktop',
@@ -85,9 +85,16 @@ export function Navigation() {
             >
               {t('nav.callUs')}
             </a>
+            <Link
+              to="/schedule-pickup"
+              onClick={scrollToTop}
+              className="inline-flex h-11 shrink-0 items-center justify-center rounded bg-[#00bfb3] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#00a89d]"
+            >
+              {t('home.hero.schedulePickup')}
+            </Link>
           </div>
 
-          {/* Mobile: call + menu */}
+          {/* Mobile: primary call CTA + menu (unchanged from pre–desktop CTA refresh) */}
           <div className="flex md:hidden items-center gap-2">
             <a
               href="tel:9842059506"
