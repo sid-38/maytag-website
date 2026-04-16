@@ -389,8 +389,12 @@ export function ServicesPage() {
                     {t('services.section.pet.heading')}
                   </h2>
                   <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.pet" />
-                  <Link to="/contact#contact-form" className={SERVICE_TAB_CTA_CLASS}>
-                    {t('home.services.cardCta.Card03')}
+                  <Link
+                    to="/schedule-pickup"
+                    className={SERVICE_TAB_CTA_CLASS}
+                    onClick={scrollToTop}
+                  >
+                    {t('home.services.cardCta.Card04')}
                     <ArrowRightIcon className="size-5" weight="bold" />
                   </Link>
                 </div>

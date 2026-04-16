@@ -353,10 +353,11 @@ export function HomePage() {
                 </div>
                 <div className="mt-6 w-full">
                   <Link
-                    to="/contact#contact-form"
+                    to="/schedule-pickup"
                     className={buttonClass.serviceCardCta}
+                    onClick={scrollToTop}
                   >
-                    {t('home.services.cardCta.Card03')}
+                    {t('home.services.cardCta.Card04')}
                   </Link>
                 </div>
               </CardContent>
