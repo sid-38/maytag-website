@@ -21,7 +21,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.getStarted': 'Get Started',
     'nav.wolfpack': 'Wolfpack',
-    'nav.callUs': 'Call: (984) 205-9506',
+    'nav.callUs': 'Call for Support',
     'nav.call': 'Call',
     'nav.openMenu': 'Open menu',
     'nav.closeMenu': 'Close menu',
@@ -796,7 +796,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contacto',
     'nav.getStarted': 'Comenzar',
     'nav.wolfpack': 'Wolfpack',
-    'nav.callUs': 'Llamar: (984) 205-9506',
+    'nav.callUs': 'Llame para soporte',
     'nav.call': 'Llamar',
     'nav.openMenu': 'Abrir menú',
     'nav.closeMenu': 'Cerrar menú',
@@ -1037,8 +1037,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Home Page - Prices Section (homepage subscription preview)
     'home.prices.title': 'Precios Que se Adaptan a sus Necesidades',
-    'home.prices.subtitle.01': 'Suscríbase y nosotros nos encargamos de su lavado cada mes.',
-    'home.prices.subtitle.02': 'Las franquicias para edredones están incluidas.',
+    'home.prices.subtitle.01': 'Suscríbase y nosotros nos encargamos de su lavado mensual.',
+    'home.prices.subtitle.02': 'Los cupos para edredones están incluidos.',
     'home.prices.unlockBenefits': 'Desbloquee Los Beneficios del Plan',
     'home.prices.trySingleBag': 'Pruebe Una Bolsa Individual',
     'home.prices.singleBag.title': 'Lavado por bolsa única',

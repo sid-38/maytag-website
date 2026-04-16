@@ -373,7 +373,9 @@ export function SubscriptionsPage() {
             {t('subscriptions.title')}
           </h1>
           <p className="mb-4 text-center text-sm text-balance text-white/90 sm:text-base">
-            {t('subscriptions.subtitle.02')}
+            {t('home.prices.subtitle.01')}
+            <br />
+            {t('home.prices.subtitle.02')}
           </p>
           <div className="mx-auto mb-4 flex w-full max-w-4xl justify-center">
             <div
