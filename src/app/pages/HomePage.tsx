@@ -168,11 +168,18 @@ export function HomePage() {
       {/* Hero Section */}
       <section className="relative text-white min-h-screen flex items-end">
         <div className="absolute inset-0 overflow-hidden">
-          <img
-            src="/images/01-homepage-hero-mobile.png"
-            alt={t('common.heroAlt')}
+          <video
             className="block md:hidden w-full h-full object-cover"
-          />
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/01-homepage-hero-mobile.png"
+            aria-label={t('common.heroAlt')}
+          >
+            <source src="/videos/home-hero-video.mp4" type="video/mp4" />
+          </video>
           <img
             src="/images/01-hero-image.png"
             alt={t('common.heroAlt')}
@@ -182,7 +189,7 @@ export function HomePage() {
           <div
             className="absolute inset-x-0 bottom-0 h-2/3 md:hidden"
             style={{
-              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%)'
+              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.8) 60%, transparent 100%)'
             }}
           />
           {/* Desktop: overlay from left */}
