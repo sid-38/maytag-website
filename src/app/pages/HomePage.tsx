@@ -420,21 +420,144 @@ export function HomePage() {
         aria-labelledby="home-subscriptions-heading"
       >
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8">
-            <h2
-              id="home-subscriptions-heading"
-              className="text-3xl sm:text-4xl font-bold text-black mb-4 text-balance"
-            >
-              {t('home.prices.title')}
-            </h2>
-            <div className="mx-auto max-w-2xl text-center text-sm text-gray-600 sm:text-base">
-              <p className="text-balance">{t('home.prices.subtitle.01')}</p>
-              <p className="text-balance">{t('home.prices.subtitle.02')}</p>
-            </div>
-          </div>
-
           <div className="w-full min-w-0 lg:mx-auto lg:max-w-[50rem]">
-            <div className="mx-auto mb-5 flex w-full max-w-4xl justify-center sm:mb-6">
+            <div className="mb-10 sm:mb-12 lg:mb-14">
+              <div className="mb-6 text-center sm:mb-8 lg:mb-10">
+                <h3 className="text-2xl font-bold text-black text-balance sm:text-4xl">
+                  {t('home.prices.payAsYouGo.title')}
+                </h3>
+                <p className="mx-auto mt-3 max-w-2xl text-balance text-sm text-gray-600 sm:text-base">
+                  {t('home.prices.payAsYouGo.subtitle')}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+                <div className="min-w-0">
+                  <Card className="flex h-full min-w-0 flex-col border-2 border-gray-200">
+                    <CardContent className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
+                      <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
+                        <div>
+                          <div className="flex flex-col items-center text-center">
+                            <h3 className="line-clamp-2 max-w-prose text-base font-semibold leading-snug text-gray-900 sm:text-lg">
+                              {t('home.prices.singleBag.title')}
+                            </h3>
+                            <p className="mb-2 line-clamp-3 max-w-prose text-sm text-balance text-gray-600">
+                              {t('home.prices.singleBag.description')}
+                            </p>
+                            <div className="mt-4 flex flex-col gap-1 sm:mt-5">
+                              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                                <div className="flex h-[100px] w-[100px] shrink-0 items-center justify-center overflow-hidden">
+                                  <img
+                                    src="/images/01-laundry-bag.jpg"
+                                    alt={t('home.prices.singleBag.title')}
+                                    className="h-full w-full object-contain"
+                                    width={100}
+                                    height={100}
+                                    loading="lazy"
+                                    decoding="async"
+                                  />
+                                </div>
+                                <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-0">
+                                  <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
+                                    {t('home.prices.singleBag.price')}
+                                  </span>
+                                  <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
+                                    {t('home.prices.singleBag.flatRate')}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3 flex flex-col border-t border-gray-200 pt-3 text-left sm:mt-4 sm:pt-4">
+                            <p className="text-sm font-medium text-gray-900 sm:text-base">
+                              {t('subscriptions.plan.whatsIncluded')}
+                            </p>
+                            <ul className="mt-2 flex flex-col gap-2 text-sm sm:mt-2.5 sm:gap-2.5">
+                              {SINGLE_BAG_INCLUDED_KEYS.map((key) => (
+                                <li key={key} className="flex gap-2 sm:gap-2.5">
+                                  <Check
+                                    className="mt-0.5 h-4 w-4 shrink-0 text-gray-500"
+                                    strokeWidth={2.5}
+                                    aria-hidden
+                                  />
+                                  <span className="text-left leading-snug text-gray-800 text-balance">
+                                    {t(key)}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Card className="flex h-full min-w-0 flex-col border-2 border-gray-200">
+                  <CardContent className="flex min-h-0 flex-1 flex-col">
+                    <h3 className="text-center text-base font-semibold text-gray-900 sm:text-lg">
+                      {t('subscriptions.nonSubscription.title')}
+                    </h3>
+                    <p className="mb-2 text-center text-sm text-gray-600 text-balance">
+                      {t('home.prices.payAsYouGo.alacarte.subtitle')}
+                    </p>
+                    <div className="-mx-1 mt-4 overflow-x-auto">
+                      <table className="w-full min-w-[260px] border-collapse">
+                        <thead>
+                          <tr className="border-b border-gray-200">
+                            <th
+                              scope="col"
+                              className="py-2 pr-3 text-left text-sm font-medium text-gray-900 sm:text-base"
+                            >
+                              {t('subscriptions.table.item')}
+                            </th>
+                            <th
+                              scope="col"
+                              className="whitespace-nowrap py-2 pl-3 text-right text-sm font-medium text-gray-900 sm:text-base"
+                            >
+                              {t('subscriptions.table.price')}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-sm">
+                          {A_LA_CARTE_HOME_ROWS.map((row) => (
+                            <tr key={row.labelKey} className="border-b border-gray-100">
+                              <td className="py-2.5 pr-3 text-gray-800">{t(row.labelKey)}</td>
+                              <td className="whitespace-nowrap py-2.5 pl-3 text-right font-semibold text-gray-900">
+                                {row.price}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="mt-8 flex justify-center sm:mt-10">
+                <button
+                  type="button"
+                  className={buttonClass.primary}
+                  onClick={() => setPlanModalOpen(true)}
+                >
+                  {t('home.hero.schedulePickup')}
+                </button>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-10 sm:pt-10 lg:pt-12">
+              <div className="text-center mb-8">
+                <h2
+                  id="home-subscriptions-heading"
+                  className="text-3xl sm:text-4xl font-bold text-black mb-4 text-balance"
+                >
+                  {t('home.prices.title')}
+                </h2>
+                <div className="mx-auto max-w-2xl text-center text-sm text-gray-600 sm:text-base">
+                  <p className="text-balance">{t('home.prices.subtitle.01')}</p>
+                  <p className="text-balance">{t('home.prices.subtitle.02')}</p>
+                </div>
+              </div>
+              <div className="mx-auto mb-5 flex w-full max-w-4xl justify-center sm:mb-6">
               <div
                 className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-[#00bfb3]/10 px-3 py-1.5 pl-2.5 text-center sm:gap-2 sm:px-4 sm:py-2"
                 role="status"
@@ -552,128 +675,6 @@ export function HomePage() {
                 {t('home.prices.unlockBenefits')}
               </Link>
             </div>
-
-            <div className="mt-10 border-t border-gray-200 pt-10 lg:mt-12 lg:pt-12">
-              <div className="mb-6 text-center sm:mb-8 lg:mb-10">
-                <h3 className="text-2xl font-bold text-black text-balance sm:text-4xl">
-                  {t('home.prices.payAsYouGo.title')}
-                </h3>
-                <p className="mx-auto mt-3 max-w-2xl text-pretty text-sm text-gray-600 sm:text-base">
-                  {t('home.prices.payAsYouGo.subtitle')}
-                </p>
-              </div>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-                <div className="min-w-0">
-                  <Card className="flex h-full min-w-0 flex-col border-2 border-gray-200">
-                    <CardContent className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
-                      <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
-                        <div>
-                          <div className="flex flex-col items-center text-center">
-                            <h3 className="line-clamp-2 max-w-prose text-base font-semibold leading-snug text-gray-900 sm:text-lg">
-                              {t('home.prices.singleBag.title')}
-                            </h3>
-                            <p className="mb-2 line-clamp-3 max-w-prose text-sm text-balance text-gray-600">
-                              {t('home.prices.singleBag.description')}
-                            </p>
-                            <div className="mt-4 flex flex-col gap-1 sm:mt-5">
-                              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                                <div className="flex h-[100px] w-[100px] shrink-0 items-center justify-center overflow-hidden">
-                                  <img
-                                    src="/images/01-laundry-bag.jpg"
-                                    alt={t('home.prices.singleBag.title')}
-                                    className="h-full w-full object-contain"
-                                    width={100}
-                                    height={100}
-                                    loading="lazy"
-                                    decoding="async"
-                                  />
-                                </div>
-                                <div className="flex flex-wrap items-baseline justify-center gap-x-1 gap-y-0">
-                                  <span className="text-3xl font-bold tracking-tight text-black sm:text-2xl lg:text-3xl xl:text-4xl">
-                                    {t('home.prices.singleBag.price')}
-                                  </span>
-                                  <span className="text-xs font-medium text-gray-500 sm:text-xs lg:text-sm">
-                                    {t('home.prices.singleBag.flatRate')}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-3 flex flex-col border-t border-gray-200 pt-3 text-left sm:mt-4 sm:pt-4">
-                            <p className="text-sm font-medium text-gray-900 sm:text-base">
-                              {t('subscriptions.plan.whatsIncluded')}
-                            </p>
-                            <ul className="mt-2 flex flex-col gap-2 text-sm sm:mt-2.5 sm:gap-2.5">
-                              {SINGLE_BAG_INCLUDED_KEYS.map((key) => (
-                                <li key={key} className="flex gap-2 sm:gap-2.5">
-                                  <Check
-                                    className="mt-0.5 h-4 w-4 shrink-0 text-gray-500"
-                                    strokeWidth={2.5}
-                                    aria-hidden
-                                  />
-                                  <span className="text-left leading-snug text-gray-800 text-balance">
-                                    {t(key)}
-                                  </span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <Card className="flex h-full min-w-0 flex-col border-2 border-gray-200">
-                  <CardContent className="flex min-h-0 flex-1 flex-col">
-                    <h3 className="text-center text-base font-semibold text-gray-900 sm:text-lg">
-                      {t('subscriptions.nonSubscription.title')}
-                    </h3>
-                    <p className="mb-2 text-center text-sm text-gray-600 text-balance">
-                      {t('home.prices.payAsYouGo.subtitle')}
-                    </p>
-                    <div className="-mx-1 mt-4 overflow-x-auto">
-                      <table className="w-full min-w-[260px] border-collapse">
-                        <thead>
-                          <tr className="border-b border-gray-200">
-                            <th
-                              scope="col"
-                              className="py-2 pr-3 text-left text-sm font-medium text-gray-900 sm:text-base"
-                            >
-                              {t('subscriptions.table.service')}
-                            </th>
-                            <th
-                              scope="col"
-                              className="whitespace-nowrap py-2 pl-3 text-right text-sm font-medium text-gray-900 sm:text-base"
-                            >
-                              {t('subscriptions.table.price')}
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-sm">
-                          {A_LA_CARTE_HOME_ROWS.map((row) => (
-                            <tr key={row.labelKey} className="border-b border-gray-100">
-                              <td className="py-2.5 pr-3 text-gray-800">{t(row.labelKey)}</td>
-                              <td className="whitespace-nowrap py-2.5 pl-3 text-right font-semibold text-gray-900">
-                                {row.price}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="mt-8 flex justify-center sm:mt-10">
-                <button
-                  type="button"
-                  className={buttonClass.primary}
-                  onClick={() => setPlanModalOpen(true)}
-                >
-                  {t('home.hero.schedulePickup')}
-                </button>
-              </div>
             </div>
           </div>
         </div>

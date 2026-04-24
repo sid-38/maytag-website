@@ -270,10 +270,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.prices.singleBag.included2': 'Wash, dry, and neatly folded',
     'home.prices.singleBag.included3': 'Free pickup and delivery',
     'home.prices.payAsYouGo.title': 'Simple Laundry Options',
-    'home.prices.payAsYouGo.subtitle':
-      'Perfect for larger items like blankets and comforters with simple per item pricing.',
+    'home.prices.payAsYouGo.subtitle': 'Built around how you do laundry, choose a single bag for clothes or individual pricing for larger household items.',
     'home.prices.payAsYouGo.alacarte.title': 'Free pickup and delivery',
-    'home.prices.payAsYouGo.alacarte.subtitle': 'Flat rates of a single laundry bag and household items.',
+    'home.prices.payAsYouGo.alacarte.subtitle': 'Perfect for larger items like blankets and comforters with simple per item pricing.',
 
     // Home Page - Areas Section
     'home.areas.title': 'Pickup & Delivery Near You',
@@ -1036,9 +1035,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.services.pickupDelivery.feature4': 'Cobertura en el Triángulo',
 
     // Home Page - Prices Section (homepage subscription preview)
-    'home.prices.title': 'Precios Que se Adaptan a sus Necesidades',
-    'home.prices.subtitle.01': 'Suscríbase y nosotros nos encargamos de su lavado mensual.',
-    'home.prices.subtitle.02': 'Los cupos para edredones están incluidos.',
+    'home.prices.title': 'Precios que se adaptan a sus necesidades',
+    'home.prices.subtitle.01': 'Suscríbase y deje que nosotros nos encarguemos de su lavado del mes.',
+    'home.prices.subtitle.02': 'Incluye cupos para edredones cada mes.',
     'home.prices.unlockBenefits': 'Desbloquee Los Beneficios del Plan',
     'home.prices.trySingleBag': 'Pruebe Una Bolsa Individual',
     'home.prices.singleBag.title': 'Lavado por bolsa única',
@@ -1049,12 +1048,12 @@ const translations: Record<Language, Record<string, string>> = {
     'home.prices.singleBag.included1': 'Llévela con toda la ropa que quepa',
     'home.prices.singleBag.included2': 'Lavado, secado y doblado prolijo',
     'home.prices.singleBag.included3': 'Recolección y entrega gratis',
-    'home.prices.payAsYouGo.title': 'Opciones de Lavado Sencillas',
+    'home.prices.payAsYouGo.title': 'Opciones de lavado sencillas',
     'home.prices.payAsYouGo.subtitle':
-      'Ideal para piezas grandes como mantas y edredones, con precios claros por artículo.',
+      'Pensado para cómo usted lava: elija una bolsa para su ropa o precio por artículo para piezas más grandes del hogar.',
     'home.prices.payAsYouGo.alacarte.title': 'Recolección y entrega gratis',
     'home.prices.payAsYouGo.alacarte.subtitle':
-      'Tarifas fijas por bolsa de lavado y artículos del hogar.',
+      'Ideal para piezas grandes como mantas y edredones, con precios sencillos por artículo.',
 
     // Home Page - Areas Section
     'home.areas.title': 'Servicio a Domicilio Cerca de Usted',
@@ -1193,7 +1192,7 @@ const translations: Record<Language, Record<string, string>> = {
       'Elija un plan a continuación; luego ingrese sus datos en el formulario para suscribirse.',
     'subscriptions.plan.whatsIncluded': 'Incluye:',
     'subscriptions.plan.homeCardOffer': 'Oferta Aplicada: $20 de Crédito en la Tienda',
-    'subscriptions.plan.commonFeature': 'Servicio y entrega gratis',
+    'subscriptions.plan.commonFeature': 'Recolección y entrega gratis',
     'subscriptions.plan.mostPopular': 'Más Popular',
     'subscriptions.plan.singles.blurb': 'Lavado y doblado semanal para una persona.',
     'subscriptions.plan.couples.blurb': 'Ideal para dos: nuestra opción más popular.',
