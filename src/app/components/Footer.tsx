@@ -40,8 +40,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
-                  {t('nav.services')}
+                <Link to="/pricing" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
+                  {t('nav.servicesAndPricing')}
                 </Link>
               </li>
               <li>

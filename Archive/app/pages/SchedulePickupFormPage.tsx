@@ -1,3 +1,7 @@
+/**
+ * ARCHIVED — not part of the build. Source snapshot; see Archive/README.md.
+ * Restore to: src/app/pages/SchedulePickupFormPage.tsx
+ */
 import { useState, useRef, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { useLanguage } from '../context/LanguageContext';

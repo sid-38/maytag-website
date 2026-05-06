@@ -1,3 +1,7 @@
+/**
+ * ARCHIVED — not part of the build. Source snapshot; see Archive/README.md.
+ * Restore to: src/app/components/SubscriptionPlanModal.tsx
+ */
 import { useEffect, useState } from 'react';
 import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
 import { ConfettiIcon } from '@phosphor-icons/react';

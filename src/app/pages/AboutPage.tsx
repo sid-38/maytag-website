@@ -6,6 +6,76 @@ import { Card, CardContent } from '../components/Card';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
+import {
+  communityInstagramEmbeds,
+  instagramEmbedIframeSrc,
+  type CommunityInstagramEmbed,
+} from '../../data/community-instagram-embeds';
+
+/**
+ * Cross-origin: shift the iframe up so the embed header sits above the clip (overflow-hidden),
+ * and mask only the bottom “View on Instagram” strip via clip-path.
+ */
+const instagramEmbedChrome: Record<
+  CommunityInstagramEmbed['variant'],
+  {
+    iframeTopOffset: number;
+    clipPathBottom: number;
+    frameClass: string;
+    iframeHeight: number;
+  }
+> = {
+  photo: {
+    iframeTopOffset: 54,
+    clipPathBottom: 38,
+    frameClass: 'w-full h-[min(85vh,520px)] sm:h-[520px]',
+    iframeHeight: 1400,
+  },
+  reel: {
+    // Pull up slightly more than photo: embed header chrome reads ~10px taller on reels.
+    iframeTopOffset: 62,
+    clipPathBottom: 50,
+    frameClass: 'w-full h-[min(88vh,604px)] sm:h-[604px]',
+    iframeHeight: 1550,
+  },
+};
+
+function CroppedInstagramEmbed({
+  embed,
+  title,
+  autoplay,
+  loading,
+}: {
+  embed: CommunityInstagramEmbed;
+  title: string;
+  autoplay: boolean;
+  loading: 'eager' | 'lazy';
+}) {
+  const { iframeTopOffset, clipPathBottom, frameClass, iframeHeight } = instagramEmbedChrome[embed.variant];
+  const src = instagramEmbedIframeSrc(embed.src, { autoplay });
+  const clipPath = `inset(0 0 ${clipPathBottom}px 0)`;
+
+  return (
+    <div
+      className={`relative overflow-hidden bg-white p-0 ${frameClass}`}
+    >
+      <iframe
+        title={title}
+        src={src}
+        className="absolute left-0 right-0 w-full max-w-none border-0 p-0"
+        style={{
+          top: -iframeTopOffset,
+          height: iframeHeight,
+          clipPath,
+          WebkitClipPath: clipPath,
+        }}
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        loading={loading}
+      />
+    </div>
+  );
+}
 
 export function AboutPage() {
   const { t } = useLanguage();
@@ -56,7 +126,7 @@ export function AboutPage() {
               {t('about.hero.subtitle')}
             </p>
             <Link
-              to="/services"
+              to="/pricing"
               className={`${buttonClass.heroCta} block w-full md:w-auto md:inline-block bg-[#00bfb3] text-white px-8 py-4 rounded hover:bg-[#00a89d] transition-colors text-center`}
               onClick={scrollToTop}
             >
@@ -195,6 +265,41 @@ export function AboutPage() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Community / Instagram embeds */}
+      <section className="py-16 sm:py-20 bg-gray-50" aria-labelledby="about-community-feed-heading">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+          <div className="mb-12 text-center">
+            <h2
+              id="about-community-feed-heading"
+              className="mb-4 text-3xl font-bold text-black text-balance sm:text-4xl"
+            >
+              {t('about.communityFeed.title')}
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-balance text-gray-600">
+              {t('about.communityFeed.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 items-center justify-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {communityInstagramEmbeds.map((embed, index) => (
+              <div
+                key={`${embed.src}-${index}`}
+                className={`flex w-full items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white p-0 shadow-[0px_2px_8px_rgba(0,0,0,0.06),0px_1px_2px_rgba(0,0,0,0.04)] ${
+                  embed.variant === 'reel' ? 'max-w-none' : 'max-w-[400px]'
+                } md:max-w-none`}
+              >
+                <CroppedInstagramEmbed
+                  embed={embed}
+                  title={`${t('about.communityFeed.embedTitle')} ${index + 1}`}
+                  autoplay={embed.variant === 'reel'}
+                  loading={index === 1 ? 'eager' : 'lazy'}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

@@ -5,25 +5,37 @@ import { trackGa4Event } from '../../lib/analytics';
 import { scrollToTop } from '../../lib/utils';
 import navigationLogoSvg from '../../imports/new-logo-white.svg';
 import { useLanguage } from '../context/LanguageContext';
+import { MAYTAG_SCHEDULE_PICKUP_PORTAL_URL } from '../../lib/schedule-pickup-portal';
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
 
-  const navItems = [
+  type NavItem = {
+    path: string;
+    labelKey: string;
+    activeMatch?: (pathname: string) => boolean;
+  };
+
+  const navItems: NavItem[] = [
     { path: '/', labelKey: 'nav.home' },
-    { path: '/services', labelKey: 'nav.services' },
+    {
+      path: '/pricing',
+      labelKey: 'nav.servicesAndPricing',
+      activeMatch: (p) => p === '/pricing' || p.startsWith('/pricing-in/'),
+    },
     { path: '/about', labelKey: 'nav.about' },
     { path: '/testimonials', labelKey: 'nav.testimonials' },
     { path: '/contact', labelKey: 'nav.contact' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (item: NavItem) =>
+    item.activeMatch ? item.activeMatch(location.pathname) : location.pathname === item.path;
 
   return (
     <nav className="relative bg-white text-black sticky top-0 z-[100] border-b border-gray-200">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+      <div className="max-w-[1200px] mx-auto px-[16px] sm:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center" onClick={scrollToTop}>
@@ -37,7 +49,7 @@ export function Navigation() {
                 key={item.path}
                 to={item.path}
                 onClick={scrollToTop}
-                className={`transition-colors hover:text-[#00bfb3] ${isActive(item.path) ? 'text-[#00bfb3]' : 'text-black'
+                className={`transition-colors hover:text-[#00bfb3] ${isActive(item) ? 'text-[#00bfb3]' : 'text-black'
                   }`}
               >
                 {t(item.labelKey)}
@@ -85,13 +97,15 @@ export function Navigation() {
             >
               {t('nav.callUs')}
             </a>
-            <Link
-              to="/schedule-pickup"
+            <a
+              href={MAYTAG_SCHEDULE_PICKUP_PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={scrollToTop}
               className="inline-flex h-11 shrink-0 items-center justify-center rounded bg-[#00bfb3] px-4 text-sm font-semibold text-white transition-colors hover:bg-[#00a89d]"
             >
               {t('home.hero.schedulePickup')}
-            </Link>
+            </a>
           </div>
 
           {/* Mobile: primary call CTA + menu (unchanged from pre–desktop CTA refresh) */}
@@ -133,7 +147,7 @@ export function Navigation() {
               : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
-          <div className="pb-4 pt-2 px-4 sm:px-6">
+          <div className="pb-4 pt-2 px-[16px]">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -142,7 +156,7 @@ export function Navigation() {
                   setIsMenuOpen(false);
                   scrollToTop();
                 }}
-                className={`block py-3 transition-colors hover:text-[#00bfb3] ${isActive(item.path) ? 'text-[#00bfb3]' : 'text-black'
+                className={`block py-3 transition-colors hover:text-[#00bfb3] ${isActive(item) ? 'text-[#00bfb3]' : 'text-black'
                   }`}
               >
                 {t(item.labelKey)}
