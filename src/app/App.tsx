@@ -10,12 +10,13 @@ import { ContactPage } from './pages/ContactPage';
 import { TestimonialsPage } from './pages/TestimonialsPage';
 import { CTAFormPage } from './pages/CTAFormPage';
 import { CTAFormSuccessPreview } from './pages/CTAFormSuccessPreview';
-import { SchedulePickupFormPage } from './pages/SchedulePickupFormPage';
+import { SchedulePickupPortalRedirect } from '../lib/schedule-pickup-portal';
 import { SubscriptionsPage } from './pages/SubscriptionsPage';
 import { LocationSEO } from './components/LocationSEO';
 import { WolfpackPage } from './pages/Wolfpack';
 import { TermsPage } from './pages/TermsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { PetLaundryPage } from './pages/PetLaundryPage';
 import { LanguageProvider } from './context/LanguageContext';
 import { Chatbot } from './components/Chatbot';
 
@@ -37,13 +38,14 @@ function AppContent() {
               <Route path="/" element={<HomePage />} />
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/pet-laundry" element={<PetLaundryPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/testimonials" element={<TestimonialsPage />} />
               <Route path="/wolfpack" element={<WolfpackPage />} />
               <Route path="/claim" element={<CTAFormPage />} />
               <Route path="/claim/success" element={<CTAFormSuccessPreview />} />
-              <Route path="/schedule-pickup" element={<SchedulePickupFormPage />} />
+              <Route path="/schedule-pickup" element={<SchedulePickupPortalRedirect />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
               <Route path="/subscriptions/success" element={<SubscriptionsPage />} />
               <Route path="/terms" element={<TermsPage />} />

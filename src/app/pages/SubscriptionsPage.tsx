@@ -287,7 +287,7 @@ export function SubscriptionsPage() {
       firstPickupDate: firstPickupDateStr,
     };
 
-    // Form POST to hidden iframe — avoids CORS (same pattern as SchedulePickupFormPage)
+    // Form POST to hidden iframe — avoids CORS on cross-origin Sheets web app URLs
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = GOOGLE_SHEETS_WEB_APP_URL;

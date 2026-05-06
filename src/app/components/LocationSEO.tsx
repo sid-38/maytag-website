@@ -6,7 +6,7 @@ import { getLocationBySlug, LocationData } from '../../data/locations';
 const pageMeta: Record<string, { path: string; titlePrefix: string }> = {
   home: { path: '', titlePrefix: 'Laundromat' },
   services: { path: '/services', titlePrefix: 'Laundry Services' },
-  pricing: { path: '/pricing', titlePrefix: 'Laundry Pricing' },
+  pricing: { path: '/pricing', titlePrefix: 'Services & Pricing' },
   about: { path: '/about', titlePrefix: 'About Our Laundromat' },
   contact: { path: '/contact', titlePrefix: 'Contact Us' },
   testimonials: { path: '/testimonials', titlePrefix: 'Laundromat Reviews' },

@@ -1,3 +1,7 @@
+/**
+ * ARCHIVED — not part of the build. Source snapshot; see Archive/README.md.
+ * Restore to: src/app/components/SchedulePickupSuccessScreen.tsx
+ */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import Lottie from 'lottie-react';

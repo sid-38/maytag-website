@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import {
   WifiHighIcon,
@@ -18,7 +17,10 @@ import { useLanguage } from '../context/LanguageContext';
 import { CharacterMorph } from '../../components/ui/character-morph';
 import { buttonClass } from '../../lib/button-classes';
 import { cn, HOME_SUBSCRIPTION_PRICES_HASH, scrollToTop } from '../../lib/utils';
-import { SubscriptionPlanModal } from '../components/SubscriptionPlanModal';
+import {
+  MAYTAG_SCHEDULE_PICKUP_PORTAL_URL,
+  openSchedulePickupPortalInNewTab,
+} from '../../lib/schedule-pickup-portal';
 
 const STORE_MAPS_DIRECTIONS_URL =
   'https://www.google.com/maps/dir/?api=1&destination=15+Jones+Franklin+Rd,+Raleigh,+NC+27606';
@@ -123,7 +125,6 @@ function ServiceSectionBodyBlock({
 
 export function ServicesPage() {
   const { t } = useLanguage();
-  const [planModalOpen, setPlanModalOpen] = useState(false);
 
   const tabTriggerClass =
     'group flex min-w-0 flex-1 basis-0 flex-col items-center gap-1.5 rounded-none border-0 border-b-2 border-transparent bg-transparent p-2 text-gray-500 shadow-none transition-colors data-[state=active]:border-[#00bfb3] data-[state=active]:text-[#00bfb3] data-[state=inactive]:text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00bfb3] focus-visible:ring-offset-2 sm:gap-2';
@@ -171,14 +172,13 @@ export function ServicesPage() {
               <button
                 type="button"
                 className={`${buttonClass.heroCta} inline-flex h-14 w-full cursor-pointer items-center justify-center rounded border border-transparent bg-[#00bfb3] px-8 text-white transition-colors hover:bg-[#00a89d] md:w-auto`}
-                onClick={() => setPlanModalOpen(true)}
+                onClick={openSchedulePickupPortalInNewTab}
               >
                 {t('home.hero.schedulePickup')}
               </button>
             </div>
           </div>
         </div>
-        <SubscriptionPlanModal open={planModalOpen} onOpenChange={setPlanModalOpen} />
       </section>
 
       {/* Tabbed services */}
@@ -389,14 +389,16 @@ export function ServicesPage() {
                     {t('services.section.pet.heading')}
                   </h2>
                   <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.pet" />
-                  <Link
-                    to="/schedule-pickup"
+                  <a
+                    href={MAYTAG_SCHEDULE_PICKUP_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={SERVICE_TAB_CTA_CLASS}
                     onClick={scrollToTop}
                   >
                     {t('home.services.cardCta.Card04')}
                     <ArrowRightIcon className="size-5" weight="bold" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </TabsContent>
@@ -451,14 +453,16 @@ export function ServicesPage() {
                     {t('services.pickupDelivery.titleLine2')}
                   </h2>
                   <ServiceSectionBodyBlock t={t} sectionPrefix="services.section.pickup" />
-                  <Link
-                    to="/schedule-pickup"
+                  <a
+                    href={MAYTAG_SCHEDULE_PICKUP_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={SERVICE_TAB_CTA_CLASS}
                     onClick={scrollToTop}
                   >
                     {t('home.services.cardCta.Card04')}
                     <ArrowRightIcon className="size-5" weight="bold" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </TabsContent>
