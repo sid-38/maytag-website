@@ -1,4 +1,6 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useLocation } from 'react-router';
+import { PET_LAUNDRY_PRICING_ELEMENT_ID, PET_LAUNDRY_PRICING_HASH, scrollIntoViewByElementId } from '../../lib/utils';
 import { buttonClass } from '../../lib/button-classes';
 import { formatWashFoldItemUsd, PET_BED_PRICES } from '../../lib/wash-fold-pricing';
 import { useLanguage } from '../context/LanguageContext';
@@ -23,6 +25,12 @@ const HERO_PRICE_CARDS = [
 
 export function PetLaundryPage() {
   const { t } = useLanguage();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash !== PET_LAUNDRY_PRICING_HASH) return;
+    scrollIntoViewByElementId(PET_LAUNDRY_PRICING_ELEMENT_ID);
+  }, [location.pathname, location.hash]);
 
   return (
     <div className="bg-white overflow-x-hidden">
@@ -100,7 +108,7 @@ export function PetLaundryPage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section id={PET_LAUNDRY_PRICING_ELEMENT_ID} className="py-16 sm:py-20 bg-white scroll-mt-[6.5rem]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4 text-balance">{t('petLaundryPage.pricing.title')}</h2>

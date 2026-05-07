@@ -25,8 +25,8 @@ export function Navigation() {
       labelKey: 'nav.servicesAndPricing',
       activeMatch: (p) => p === '/pricing' || p.startsWith('/pricing-in/'),
     },
+    { path: '/pet-laundry', labelKey: 'nav.petLaundry' },
     { path: '/about', labelKey: 'nav.about' },
-    { path: '/testimonials', labelKey: 'nav.testimonials' },
     { path: '/contact', labelKey: 'nav.contact' },
   ];
 

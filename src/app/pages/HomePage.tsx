@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router';
 import { buttonClass } from '../../lib/button-classes';
 import {
   HOME_SUBSCRIPTION_PRICES_HASH,
+  PET_LAUNDRY_PRICING_HASH,
+  PRICING_TAB_VIEW_HASH,
   scrollToHomeSubscriptionPricesSection,
   scrollToTop,
 } from '../../lib/utils';
@@ -288,12 +290,8 @@ export function HomePage() {
                   </div> */}
                 </div>
                 <div className="mt-6 w-full">
-                  <Link
-                    to="/subscriptions"
-                    className={buttonClass.serviceCardCta}
-                    onClick={scrollToTop}
-                  >
-                    {t('home.services.cardCta.Card02')}
+                  <Link to={`/pricing${PRICING_TAB_VIEW_HASH}`} className={buttonClass.serviceCardCta}>
+                    {t('home.services.cardCta.viewPrices')}
                   </Link>
                 </div>
               </CardContent>
@@ -328,15 +326,9 @@ export function HomePage() {
                   </div> */}
                 </div>
                 <div className="mt-6 w-full">
-                  <a
-                    href={MAYTAG_SCHEDULE_PICKUP_PORTAL_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={buttonClass.serviceCardCta}
-                    onClick={scrollToTop}
-                  >
-                    {t('home.services.cardCta.Card04')}
-                  </a>
+                  <Link to={`/pet-laundry${PET_LAUNDRY_PRICING_HASH}`} className={buttonClass.serviceCardCta}>
+                    {t('home.services.cardCta.viewPrices')}
+                  </Link>
                 </div>
               </CardContent>
             </Card>

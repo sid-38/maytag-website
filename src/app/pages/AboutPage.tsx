@@ -11,6 +11,11 @@ import {
   instagramEmbedIframeSrc,
   type CommunityInstagramEmbed,
 } from '../../data/community-instagram-embeds';
+import {
+  TestimonialAllReviewsSection,
+  TestimonialStatsSection,
+  TestimonialWhyLoveSection,
+} from '../components/TestimonialPageSections';
 
 /**
  * Cross-origin: shift the iframe up so the embed header sits above the clip (overflow-hidden),
@@ -136,8 +141,14 @@ export function AboutPage() {
         </div>
       </section>
 
+      <TestimonialStatsSection />
+
+      <TestimonialWhyLoveSection />
+      
+      <TestimonialAllReviewsSection />
+
       {/* The Maytag Standard */}
-      <section className="py-16 sm:py-20">
+      {/* <section className="py-16 sm:py-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -158,10 +169,10 @@ export function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Values Section */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      {/* <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">{t('about.values.title')}</h2>
@@ -190,7 +201,7 @@ export function AboutPage() {
             })}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Our Journey - Two-column section
       <section className="py-16 sm:py-20">
@@ -218,7 +229,7 @@ export function AboutPage() {
       */}
 
       {/* Equipment Section - 2-column layout */}
-      <section className="py-16 sm:py-20 bg-white">
+      {/* <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">
@@ -267,7 +278,7 @@ export function AboutPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Community / Instagram embeds */}
       <section className="py-16 sm:py-20 bg-gray-50" aria-labelledby="about-community-feed-heading">
