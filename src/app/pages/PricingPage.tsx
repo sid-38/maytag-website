@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react';
-import { Link } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router';
 import { Check } from 'lucide-react';
 import { Card } from '../components/Card';
 import { WashFoldPricingCard } from '../components/WashFoldPricingCard';
 import { useLanguage } from '../context/LanguageContext';
 import { buttonClass } from '../../lib/button-classes';
 import { openSchedulePickupPortalInNewTab } from '../../lib/schedule-pickup-portal';
-import { cn } from '../../lib/utils';
+import { cn, PRICING_TAB_VIEW_ELEMENT_ID, PRICING_TAB_VIEW_HASH, scrollIntoViewByElementId } from '../../lib/utils';
 import type { BlanketSize } from '../../lib/wash-fold-pricing';
 import {
   formatWashFoldItemUsd,
@@ -22,6 +22,7 @@ type PanelId = 'instore' | 'delivery' | 'pets';
 
 export function PricingPage() {
   const { t } = useLanguage();
+  const location = useLocation();
   const [panel, setPanel] = useState<PanelId>('instore');
   const mainRef = useRef<HTMLElement>(null);
   const instore = WASH_FOLD_PRICING.instore;
@@ -31,6 +32,11 @@ export function PricingPage() {
     setPanel(next);
     mainRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  useEffect(() => {
+    if (location.hash !== PRICING_TAB_VIEW_HASH) return;
+    scrollIntoViewByElementId(PRICING_TAB_VIEW_ELEMENT_ID);
+  }, [location.pathname, location.hash]);
 
   const blanketSizes = ['Twin', 'Full', 'Queen', 'King'] as const;
 
@@ -86,7 +92,10 @@ export function PricingPage() {
         </div>
       </section>
 
-      <div className="sticky top-20 z-[90] border-b border-gray-200 bg-gray-50 px-4 py-10 text-center sm:px-6">
+      <div
+        id={PRICING_TAB_VIEW_ELEMENT_ID}
+        className="sticky top-20 z-[90] scroll-mt-20 border-b border-gray-200 bg-gray-50 px-4 py-10 text-center sm:px-6"
+      >
         <p className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-gray-500">
           {t('pricingPage.toggle.label')}
         </p>

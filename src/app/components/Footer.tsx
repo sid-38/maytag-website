@@ -45,13 +45,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
-                  {t('footer.aboutUs')}
+                <Link to="/pet-laundry" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
+                  {t('nav.petLaundry')}
                 </Link>
               </li>
               <li>
-                <Link to="/testimonials" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
-                  {t('nav.testimonials')}
+                <Link to="/about" className="text-gray-400 hover:text-[#00bfb3] transition-colors text-sm" onClick={scrollToTop}>
+                  {t('footer.aboutUs')}
                 </Link>
               </li>
               <li>
