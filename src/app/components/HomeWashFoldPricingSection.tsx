@@ -57,7 +57,7 @@ export function HomeWashFoldPricingSection() {
               {t('pricingPage.tab.pets')}
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-10 lg:gap-12 sm:grid-cols-2">
             <Card className="flex min-w-0 flex-col">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-[#00bfb3]/10 px-6 py-7 sm:flex-nowrap">
                 <div className="min-w-0">
