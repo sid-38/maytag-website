@@ -11,9 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm install -g pnpm
+
+      # 1. Setup Node FIRST and upgrade to Node 22
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 2. Setup pnpm SECOND (it will now successfully find Node 22)
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.3.0
+          run_install: false # Disables implicit install before cache config
+
+      # 3. Enable caching (Must be declared after both Node and pnpm are ready)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
       - run: pnpm install
       - run: pnpm run build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
