@@ -12,19 +12,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Installs and pins pnpm to your exact local version (11.3.0)
+      # 1. Setup Node FIRST and upgrade to Node 22
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 2. Setup pnpm SECOND (it will now successfully find Node 22)
       - uses: pnpm/action-setup@v4
         with:
           version: 11.3.0
+          run_install: false # Disables implicit install before cache config
 
-      # Sets up Node.js and caches pnpm dependencies to speed up future builds
+      # 3. Enable caching (Must be declared after both Node and pnpm are ready)
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
 
       - run: pnpm install
       - run: pnpm run build
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
