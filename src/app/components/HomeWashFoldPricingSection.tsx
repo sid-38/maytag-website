@@ -36,7 +36,7 @@ export function HomeWashFoldPricingSection() {
                 {t('pricingPage.tab.instore')}
               </p>
             </div>
-            <WashFoldPricingCard channel="instore" />
+            <WashFoldPricingCard channel="instore" showSameDay={false} />
           </div>
           <div className="min-w-0 w-full">
             <div className="mb-4 flex h-[30px] w-full min-w-0 flex-nowrap items-center justify-between gap-2 sm:gap-3">
@@ -47,7 +47,7 @@ export function HomeWashFoldPricingSection() {
                 {t('home.services.pickupDelivery.title')}
               </span>
             </div>
-            <WashFoldPricingCard channel="delivery" />
+            <WashFoldPricingCard channel="delivery" showSameDay={false} />
           </div>
         </div>
 
