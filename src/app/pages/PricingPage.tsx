@@ -133,7 +133,7 @@ export function PricingPage() {
                 <h2 className="text-2xl font-bold text-black">{t('pricingPage.washFold.title')}</h2>
                 <p className="text-sm text-gray-500">{t('pricingPage.instore.washFold.subtitle')}</p>
               </div>
-              <WashFoldPricingCard channel="instore" />
+              <WashFoldPricingCard channel="instore" showSameDay={false} />
             </section>
 
             <section>
@@ -192,7 +192,7 @@ export function PricingPage() {
                   {t('home.services.pickupDelivery.title')}
                 </span>
               </div>
-              <WashFoldPricingCard channel="delivery" />
+              <WashFoldPricingCard channel="delivery" showSameDay={false} />
             </section>
 
             <section>
