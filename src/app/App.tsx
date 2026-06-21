@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
+import { AnnouncementBanner } from './components/AnnouncementBanner';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -31,7 +32,12 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isStandaloneFormPage && <Navigation />}
+      {!isStandaloneFormPage && (
+        <>
+          <AnnouncementBanner />
+          <Navigation />
+        </>
+      )}
         <main className="flex-grow">
         <Routes>
               {/* Core pages */}

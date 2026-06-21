@@ -35,3 +35,42 @@
     transform: translateX(0);
   }
 }
+
+@keyframes announcement-banner-scroll {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.announcement-banner {
+  overflow: hidden;
+}
+
+.announcement-banner__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: announcement-banner-scroll 40s linear infinite;
+}
+
+.announcement-banner__content {
+  flex-shrink: 0;
+  padding-right: 3rem;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-banner__track {
+    animation: none;
+    transform: translateX(0);
+    width: 100%;
+    justify-content: center;
+  }
+
+  .announcement-banner__content[aria-hidden='true'] {
+    display: none;
+  }
+}
