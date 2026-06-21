@@ -33,10 +33,10 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col">
       {!isStandaloneFormPage && (
-        <>
+        <header className="sticky top-0 z-[100]">
           <AnnouncementBanner />
           <Navigation />
-        </>
+        </header>
       )}
         <main className="flex-grow">
         <Routes>

@@ -34,7 +34,7 @@ export function Navigation() {
     item.activeMatch ? item.activeMatch(location.pathname) : location.pathname === item.path;
 
   return (
-    <nav className="relative bg-white text-black sticky top-0 z-[100] border-b border-gray-200">
+    <nav className="relative bg-white text-black border-b border-gray-200">
       <div className="max-w-[1200px] mx-auto px-[16px] sm:px-6">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
