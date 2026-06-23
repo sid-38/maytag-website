@@ -7,10 +7,10 @@ type BannerMessage = {
 };
 
 const BANNER_MESSAGES: BannerMessage[] = [
-  { bold: "We're open 24 hrs this weekend!", rest: "Sat, Jun 20 & Sun, Jun 21." },
-  { bold: "¡Abierto 24 horas este fin de semana!", rest: "Sáb 20 y Dom 21 de Jun." },
-  { bold: "We're open 24 hrs this weekend!", rest: "Sat, Jun 20 & Sun, Jun 21." },
-  { bold: "¡Abierto 24 horas este fin de semana!", rest: "Sáb 20 y Dom 21 de Jun." },
+  { bold: "We're open 24 hrs this weekend!", rest: "Fri, Jun 26 to Sun, Jun 28." },
+  { bold: "¡Estamos abiertos 24 horas este fin de semana!", rest: "Del vie. 26 al dom. 28 de jun." },
+  { bold: "We're open 24 hrs this weekend!", rest: "Fri, Jun 26 to Sun, Jun 28." },
+  { bold: "¡Estamos abiertos 24 horas este fin de semana!", rest: "Del vie. 26 al dom. 28 de jun." },
 ];
 
 const LOOP_MESSAGES = [...BANNER_MESSAGES, ...BANNER_MESSAGES];
