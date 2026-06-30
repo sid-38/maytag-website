@@ -15,7 +15,9 @@ jobs:
       # 1. Setup Node FIRST and upgrade to Node 22
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # 22.23.0 has a keep-alive bug that causes Firebase release API calls to
+          # fail with "supplied version is the current active version" on retry.
+          node-version: 22.23.1
 
       # 2. Setup pnpm SECOND (it will now successfully find Node 22)
       - uses: pnpm/action-setup@v4
@@ -26,7 +28,7 @@ jobs:
       # 3. Enable caching (Must be declared after both Node and pnpm are ready)
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.23.1
           cache: 'pnpm'
 
       - run: pnpm install
