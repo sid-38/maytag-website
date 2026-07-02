@@ -221,6 +221,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.hero.contactUs': 'Contact Us',
     'home.hero.schedulePickup': 'Schedule Pickup',
     'home.hero.subscribe': 'Pricing',
+    'home.hero.awardPill': 'TOP LAUNDROMAT IN SOUTHWEST RALEIGH 2026',
 
     // Home Page - Services Section
     'home.services.title': 'Our Services',
@@ -1111,6 +1112,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.hero.contactUs': 'Contáctenos',
     'home.hero.schedulePickup': 'Programar Recolección',
     'home.hero.subscribe': 'Precios',
+    'home.hero.awardPill': 'MEJOR LAVANDERÍA EN SOUTHWEST RALEIGH 2026',
 
     // Home Page - Services Section
     'home.services.title': 'Nuestros Servicios',

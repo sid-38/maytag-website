@@ -9,6 +9,7 @@ import {
   scrollToTop,
 } from '../../lib/utils';
 import { AreasMap } from '../components/AreasMap';
+import { HeroAwardSection } from '../components/HeroAwardSection';
 import { HomeWashFoldPricingSection } from '../components/HomeWashFoldPricingSection';
 import { Star, MapPin, Clock, Hand } from 'lucide-react';
 import { Card, CardContent } from '../components/Card';
@@ -174,6 +175,7 @@ export function HomePage() {
         </div>
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-20 sm:py-32 w-full">
           <div className="max-w-2xl">
+            <HeroAwardSection />
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-balance max-w-xl sm:max-w-2xl lg:max-w-3xl">
               <CharacterMorph
                 texts={[t('home.hero.title')]}
