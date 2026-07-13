@@ -1,6 +1,6 @@
 # Archived schedule pickup / subscription modal code
 
-These files are **not imported** anywhere in the app. They preserve the older in-site schedule pickup form and subscription plan modal removed when pickup moved to the external customer portal (`http://maytag.custx.smrtlite.org/`).
+These files are **not imported** anywhere in the app. They preserve the older in-site schedule pickup form and subscription plan modal removed when pickup moved to the external customer portal (`https://maytag.custx.bubblepayportal.com/`).
 
 ## Layout (mirrors former `src/app/` paths)
 

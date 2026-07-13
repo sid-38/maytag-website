@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 
-/** SMRT Lite customer portal — pickup scheduling and sign-in. */
-export const MAYTAG_SCHEDULE_PICKUP_PORTAL_URL = 'http://maytag.custx.smrtlite.org/';
+/** BubblePay customer portal — pickup scheduling and sign-in. */
+export const MAYTAG_SCHEDULE_PICKUP_PORTAL_URL = 'https://maytag.custx.bubblepayportal.com/';
 
 export function openSchedulePickupPortalInNewTab() {
   const tab = window.open(MAYTAG_SCHEDULE_PICKUP_PORTAL_URL, '_blank');

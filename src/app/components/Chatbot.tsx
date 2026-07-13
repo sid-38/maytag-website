@@ -28,7 +28,7 @@ function pickRandomIntro(name: string) {
 }
 
 /** Backend API URL. Use /api/... in dev (proxied) or full URL in prod. Set VITE_CHAT_API_URL to override. */
-const CHAT_API_URL = import.meta.env.VITE_CHAT_API_URL ?? 'https://smrtlite.org/api/simple_chat';
+const CHAT_API_URL = import.meta.env.VITE_CHAT_API_URL ?? 'https://bubblepayportal.com/api/simple_chat';
 
 async function fetchChatResponse(message: string): Promise<string> {
   const res = await fetch(CHAT_API_URL, {
