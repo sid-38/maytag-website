@@ -223,6 +223,21 @@ const translations: Record<Language, Record<string, string>> = {
     'home.hero.subscribe': 'Pricing',
     'home.hero.awardPill': 'TOP LAUNDROMAT IN SOUTHWEST RALEIGH 2026',
 
+    // Home Page - Student Discount
+    'home.studentDiscount.sectionTitle': 'Your Laundry Era Just Got Cheaper',
+    'home.studentDiscount.sectionBody': 'Studying in the Triangle? Show your student ID and get 10% off your laundry every time.',
+    'home.studentDiscount.eyebrow': 'Student discount',
+    'home.studentDiscount.storeName': 'Maytag Laundromat',
+    'home.studentDiscount.title': 'Flat 10% On Your Laundry',
+    'home.studentDiscount.body': 'Show a valid student ID at the counter. The discount applies every visit — no coupon, no code.',
+    'home.studentDiscount.imageAlt': 'Students gathered together, smiling',
+    'home.studentDiscount.chip1.title': 'Valid student ID',
+    'home.studentDiscount.chip1.body': 'Show it at the counter',
+    'home.studentDiscount.chip2.title': 'All school students',
+    'home.studentDiscount.chip2.body': 'High school and college',
+    'home.studentDiscount.chip3.title': 'Every visit',
+    'home.studentDiscount.chip3.body': 'Flat 10%, every time',
+
     // Home Page - Services Section
     'home.services.title': 'Our Services',
     'home.services.subtitle': 'Whether you prefer to do it yourself or have us take care of everything, we have the perfect laundry solution for you.',
@@ -1113,6 +1128,21 @@ const translations: Record<Language, Record<string, string>> = {
     'home.hero.schedulePickup': 'Programar Recolección',
     'home.hero.subscribe': 'Precios',
     'home.hero.awardPill': 'MEJOR LAVANDERÍA EN SOUTHWEST RALEIGH 2026',
+
+    // Home Page - Student Discount
+    'home.studentDiscount.sectionTitle': 'Tu Era De Lavandería Ahora Sale Más Barata',
+    'home.studentDiscount.sectionBody': '¿Estudia en el Triángulo? Muestre su identificación estudiantil y obtenga 10% de descuento en su lavandería cada vez.',
+    'home.studentDiscount.eyebrow': 'Descuento estudiantil',
+    'home.studentDiscount.storeName': 'Maytag Laundromat',
+    'home.studentDiscount.title': '10% Fijo En Su Lavandería',
+    'home.studentDiscount.body': 'Muestre una identificación estudiantil válida en el mostrador. El descuento aplica en cada visita — sin cupón ni código.',
+    'home.studentDiscount.imageAlt': 'Estudiantes reunidos, sonriendo',
+    'home.studentDiscount.chip1.title': 'ID estudiantil válida',
+    'home.studentDiscount.chip1.body': 'Muéstrela en el mostrador',
+    'home.studentDiscount.chip2.title': 'Todos los estudiantes',
+    'home.studentDiscount.chip2.body': 'Preparatoria y universidad',
+    'home.studentDiscount.chip3.title': 'Cada visita',
+    'home.studentDiscount.chip3.body': '10% fijo, siempre',
 
     // Home Page - Services Section
     'home.services.title': 'Nuestros Servicios',

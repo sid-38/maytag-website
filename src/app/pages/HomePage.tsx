@@ -11,6 +11,7 @@ import {
 import { AreasMap } from '../components/AreasMap';
 import { HeroAwardSection } from '../components/HeroAwardSection';
 import { HomeWashFoldPricingSection } from '../components/HomeWashFoldPricingSection';
+import { StudentDiscountSection } from '../components/StudentDiscountSection';
 import { Star, MapPin, Clock, Hand } from 'lucide-react';
 import { Card, CardContent } from '../components/Card';
 import { useLanguage } from '../context/LanguageContext';
@@ -210,6 +211,8 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <StudentDiscountSection />
 
       {/* Services Section */}
       <section className="py-16 sm:py-20 bg-white">
