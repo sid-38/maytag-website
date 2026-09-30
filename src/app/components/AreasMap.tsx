@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface Area {
   name: string;
@@ -10,107 +11,117 @@ const serviceAreas: Area[] = [
   { name: 'Raleigh', lat: 35.7796, lng: -78.6382 },
   { name: 'Cary', lat: 35.7915, lng: -78.7811 },
   { name: 'Apex', lat: 35.7321, lng: -78.8503 },
-  { name: 'East Raleigh', lat: 35.8015, lng: -78.5720 },
-  { name: 'West Raleigh', lat: 35.7874, lng: -78.7110 },
+  { name: 'East Raleigh', lat: 35.8015, lng: -78.572 },
+  { name: 'West Raleigh', lat: 35.7874, lng: -78.711 },
   { name: 'Garner', lat: 35.7107, lng: -78.6138 },
 ];
 
-// Centre the map on the laundromat itself
 const LAUNDROMAT: Area = { name: 'Maytag Laundry', lat: 35.7856, lng: -78.7209 };
+
+/** OpenFreeMap Positron — free, no API key, no usage limits, commercial use allowed (OSM data). */
+const MAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+
+function createMarkerElement(variant: 'store' | 'area') {
+  const el = document.createElement('div');
+  el.className = 'relative cursor-default';
+  const dot = document.createElement('div');
+  dot.className =
+    variant === 'store'
+      ? 'relative h-4 w-4 rounded-full border-2 border-white bg-neutral-900 shadow-lg'
+      : 'relative h-4 w-4 rounded-full border-2 border-white bg-[#00bfb3] shadow-lg';
+  el.appendChild(dot);
+  return el;
+}
 
 export function AreasMap({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<import('leaflet').Map | null>(null);
+  const mapRef = useRef<import('maplibre-gl').Map | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    const container = containerRef.current;
+    if (!container || mapRef.current) return;
 
-    let map: import('leaflet').Map;
+    let cancelled = false;
+    const markers: import('maplibre-gl').Marker[] = [];
 
     (async () => {
-      const L = (await import('leaflet')).default;
+      const maplibregl = await import('maplibre-gl');
 
-      // Fix Leaflet's broken default icon URLs when bundled with Vite
-      delete (L.Icon.Default.prototype as Record<string, unknown>)._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      if (cancelled || !containerRef.current) return;
+
+      const map = new maplibregl.Map({
+        container: containerRef.current,
+        style: MAP_STYLE,
+        center: [LAUNDROMAT.lng, LAUNDROMAT.lat],
+        zoom: 10,
+        // Ctrl/⌘ + scroll to zoom on desktop, two fingers on touch — so the page still scrolls normally
+        cooperativeGestures: true,
+        dragRotate: false,
+        pitchWithRotate: false,
+        touchPitch: false,
+        minZoom: 8,
+        maxZoom: 16,
+        attributionControl: true,
+        fadeDuration: 0,
       });
 
-      // Teal pin for service areas
-      const tealIcon = L.divIcon({
-        className: '',
-        html: `<span style="
-          display:block;width:14px;height:14px;
-          background:#00bfb3;border:2.5px solid #fff;
-          border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.35);
-        "></span>`,
-        iconSize: [14, 14],
-        iconAnchor: [7, 7],
-      });
-
-      // Dark pin for the laundromat itself
-      const laundromatIcon = L.divIcon({
-        className: '',
-        html: `<span style="
-          display:block;width:16px;height:16px;
-          background:#111;border:2.5px solid #fff;
-          border-radius:50%;box-shadow:0 1px 6px rgba(0,0,0,0.45);
-        "></span>`,
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
-      });
-
-      map = L.map(containerRef.current!, {
-        center: [LAUNDROMAT.lat, LAUNDROMAT.lng],
-        zoom: 11,
-        zoomControl: false,
-        scrollWheelZoom: true,
-        attributionControl: false,
-        closePopupOnClick: true,
-      });
-
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 19,
-      }).addTo(map);
-
-      const popupOptions = { closeButton: false, className: 'text-center font-medium', minWidth: 0, maxWidth: 300 };
-
-      // Laundromat pin
-      L.marker([LAUNDROMAT.lat, LAUNDROMAT.lng], { icon: laundromatIcon })
-        .addTo(map)
-        .bindPopup('<div style="text-align:center;white-space:nowrap"><strong>Maytag Laundry</strong><br/>15 Jones Franklin Rd, Raleigh, NC</div>', popupOptions);
-
-      // Service area pins
-      serviceAreas.forEach((area) => {
-        L.marker([area.lat, area.lng], { icon: tealIcon })
-          .addTo(map)
-          .bindPopup(`<div style="text-align:center;white-space:nowrap">${area.name}</div>`, popupOptions);
-      });
+      map.touchZoomRotate.disableRotation();
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 
       mapRef.current = map;
+
+      map.on('load', () => {
+        if (cancelled) return;
+
+        const bounds = new maplibregl.LngLatBounds();
+
+        markers.push(
+          new maplibregl.Marker({ element: createMarkerElement('store') })
+            .setLngLat([LAUNDROMAT.lng, LAUNDROMAT.lat])
+            .addTo(map),
+        );
+        bounds.extend([LAUNDROMAT.lng, LAUNDROMAT.lat]);
+
+        serviceAreas.forEach((area) => {
+          markers.push(
+            new maplibregl.Marker({ element: createMarkerElement('area') })
+              .setLngLat([area.lng, area.lat])
+              .addTo(map),
+          );
+          bounds.extend([area.lng, area.lat]);
+        });
+
+        map.fitBounds(bounds, { padding: 48, maxZoom: 11, duration: 0 });
+      });
     })();
 
     return () => {
-      map?.remove();
-      mapRef.current = null;
+      cancelled = true;
+      markers.forEach((marker) => marker.remove());
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
     };
   }, []);
 
   return (
-    <>
-      {/* Leaflet CSS loaded inline so no extra import is needed in main.tsx */}
-      <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossOrigin=""
-      />
-      {/* `isolate` creates a new stacking context so Leaflet's internal z-indexes
-          (panes: 400, popups: 1000) are scoped here and never leak above the nav */}
-      <div className={`isolate ${className ?? ''}`}>
-        <div ref={containerRef} className="w-full h-full" />
-      </div>
-    </>
+    <div
+      className={`areas-map isolate ${className ?? ''}`}
+      role="region"
+      aria-label="Map of Maytag Laundry and service areas in the Triangle"
+    >
+      <div ref={containerRef} className="h-full w-full" />
+      <style>{`
+        .areas-map .maplibregl-ctrl-attrib {
+          font-size: 10px;
+          line-height: 1.3;
+          background: rgba(255, 255, 255, 0.85) !important;
+        }
+        .areas-map .maplibregl-ctrl-bottom-right {
+          pointer-events: none;
+        }
+      `}</style>
+    </div>
   );
 }
