@@ -13,6 +13,7 @@ import { CTAFormSuccessPreview } from './pages/CTAFormSuccessPreview';
 import { SchedulePickupPortalRedirect } from '../lib/schedule-pickup-portal';
 import { SubscriptionsPage } from './pages/SubscriptionsPage';
 import { LocationSEO } from './components/LocationSEO';
+import { RouteSeo } from './components/RouteSeo';
 import { WolfpackPage } from './pages/Wolfpack';
 import { TermsPage } from './pages/TermsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
@@ -75,6 +76,7 @@ export default function App() {
     <LanguageProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <RouteSeo />
         <AppContent />
       </BrowserRouter>
     </LanguageProvider>

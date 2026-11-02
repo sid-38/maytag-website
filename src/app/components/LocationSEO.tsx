@@ -1,6 +1,7 @@
 import { useEffect, ReactNode } from 'react';
 import { useParams, Navigate } from 'react-router';
-import { getLocationBySlug, LocationData } from '../../data/locations';
+import { getLocationBySlug } from '../../data/locations';
+import { applyHead, BUSINESS_NAME, BUSINESS_PHONE } from '../../lib/seo';
 
 /** Maps a page key to its base path and title fragment. */
 const pageMeta: Record<string, { path: string; titlePrefix: string }> = {
@@ -29,53 +30,32 @@ export function LocationSEO({ page, children }: Props) {
       ? `https://maytaglaundromat.com/laundromat-in/${location.slug}`
       : `https://maytaglaundromat.com/${page}-in/${location.slug}`;
 
-    // Title
-    const prevTitle = document.title;
-    document.title = `${meta.titlePrefix} Near ${location.name} NC | Maytag Coin Laundry`;
-
-    // Canonical
-    const canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    canonical.href = canonicalUrl;
-    document.head.appendChild(canonical);
-
-    // Meta description
-    const desc = document.createElement('meta');
-    desc.name = 'description';
-    desc.content = location.metaDescription;
-    document.head.appendChild(desc);
-
-    // JSON-LD
-    const schema = document.createElement('script');
-    schema.type = 'application/ld+json';
-    schema.id = 'location-seo-schema';
-    schema.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'DryCleaningOrLaundry',
-      name: 'Maytag Coin Laundry of Raleigh',
-      url: canonicalUrl,
-      telephone: '+1-415-533-5772',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '15 Jones Franklin Rd',
-        addressLocality: 'Raleigh',
-        addressRegion: 'NC',
-        postalCode: '27606',
-        addressCountry: 'US',
-      },
-      areaServed: { '@type': 'City', name: location.name },
+    return applyHead({
+      title: `${meta.titlePrefix} Near ${location.name} NC | Maytag Coin Laundry`,
       description: location.metaDescription,
-      openingHours: 'Mo-Su 05:00-23:00',
-      priceRange: '$',
+      canonical: canonicalUrl,
+      schema: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'DryCleaningOrLaundry',
+          name: BUSINESS_NAME,
+          url: canonicalUrl,
+          telephone: BUSINESS_PHONE,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: '15 Jones Franklin Rd',
+            addressLocality: 'Raleigh',
+            addressRegion: 'NC',
+            postalCode: '27606',
+            addressCountry: 'US',
+          },
+          areaServed: { '@type': 'City', name: location.name },
+          description: location.metaDescription,
+          openingHours: 'Mo-Su 05:00-23:00',
+          priceRange: '$',
+        },
+      ],
     });
-    document.head.appendChild(schema);
-
-    return () => {
-      document.title = prevTitle;
-      canonical.remove();
-      desc.remove();
-      schema.remove();
-    };
   }, [location, page]);
 
   if (!location) return <Navigate to="/" replace />;
