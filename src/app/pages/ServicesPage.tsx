@@ -522,7 +522,7 @@ export function ServicesPage() {
           <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">{t('services.cta.subtitle')}</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <a
-              href="tel:9842059506"
+              href="tel:4155335772"
               className="inline-flex w-full items-center justify-center rounded bg-white px-8 py-4 font-medium text-black transition-colors hover:bg-gray-200 sm:w-auto"
             >
               {t('services.cta.callUs')}

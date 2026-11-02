@@ -15,17 +15,13 @@ import {
   WASH_FOLD_PRICING,
 } from '../../lib/wash-fold-pricing';
 
-const STORE_MAPS_DIRECTIONS_URL =
-  'https://www.google.com/maps/dir/?api=1&destination=15+Jones+Franklin+Rd,+Raleigh,+NC+27606';
-
-type PanelId = 'instore' | 'delivery' | 'pets';
+type PanelId = 'washfold' | 'pets';
 
 export function PricingPage() {
   const { t } = useLanguage();
   const location = useLocation();
-  const [panel, setPanel] = useState<PanelId>('instore');
+  const [panel, setPanel] = useState<PanelId>('washfold');
   const mainRef = useRef<HTMLElement>(null);
-  const instore = WASH_FOLD_PRICING.instore;
   const delivery = WASH_FOLD_PRICING.delivery;
 
   function selectPanel(next: PanelId) {
@@ -100,11 +96,11 @@ export function PricingPage() {
           {t('pricingPage.toggle.label')}
         </p>
         <div
-          className="mx-auto flex max-w-full w-max flex-nowrap justify-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-sm md:grid md:grid-cols-3"
+          className="mx-auto flex w-full max-w-md flex-nowrap justify-center gap-1 rounded-full border border-gray-200 bg-white p-1 shadow-sm md:grid md:w-max md:max-w-full md:grid-cols-2"
           role="tablist"
           aria-label={t('pricingPage.toggle.label')}
         >
-          {(['instore', 'delivery', 'pets'] as const).map((id) => (
+          {(['washfold', 'pets'] as const).map((id) => (
             <button
               key={id}
               type="button"
@@ -112,75 +108,20 @@ export function PricingPage() {
               aria-selected={panel === id}
               onClick={() => selectPanel(id)}
               className={cn(
-                'w-auto shrink-0 rounded-full px-5 py-2.5 text-center text-base font-medium whitespace-nowrap transition-all md:w-full md:min-w-0',
+                'min-w-0 flex-1 rounded-full px-3 py-2.5 text-center text-base font-medium transition-all sm:px-5 md:w-full md:whitespace-nowrap',
                 panel === id && 'bg-black text-white shadow-md',
                 panel !== id && 'text-gray-500 hover:text-gray-800'
               )}
             >
-              {id === 'instore' && t('pricingPage.tab.instore')}
-              {id === 'delivery' && t('pricingPage.tab.delivery')}
+              {id === 'washfold' && t('pricingPage.washFold.title')}
               {id === 'pets' && t('pricingPage.tab.pets')}
             </button>
           ))}
         </div>
       </div>
 
-      <main ref={mainRef} className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 sm:py-16">
-        {panel === 'instore' && (
-          <div className="space-y-12">
-            <section>
-              <div className="mb-6 flex flex-col gap-1.5 border-b border-gray-200 pb-3">
-                <h2 className="text-2xl font-bold text-black">{t('pricingPage.washFold.title')}</h2>
-                <p className="text-sm text-gray-500">{t('pricingPage.instore.washFold.subtitle')}</p>
-              </div>
-              <WashFoldPricingCard channel="instore" showSameDay={false} />
-            </section>
-
-            <section>
-              <div className="mb-6 flex flex-col gap-1.5 border-b border-gray-200 pb-3">
-                <h2 className="text-2xl font-bold text-black">{t('pricingPage.blankets.title')}</h2>
-                <p className="text-sm text-gray-500">{t('pricingPage.instore.blankets.subtitle')}</p>
-              </div>
-              <Card className="flex min-w-0 flex-col">
-                {blanketSizes.map((size, index) => {
-                  const key = size.toLowerCase() as BlanketSize;
-                  return (
-                    <div
-                      key={size}
-                      className={cn(
-                        'flex items-center justify-between gap-4 px-6 py-4',
-                        index < blanketSizes.length - 1 && 'border-b border-gray-200'
-                      )}
-                    >
-                      <div className="min-w-0">
-                        <div className="text-sm font-medium text-gray-700">
-                          {t(`pricingPage.size.${size.toLowerCase()}`)}
-                        </div>
-                        <div className="mt-0.5 text-xs text-gray-500">{t('pricingPage.blanketOrComforter')}</div>
-                      </div>
-                      <div className="shrink-0 text-lg font-bold tracking-tight text-black sm:text-xl">
-                        {formatWashFoldItemUsd(instore.blankets[key])}
-                      </div>
-                    </div>
-                  );
-                })}
-              </Card>
-            </section>
-
-            <div className="flex w-full justify-center">
-              <a
-                className={cn(buttonClass.primary, 'flex w-full justify-center')}
-                href={STORE_MAPS_DIRECTIONS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('home.services.cardCta.Card01')}
-              </a>
-            </div>
-          </div>
-        )}
-
-        {panel === 'delivery' && (
+      <main ref={mainRef} className="mx-auto max-w-[576px] px-4 py-14 sm:px-6 sm:py-16">
+        {panel === 'washfold' && (
           <div className="space-y-12">
             <section>
               <div className="mb-6 flex flex-row flex-wrap items-start justify-between gap-x-6 gap-y-3 border-b border-gray-200 pb-3">
@@ -245,7 +186,7 @@ export function PricingPage() {
                 <h2 className="text-2xl font-bold text-black">{t('pricingPage.pet.beds.title')}</h2>
                 <p className="text-sm text-gray-500">{t('pricingPage.pet.beds.subtitle')}</p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4">
                 <Card className="flex min-w-0 flex-col">
                   <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-[#00bfb3]/10 px-6 py-7 sm:flex-nowrap">
                     <div className="min-w-0">

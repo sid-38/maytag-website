@@ -310,7 +310,7 @@ export function ContactPage() {
                   </div>
                   <div className="text-left md:text-center">
                     <h3 className="font-semibold text-black mb-1 md:mb-2">{t('contact.phone&email')}</h3>
-                    <p className="text-gray-600 text-sm">(984) 205-9506</p>
+                    <p className="text-gray-600 text-sm">(415) 533-5772</p>
                     <p className="text-gray-600 text-sm mt-2">help@maytaglaundromat.com</p>
                   </div>
                 </CardContent>
@@ -633,10 +633,10 @@ export function ContactPage() {
             {t('contact.cta.subtitle')}
           </p>
           <a
-            href="tel:9842059506"
+            href="tel:4155335772"
             className="inline-block bg-white text-black px-8 py-4 rounded hover:bg-gray-200 transition-colors"
           >
-            {t('contact.cta.button')}: (984) 205-9506
+            {t('contact.cta.button')}: (415) 533-5772
           </a>
         </div>
       </section>

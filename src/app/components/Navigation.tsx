@@ -86,12 +86,12 @@ export function Navigation() {
               </div>
             </div>
             <a
-              href="tel:9842059506"
+              href="tel:4155335772"
               className="inline-flex h-11 shrink-0 items-center justify-center rounded border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-800 transition-colors hover:border-[#00bfb3] hover:text-[#00bfb3]"
               onClick={() =>
                 trackGa4Event('phone_call_click', {
                   link_location: 'header_desktop',
-                  link_url: 'tel:9842059506',
+                  link_url: 'tel:4155335772',
                 })
               }
             >
@@ -111,13 +111,13 @@ export function Navigation() {
           {/* Mobile: primary call CTA + menu (unchanged from pre–desktop CTA refresh) */}
           <div className="flex md:hidden items-center gap-2">
             <a
-              href="tel:9842059506"
+              href="tel:4155335772"
               aria-label={t('nav.callUs')}
               className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded bg-[#00bfb3] px-3 py-2 text-md font-medium text-white transition-colors hover:bg-[#00a89d]"
               onClick={() =>
                 trackGa4Event('phone_call_click', {
                   link_location: 'header_mobile',
-                  link_url: 'tel:9842059506',
+                  link_url: 'tel:4155335772',
                 })
               }
             >
@@ -193,7 +193,7 @@ export function Navigation() {
               </div>
             </div>
             {/* <a
-              href="tel:9842059506"
+              href="tel:4155335772"
               onClick={() => setIsMenuOpen(false)}
               className="block bg-[#00bfb3] text-white px-6 py-2 rounded hover:bg-[#00a89d] transition-colors text-center mt-4"
             >

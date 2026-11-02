@@ -114,7 +114,7 @@ export function PrivacyPage() {
             {t('privacy.s11.location')}<br />
             {t('privacy.s11.website')} <a href="https://maytaglaundromat.com/" target="_blank" rel="noopener noreferrer" className="text-[#00bfb3] hover:underline">https://maytaglaundromat.com/</a><br />
             {t('privacy.s11.email')} <a href="mailto:help@maytaglaundromat.com" className="text-[#00bfb3] hover:underline">help@maytaglaundromat.com</a><br />
-            {t('privacy.s11.phone')} <a href="tel:9842059506" className="text-[#00bfb3] hover:underline">(984) 205-9506</a>
+            {t('privacy.s11.phone')} <a href="tel:4155335772" className="text-[#00bfb3] hover:underline">(415) 533-5772</a>
           </p>  
 
           <p className="mt-8 pt-6 border-t border-gray-200">

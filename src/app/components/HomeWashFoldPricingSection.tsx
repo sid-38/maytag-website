@@ -29,35 +29,26 @@ export function HomeWashFoldPricingSection() {
           </p>
         </div>
 
-        <div className="mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
-          <div className="min-w-0 w-full">
-            <div className="mb-4 flex h-[30px] w-full items-center justify-start">
-              <p className="text-sm font-semibold uppercase tracking-[0.12em] text-gray-500">
-                {t('pricingPage.tab.instore')}
-              </p>
-            </div>
-            <WashFoldPricingCard channel="instore" showSameDay={false} />
+        <div className="mx-auto mb-16 flex w-full max-w-[528px] min-w-0 flex-col gap-10">
+        <div className="w-full min-w-0">
+          <div className="mb-4 flex min-h-[30px] w-full min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-2">
+            <p className="shrink-0 text-sm font-semibold uppercase tracking-[0.12em] text-gray-500">
+              {t('pricingPage.washFold.title')}
+            </p>
+            <span className="inline-flex shrink-0 items-center rounded-full border border-[#00bfb3]/35 bg-[#00bfb3]/10 px-2.5 py-1 text-sm font-semibold leading-tight tracking-normal text-[#00bfb3] sm:px-3">
+              {t('home.services.pickupDelivery.title')}
+            </span>
           </div>
-          <div className="min-w-0 w-full">
-            <div className="mb-4 flex h-[30px] w-full min-w-0 flex-nowrap items-center justify-between gap-2 sm:gap-3">
-              <p className="shrink-0 text-sm font-semibold uppercase tracking-[0.12em] text-gray-500">
-                {t('pricingPage.tab.delivery')}
-              </p>
-              <span className="inline-flex shrink-0 items-center rounded-full border border-[#00bfb3]/35 bg-[#00bfb3]/10 px-2.5 py-1 text-sm font-semibold leading-tight tracking-normal text-[#00bfb3] sm:px-3">
-                {t('home.services.pickupDelivery.title')}
-              </span>
-            </div>
-            <WashFoldPricingCard channel="delivery" showSameDay={false} />
-          </div>
+          <WashFoldPricingCard channel="delivery" showSameDay={false} />
         </div>
 
-        <div className="mb-16 w-full">
+        <div className="w-full">
           <div className="mb-4 flex h-[30px] w-full items-center justify-start">
             <p className="text-sm font-semibold uppercase tracking-[0.12em] text-gray-500">
               {t('pricingPage.tab.pets')}
             </p>
           </div>
-          <div className="grid gap-10 lg:gap-12 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-10">
             <Card className="flex min-w-0 flex-col">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-[#00bfb3]/10 px-6 py-7 sm:flex-nowrap">
                 <div className="min-w-0">
@@ -81,6 +72,7 @@ export function HomeWashFoldPricingSection() {
               </div>
             </Card>
           </div>
+        </div>
         </div>
 
         <div className="flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center">
