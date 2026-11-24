@@ -31,7 +31,7 @@ export function LocationSEO({ page, children }: Props) {
       : `https://maytaglaundromat.com/${page}-in/${location.slug}`;
 
     return applyHead({
-      title: `${meta.titlePrefix} Near ${location.name} NC | Maytag Coin Laundry`,
+      title: `${meta.titlePrefix} Near ${location.name} NC | Maytag Laundry`,
       description: location.metaDescription,
       canonical: canonicalUrl,
       schema: [

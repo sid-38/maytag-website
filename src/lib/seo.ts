@@ -14,7 +14,7 @@ import {
  */
 
 export const SITE_URL = 'https://maytaglaundromat.com';
-export const BUSINESS_NAME = 'Maytag Coin Laundry of Raleigh';
+export const BUSINESS_NAME = 'Maytag Laundry';
 export const BUSINESS_PHONE = '+1-415-533-5772';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/01-hero-image.png`;
 export const SOCIAL_PROFILES = [
@@ -164,13 +164,13 @@ const petBedOffers = [
 
 export const PAGE_SEO: Record<string, PageSeo> = {
   '/': {
-    title: 'Raleigh Laundromat & Wash and Fold | Maytag Coin Laundry',
-    description: `Maytag Coin Laundry at 15 Jones Franklin Rd, Raleigh: self-service wash & dry, wash and fold from ${perLb}/lb and free pickup & delivery. Open daily 5AM–11PM.`,
+    title: 'Laundromat & Wash and Fold in Raleigh | Maytag Laundry',
+    description: `Maytag Laundry at 15 Jones Franklin Rd, Raleigh: self-service wash & dry, wash and fold from ${perLb}/lb and free pickup & delivery. Open daily 5AM–11PM.`,
     schema: [{ ...laundromatNode(), '@type': ['WebPage', 'DryCleaningOrLaundry'], mainEntityOfPage: `${SITE_URL}/` }],
   },
 
   '/services': {
-    title: 'Laundry Services in Raleigh, NC | Maytag Coin Laundry',
+    title: 'Laundry Services in Raleigh, NC | Maytag Laundry',
     description:
       'Self-service washers and dryers, wash and fold, pet laundry, commercial laundry and free pickup & delivery in Raleigh, NC. Open daily 5AM–11PM at 15 Jones Franklin Rd.',
     schema: [
@@ -191,13 +191,13 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 
   '/pricing': {
-    title: `Laundry Prices in Raleigh | Wash & Fold ${perLb}/lb`,
+    title: `Wash & Fold Prices in Raleigh, ${perLb}/lb | Maytag Laundry`,
     description: `Wash and fold at ${perLb}/lb, ${washFold.minLb} lb minimum, ${washFold.turnaroundHours}-hour turnaround, plus blanket and pet bed prices. Free pickup & delivery in Raleigh, NC.`,
     schema: [
-      webPage('WebPage', 'Laundry Services & Pricing', '/pricing', 'Wash and fold, blanket and pet bed pricing at Maytag Coin Laundry in Raleigh, NC.', {
+      webPage('WebPage', 'Laundry Services & Pricing', '/pricing', 'Wash and fold, blanket and pet bed pricing at Maytag Laundry in Raleigh, NC.', {
         mainEntity: {
           '@type': 'OfferCatalog',
-          name: 'Maytag Coin Laundry Pricing',
+          name: 'Maytag Laundry Pricing',
           itemListElement: [
             {
               '@type': 'Offer',
@@ -223,7 +223,7 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 
   '/pet-laundry': {
-    title: 'Pet Bed Laundry in Raleigh, NC | Maytag Coin Laundry',
+    title: 'Pet Bed Laundry in Raleigh, NC | Maytag Laundry',
     description: `Professional pet bed and bedding cleaning in Raleigh. Small pet beds $${PET_BED_PRICES.small}, large $${PET_BED_PRICES.large}. Drop off in store or ask about pickup and delivery.`,
     schema: [
       {
@@ -253,11 +253,11 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 
   '/about': {
-    title: 'About Maytag Coin Laundry | Serving Raleigh Since 1995',
+    title: 'About Maytag Laundry | Serving Raleigh Since 1995',
     description:
-      "For over 30 years, Maytag Coin Laundry has been Raleigh's trusted laundromat: modern equipment, a clean comfortable space and friendly service at 15 Jones Franklin Rd.",
+      "For over 30 years, Maytag Laundry has been Raleigh's trusted laundromat: modern equipment, a clean comfortable space and friendly service at 15 Jones Franklin Rd.",
     schema: [
-      webPage('AboutPage', 'About Maytag Coin Laundry', '/about', "Raleigh's trusted laundromat since 1995.", {
+      webPage('AboutPage', 'About Maytag Laundry', '/about', "Raleigh's trusted laundromat since 1995.", {
         mainEntity: { '@id': HOME_ID },
       }),
       breadcrumb('About', '/about'),
@@ -265,11 +265,11 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 
   '/contact': {
-    title: 'Contact & Hours | Maytag Coin Laundry Raleigh, NC',
+    title: 'Contact & Hours | Maytag Laundry Raleigh, NC',
     description:
       'Visit 15 Jones Franklin Rd, Raleigh, NC 27606, call (415) 533-5772 or send us a message. Open daily 5AM–11PM, 365 days a year.',
     schema: [
-      webPage('ContactPage', 'Contact Maytag Coin Laundry', '/contact', 'Address, phone number and hours for Maytag Coin Laundry in Raleigh, NC.', {
+      webPage('ContactPage', 'Contact Maytag Laundry', '/contact', 'Address, phone number and hours for Maytag Laundry in Raleigh, NC.', {
         mainEntity: laundromatNode(),
       }),
       breadcrumb('Contact', '/contact'),
@@ -277,33 +277,33 @@ export const PAGE_SEO: Record<string, PageSeo> = {
   },
 
   '/testimonials': {
-    title: 'Customer Reviews | Maytag Coin Laundry Raleigh',
+    title: 'Customer Reviews | Maytag Laundry Raleigh',
     description:
-      'See what Raleigh customers say about Maytag Coin Laundry: clean machines, friendly staff and reliable wash and fold. Serving Raleigh since 1995.',
+      'See what Raleigh customers say about Maytag Laundry: clean machines, friendly staff and reliable wash and fold. Serving Raleigh since 1995.',
     schema: [
-      webPage('CollectionPage', 'Customer Reviews', '/testimonials', 'What customers say about Maytag Coin Laundry in Raleigh, NC.'),
+      webPage('CollectionPage', 'Customer Reviews', '/testimonials', 'What customers say about Maytag Laundry in Raleigh, NC.'),
       breadcrumb('Testimonials', '/testimonials'),
     ],
   },
 
   '/terms': {
-    title: 'Terms of Service | Maytag Coin Laundry',
-    description: 'Terms of service for Maytag Coin Laundry of Raleigh, including laundry, wash and fold, pickup and delivery, and subscription services.',
-    schema: [webPage('WebPage', 'Terms of Service', '/terms', 'Terms of service for Maytag Coin Laundry of Raleigh.')],
+    title: 'Terms of Service | Maytag Laundry',
+    description: 'Terms of service for Maytag Laundry, including laundry, wash and fold, pickup and delivery, and subscription services.',
+    schema: [webPage('WebPage', 'Terms of Service', '/terms', 'Terms of service for Maytag Laundry.')],
   },
 
   '/privacy': {
-    title: 'Privacy Policy | Maytag Coin Laundry',
-    description: 'How Maytag Coin Laundry of Raleigh collects, uses and protects your personal information.',
-    schema: [webPage('WebPage', 'Privacy Policy', '/privacy', 'Privacy policy for Maytag Coin Laundry of Raleigh.')],
+    title: 'Privacy Policy | Maytag Laundry',
+    description: 'How Maytag Laundry collects, uses and protects your personal information.',
+    schema: [webPage('WebPage', 'Privacy Policy', '/privacy', 'Privacy policy for Maytag Laundry.')],
   },
 
   // Utility / orphan pages: keep out of search results.
-  '/claim': { title: 'Claim Your Offer | Maytag Coin Laundry', description: 'Claim your Maytag Coin Laundry offer.', noindex: true },
-  '/claim/success': { title: 'Offer Claimed | Maytag Coin Laundry', description: 'Your Maytag Coin Laundry offer has been claimed.', noindex: true },
-  '/schedule-pickup': { title: 'Schedule a Pickup | Maytag Coin Laundry', description: 'Schedule a free laundry pickup and delivery in Raleigh.', noindex: true },
-  '/subscriptions/success': { title: 'Subscription Confirmed | Maytag Coin Laundry', description: 'Your Maytag Coin Laundry subscription is confirmed.', noindex: true },
-  '/wolfpack': { title: 'NC State Students | Maytag Coin Laundry', description: 'Laundry near NC State for students.', noindex: true },
+  '/claim': { title: 'Claim Your Offer | Maytag Laundry', description: 'Claim your Maytag Laundry offer.', noindex: true },
+  '/claim/success': { title: 'Offer Claimed | Maytag Laundry', description: 'Your Maytag Laundry offer has been claimed.', noindex: true },
+  '/schedule-pickup': { title: 'Schedule a Pickup | Maytag Laundry', description: 'Schedule a free laundry pickup and delivery in Raleigh.', noindex: true },
+  '/subscriptions/success': { title: 'Subscription Confirmed | Maytag Laundry', description: 'Your Maytag Laundry subscription is confirmed.', noindex: true },
+  '/wolfpack': { title: 'NC State Students | Maytag Laundry', description: 'Laundry near NC State for students.', noindex: true },
 };
 
 export function getPageSeo(pathname: string): PageSeo | undefined {
@@ -356,7 +356,7 @@ export function applyHead(opts: HeadOptions): () => void {
   upsert('link', 'link[rel="canonical"]', { rel: 'canonical', href: opts.canonical });
 
   og('og:type', 'website');
-  og('og:site_name', 'Maytag Coin Laundry');
+  og('og:site_name', 'Maytag Laundry');
   og('og:locale', 'en_US');
   og('og:title', opts.title);
   og('og:description', opts.description);

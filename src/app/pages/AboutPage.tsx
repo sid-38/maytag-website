@@ -210,7 +210,7 @@ export function AboutPage() {
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-black mb-6">Our Journey</h2>
               <p className="text-gray-600 leading-relaxed mb-4 text-balance">
-                Maytag Coin Laundry Raleigh was founded in 2010 with a simple mission: to provide the Raleigh community with a clean, modern, and welcoming place to do laundry. What started as a small neighborhood laundromat has grown into a full-service facility trusted by thousands of customers.
+                Maytag Laundry has served Raleigh for over 30 years with a simple mission: to provide the Raleigh community with a clean, modern, and welcoming place to do laundry. What started as a small neighborhood laundromat has grown into a full-service facility trusted by thousands of customers.
               </p>
               <p className="text-gray-600 leading-relaxed">
                 Today, we're proud to be locally owned and operated, serving families, students, professionals, and businesses throughout Raleigh and the surrounding areas. Our commitment to excellence has made us a cornerstone of the community.
