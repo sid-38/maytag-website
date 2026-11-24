@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
+import { AnnouncementBanner } from './components/AnnouncementBanner';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -32,6 +33,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <AnnouncementBanner />
       {!isStandaloneFormPage && (
         <header className="sticky top-0 z-[100]">
           <Navigation />
